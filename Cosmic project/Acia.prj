@@ -14,17 +14,14 @@ TabWidth=8
 IndentGuides=YES
 LineNumbers=YES
 Folding=YES
-
 [castm8]
 Cmd=castm8 -l
 UserFlags=
 Extensions=.s
-
 [cxstm8]
 Cmd=cxstm8 -v -l +debug +modsl
 UserFlags=
 Extensions=.c
-
 [Linker]
 Cmd=
 Verbose=NO
@@ -34,21 +31,16 @@ BankSpec=NO
 OutputFile=acia.sm8
 InCmd=acia.lkf
 MapFile=acia.map
-
 [Debug]
-Cmd="C:\Program Files\COSMIC\CXSTM8_EVAL\Zapstm8.exe"
-
+Cmd=C:\Program Files\COSMIC\CXSTM8_EVAL\Zapstm8.exe
 [Debug1]
 Cmd=
-
 [Cobj]
 Cmd=
 OutputFile=
-
 [Cprd]
 Cmd=
 SPECIFICS=NO
-
 [Chex]
 SPECIFICS=YES
 Format=m
@@ -61,7 +53,6 @@ Entry=
 MaxBytes=
 HeaderString=
 OutputFile=acia.s19
-
 [Clabs]
 SPECIFICS=YES
 AddLibs=NO
@@ -71,17 +62,14 @@ Paging=0
 LsSuffix=
 LsDir=
 LaSuffix=
-
 [Builder.Cobj]
 Exec=NO
 Cmd=
 OutputFile=
-
 [Builder.Cprd]
 Exec=NO
 Cmd=
 SPECIFICS=NO
-
 [Builder.Chex]
 Exec=YES
 SPECIFICS=YES
@@ -95,7 +83,6 @@ Entry=
 MaxBytes=
 HeaderString=
 OutputFile=acia.s19
-
 [Builder.Clabs]
 Exec=YES
 SPECIFICS=YES
@@ -106,47 +93,57 @@ Paging=0
 LsSuffix=
 LsDir=
 LaSuffix=
-
 [Builder.Cv695]
 Exec=NO
 SPECIFICS=NO
-
 [Builder.CvDwf]
 Exec=NO
 SPECIFICS=NO
-
 [Builder.PreUser1]
 Exec=NO
 Cmd=
-
 [Builder.User1]
 Exec=NO
 Cmd=
-
 [Builder.PreUser2]
 Exec=NO
 Cmd=
-
 [Builder.User2]
 Exec=NO
 Cmd=
-
 [Files]
-1=crts.s
-2=acia.c
-3=vector.c
-
+1=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\minus.s
+2=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\interrupt.s
+3=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\crts.s
+4=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\add.s
+5=crts.s
+6=acia.c
+7=vector.c
 [FILE1OPTS]
+FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\minus.s
+TOOL=castm8
+DefsChanged=0
+[FILE2OPTS]
+FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\interrupt.s
+TOOL=castm8
+DefsChanged=0
+[FILE3OPTS]
+FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\crts.s
+TOOL=castm8
+DefsChanged=0
+[FILE4OPTS]
+FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\add.s
+TOOL=castm8
+DefsChanged=0
+[FILE5OPTS]
 FileName=crts.s
 TOOL=castm8
 DefsChanged=0
-
-[FILE2OPTS]
+[FILE6OPTS]
 FileName=acia.c
 TOOL=cxstm8
 DefsChanged=0
-
-[FILE3OPTS]
+[FILE7OPTS]
 FileName=vector.c
 TOOL=cxstm8
 DefsChanged=0
