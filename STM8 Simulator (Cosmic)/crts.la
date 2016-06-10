@@ -1,0 +1,25 @@
+   1                     ;	C STARTUP FOR STM8
+   2                     ;	WITHOUT ANY DATA INITIALIZATION
+   3                     ;	Copyright (c) 2006 by COSMIC Software
+   4                     ;
+   5                     	xref	f_main, __stack
+   6                     	xdef	f_exit, f__stext
+   7                     ;
+   8                     ;	startup routine from reset vector
+   9                     ;
+  10                     	switch	.text
+  11  8080               f__stext:
+  12                     ;
+  13                     ;	initialize stack pointer
+  14                     ;
+  15  8080 ae01ff        	ldw	x,#__stack	; stack pointer
+  16  8083 94            	ldw	sp,x		; in place
+  17                     ;
+  18                     ;	execute main() function
+  19                     ;	may be called by a 'jpf' instruction if no return expected
+  20                     ;
+  21  8084 8d0080d1      	callf	f_main		; execute main
+  22  8088               f_exit:
+  23  8088 20fe          	jra	f_exit		; and stay here
+  24                     ;
+  25                     	end

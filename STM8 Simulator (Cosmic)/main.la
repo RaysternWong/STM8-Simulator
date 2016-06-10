@@ -1,0 +1,99 @@
+   1                     ; C Compiler for STM8 (COSMIC Software)
+   2                     ; Parser V4.10.2 - 02 Nov 2011
+   3                     ; Generator (Limited) V4.3.7 - 29 Nov 2011
+   4                     ; Optimizer V4.3.6 - 29 Nov 2011
+2082                     ; 26 char getch(void)
+2082                     ; 27 	{
+2083                     	switch	.text
+2084  8094               f_getch:
+2086  8094 88            	push	a
+2087       00000001      OFST:	set	1
+2090  8095 ce0102        	ldw	x,_ptlec
+2091  8098               L7631:
+2092                     ; 30 	while (ptlec == ptecr)		/* equal pointers => loop */
+2094  8098 c30100        	cpw	x,_ptecr
+2095  809b 27fb          	jreq	L7631
+2096                     ; 32 	c = *ptlec++;			/* get the received char */
+2098  809d f6            	ld	a,(x)
+2099  809e 5c            	incw	x
+2100                     ; 33 	if (ptlec >= &buffer[SIZE])	/* put in in buffer */
+2102  809f a30144        	cpw	x,#_buffer+64
+2103  80a2 2503          	jrult	L3731
+2104                     ; 34 		ptlec = buffer;
+2106  80a4 ae0104        	ldw	x,#_buffer
+2107  80a7               L3731:
+2108  80a7 cf0102        	ldw	_ptlec,x
+2109                     ; 35 	return (c);
+2113  80aa 5b01          	addw	sp,#1
+2114  80ac 87            	retf	
+2147                     ; 40 void outch(char c)
+2147                     ; 41 	{
+2148                     	switch	.text
+2149  80ad               f_outch:
+2151  80ad 88            	push	a
+2152       00000000      OFST:	set	0
+2155  80ae               L3141:
+2156                     ; 42 	while (!(USART_SR & TRDE))	/* wait for READY */
+2158  80ae 720f4a30fb    	btjf	_USART_SR,#7,L3141
+2159                     ; 44 	USART_DR = c;			/* send it */
+2161  80b3 7b01          	ld	a,(OFST+1,sp)
+2162  80b5 c74a31        	ld	_USART_DR,a
+2163                     ; 45 	}
+2166  80b8 84            	pop	a
+2167  80b9 87            	retf	
+2193                     ; 51 @interrupt void recept(void)
+2193                     ; 52 	{
+2194                     	switch	.text
+2195  80ba               f_recept:
+2199                     ; 53 	USART_SR;			/* clear interrupt */
+2201  80ba c64a30        	ld	a,_USART_SR
+2202                     ; 54 	*ptecr++ = USART_DR;		/* get the char */
+2204  80bd ce0100        	ldw	x,_ptecr
+2205  80c0 c64a31        	ld	a,_USART_DR
+2206  80c3 f7            	ld	(x),a
+2207  80c4 5c            	incw	x
+2208                     ; 55 	if (ptecr >= &buffer[SIZE])	/* put it in buffer */
+2210  80c5 a30144        	cpw	x,#_buffer+64
+2211  80c8 2503          	jrult	L7241
+2212                     ; 56 		ptecr = buffer;
+2214  80ca ae0104        	ldw	x,#_buffer
+2215  80cd               L7241:
+2216  80cd cf0100        	ldw	_ptecr,x
+2217                     ; 57 	}
+2220  80d0 80            	iret	
+2251                     ; 63 void main(void)
+2251                     ; 64 	{
+2252                     	switch	.text
+2253  80d1               f_main:
+2257                     ; 65 	ptecr = ptlec = buffer;		/* initialize pointers */
+2259  80d1 ae0104        	ldw	x,#_buffer
+2260  80d4 cf0102        	ldw	_ptlec,x
+2261  80d7 cf0100        	ldw	_ptecr,x
+2262                     ; 66 	USART_BRR1 = 0xc9;		/* parameter for baud rate */
+2264  80da 35c94a32      	mov	_USART_BRR1,#201
+2265                     ; 67 	USART_CR1 = 0x00;		/* parameter for word length */
+2267  80de 725f4a34      	clr	_USART_CR1
+2268                     ; 68 	USART_CR2 = 0x2c;		/* parameters for interrupt */
+2270  80e2 352c4a35      	mov	_USART_CR2,#44
+2271                     ; 69 	rim();				/* authorize interrupts */
+2274  80e6 9a            	rim	
+2276  80e7               L1441:
+2277                     ; 71 		outch(getch());		/* get and put a char */
+2279  80e7 8d008094      	callf	f_getch
+2281  80eb 8d0080ad      	callf	f_outch
+2284  80ef 20f6          	jra	L1441
+2328                     	xdef	f_main
+2329                     	xdef	f_recept
+2330                     	xdef	f_outch
+2331                     	xdef	f_getch
+2332                     	switch	.bss
+2333  0100               _ptecr:
+2334  0100 0000          	ds.b	2
+2335                     	xdef	_ptecr
+2336  0102               _ptlec:
+2337  0102 0000          	ds.b	2
+2338                     	xdef	_ptlec
+2339  0104               _buffer:
+2340  0104 000000000000  	ds.b	64
+2341                     	xdef	_buffer
+2361                     	end

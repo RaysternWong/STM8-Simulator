@@ -1,0 +1,25 @@
+   1                     ;	C STARTUP FOR STM8
+   2                     ;	WITHOUT ANY DATA INITIALIZATION
+   3                     ;	Copyright (c) 2006 by COSMIC Software
+   4                     ;
+   5                     	xref	f_recept, __stack
+   6                     	xdef	f_exitIRQ, f__stextIRQ
+   7                     ;
+   8                     ;	startup routine from reset vector
+   9                     ;
+  10                     	switch	.text
+  11  808a               f__stextIRQ:
+  12                     ;
+  13                     ;	initialize stack pointer
+  14                     ;
+  15  808a ae01ff        	ldw	x,#__stack	; stack pointer
+  16  808d 94            	ldw	sp,x		; in place
+  17                     ;
+  18                     ;	execute main() function
+  19                     ;	may be called by a 'jpf' instruction if no return expected
+  20                     ;
+  21  808e 8d0080ba      	callf	f_recept	; execute main
+  22  8092               f_exitIRQ:
+  23  8092 20fe          	jra	f_exitIRQ		; and stay here
+  24                     ;
+  25                     	end
