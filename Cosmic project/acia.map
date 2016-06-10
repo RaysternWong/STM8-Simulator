@@ -1,17 +1,17 @@
 
-Map of acia.sm8 from link file acia.lkf - Fri Jun 03 16:50:24 2016
+Map of acia.sm8 from link file acia.lkf - Fri Jun 10 15:04:01 2016
 
 
                                --------
                                Segments
                                --------
 
-start 00008080 end 00008127 length   167 segment .text
-start 00008127 end 00008127 length     0 segment .const
+start 00008080 end 0000811b length   155 segment .text
+start 0000811b end 0000811b length     0 segment .const
 start 00000000 end 00000000 length     0 segment .bsct
 start 00000100 end 00000100 length     0 segment .data
 start 00000100 end 00000144 length    68 segment .bss
-start 00000000 end 00000207 length   519 segment .info.
+start 00000000 end 00000170 length   368 segment .info.
 start 00000000 end 00001928 length  6440 segment .debug
 start 00008000 end 00008080 length   128 segment .vector
 start 00000000 end 00000000 length     0 segment .ubsct
@@ -25,23 +25,19 @@ crts.o:
 start 00008080 end 0000808a length    10 section .text
 start 00000000 end 0000002c length    44 section .info.
 
-add.o:
+interrupt.o:
 start 0000808a end 00008095 length    11 section .text
-start 0000002c end 0000008f length    99 section .info.
-
-minus.o:
-start 00008095 end 000080a1 length    12 section .text
-start 0000008f end 000000f4 length   101 section .info.
+start 0000002c end 0000005d length    49 section .info.
 
 acia.o:
-start 000080a1 end 00008127 length   134 section .text
+start 00008095 end 0000811b length   134 section .text
 start 00000100 end 00000144 length    68 section .bss
 start 00000000 end 00001881 length  6273 section .debug
-start 000000f4 end 00000166 length   114 section .info.
+start 0000005d end 000000cf length   114 section .info.
 
 vector.o:
 start 00001881 end 00001928 length   167 section .debug
-start 00000166 end 000001da length   116 section .info.
+start 000000cf end 00000143 length   116 section .info.
 start 00008000 end 00008080 length   128 section .vector
 
 
@@ -272,27 +268,22 @@ __endzp          00000000   defined in command file section .ubsct
 __memory         00000144   defined in command file section .bss
                             *** not used ***
 __stack          000001ff   defined in command file
-                            used in crts.o add.o minus.o
+                            used in crts.o interrupt.o
 __vectab         00008000   defined in vector.o section .vector
 _buffer          00000104   defined in acia.o section .bss
 _ptecr           00000100   defined in acia.o section .bss
 _ptlec           00000102   defined in acia.o section .bss
 f__stext         00008080   defined in crts.o section .text
                             used in vector.o
-f__stextA        0000808a   defined in add.o section .text
+f__stextC        0000808a   defined in interrupt.o section .text
                             *** not used ***
-f__stextB        00008095   defined in minus.o section .text
-f_add            000080de   defined in acia.o section .text
-                            used in add.o
+f_add            000080d2   defined in acia.o section .text
 f_exit           00008088   defined in crts.o section .text
-f_exitA          00008093   defined in add.o section .text
-f_exitB          0000809f   defined in minus.o section .text
-                            *** not used ***
-f_getch          000080a1   defined in acia.o section .text
-f_main           000080ec   defined in acia.o section .text
+f_exitC          00008093   defined in interrupt.o section .text
+f_getch          00008095   defined in acia.o section .text
+f_main           000080e0   defined in acia.o section .text
                             used in crts.o
-f_minus          000080e5   defined in acia.o section .text
-                            used in minus.o
-f_outch          000080ba   defined in acia.o section .text
-f_recept         000080c7   defined in acia.o section .text
-                            used in vector.o
+f_minus          000080d9   defined in acia.o section .text
+f_outch          000080ae   defined in acia.o section .text
+f_recept         000080bb   defined in acia.o section .text
+                            used in interrupt.o vector.o

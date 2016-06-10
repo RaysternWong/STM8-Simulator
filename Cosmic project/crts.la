@@ -18,7 +18,7 @@
   18                     ;	execute main() function
   19                     ;	may be called by a 'jpf' instruction if no return expected
   20                     ;
-  21  8084 8d0080ec      	callf	f_main		; execute main
+  21  8084 8d0080e0      	callf	f_main		; execute main
   22  8088               f_exit:
   23  8088 20fe          	jra	f_exit		; and stay here
   24                     ;

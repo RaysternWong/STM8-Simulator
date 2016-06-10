@@ -10,8 +10,9 @@
 
 
 crts.o					# startup routine
-add.o
-minus.o
+interrupt.o
+#add.o
+#minus.o
 acia.o					# application program
 
 #

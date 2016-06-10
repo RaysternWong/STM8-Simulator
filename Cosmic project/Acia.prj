@@ -1,5 +1,5 @@
 [Project]
-Directory=C:\Users\D203C-01\Documents\COSMIC\CXSTM8_EVAL\Examples
+Directory=c:\users\d203c-01\desktop\stm8-simulator\cosmic project
 DirectoryFilter=
 IDEAREV=4
 IncPath=C:\Program Files\COSMIC\CXSTM8_EVAL\HSTM8
@@ -112,38 +112,33 @@ Cmd=
 Exec=NO
 Cmd=
 [Files]
-1=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\minus.s
-2=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\interrupt.s
-3=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\crts.s
-4=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\add.s
-5=crts.s
-6=acia.c
-7=vector.c
+1=minus.s
+2=interrupt.s
+3=add.s
+4=crts.s
+5=acia.c
+6=vector.c
 [FILE1OPTS]
-FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\minus.s
+FileName=minus.s
 TOOL=castm8
 DefsChanged=0
 [FILE2OPTS]
-FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\interrupt.s
+FileName=interrupt.s
 TOOL=castm8
 DefsChanged=0
 [FILE3OPTS]
-FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\crts.s
+FileName=add.s
 TOOL=castm8
 DefsChanged=0
 [FILE4OPTS]
-FileName=c:\users\d203c-01\desktop\stm8 simulator\cosmic project\add.s
-TOOL=castm8
-DefsChanged=0
-[FILE5OPTS]
 FileName=crts.s
 TOOL=castm8
 DefsChanged=0
-[FILE6OPTS]
+[FILE5OPTS]
 FileName=acia.c
 TOOL=cxstm8
 DefsChanged=0
-[FILE7OPTS]
+[FILE6OPTS]
 FileName=vector.c
 TOOL=cxstm8
 DefsChanged=0
