@@ -1,4 +1,6 @@
 #include "unity.h"
+#include <stdio.h>
+#include <stdint.h>
 #include "InstructionTable.h"
 #include "ADDW.h"
 
@@ -11,7 +13,16 @@ void tearDown(void)
 {
 }
 
-void test_module_generator_needs_to_be_implemented(void)
+
+
+void test1(void)
 {
-	TEST_IGNORE_MESSAGE("Implement me!");
+  uint8_t instsSets[] = {
+    0x5b, 0x9,
+    0x1C, 0x10,0x01
+  };
+  
+  uint8_t *pc = instsSets;
+  pc+= firstOpcode[*pc](pc);
+  pc+= firstOpcode[*pc](pc);
 }
