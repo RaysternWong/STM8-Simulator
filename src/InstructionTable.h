@@ -6,6 +6,11 @@ typedef uint8_t (*Instruction)(uint8_t *opcode);
 
 Instruction firstOpcode[256];
 Instruction opcode72[256];
+Instruction opcode90[256];
+Instruction opcode91[256];
+Instruction opcode92[256];
+
+uint8_t getInstructionLength(uint8_t *opcode);
 
 
 #endif // InstructionTable_H

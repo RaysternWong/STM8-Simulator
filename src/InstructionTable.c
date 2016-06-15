@@ -10,10 +10,10 @@ Instruction firstOpcode[256] = {
   [0xAB] = add_a_ht_byte,
   [0xBB] = add_a_shortmem,
   [0xCB] = add_a_longmem,
-  [0xDB] = add_a_x,
+  [0xFB] = add_a_x,
   [0xEB] = add_a_shortoff_x,
-  [0xFB] = add_a_longoff_x,
-  [0xFB] = add_a_shortoff_sp,
+  [0xDB] = add_a_longoff_x,
+  [0x1B] = add_a_shortoff_sp,
   
   // ADDW
   [0x1c] = addw_x_ht_word,
@@ -54,5 +54,29 @@ Instruction opcode92[256] = {
   // ADD
   [0xCB] = add_a_shortptr_w,
   [0xDB] = add_a_shortptr_w_x,
-
 };
+
+uint8_t getInstructionLength(uint8_t *opcode)
+{
+  uint8_t length = 0;
+  
+  switch(*opcode)
+  {
+    case 0x72 : *opcode++;
+                length = opcode72[*opcode](opcode); 
+                break;
+                
+    case 0x90 : length = opcode90[*opcode](opcode);  
+                break;
+                
+    case 0x91 : length = opcode91[*opcode](opcode); 
+                break;
+                
+    case 0x92 : length = opcode92[*opcode](opcode); 
+                break;
+    
+    default   : length = firstOpcode[*opcode](opcode); 
+                break;
+  }
+  return length;
+}
