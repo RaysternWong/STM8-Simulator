@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "InstructionTable.h"
 #include "ADDW.h"
-
+#include "ADD.h"
 
 void setUp(void)
 {
