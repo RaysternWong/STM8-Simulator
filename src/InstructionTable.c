@@ -63,7 +63,6 @@ uint8_t getInstructionLength(uint8_t *opcode)
 {
   uint8_t length = 0;
   
- 
   switch(*opcode)
   {
     case 0x72 : *opcode++;

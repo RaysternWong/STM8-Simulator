@@ -101,6 +101,17 @@ void test_getInstructionLength_ADD_given_opcode_91_DB_should_return_3(void)
   TEST_ASSERT_EQUAL(3,ans);
 }
 
+void test_getInstructionLength_ADD_given_opcode_92_DB_should_return_3(void)
+{
+  uint8_t instsSets[] = {
+    0x92, 0xDB
+  };
+
+  int ans = getInstructionLength(instsSets);
+  
+  TEST_ASSERT_EQUAL(3,ans);
+}
+
 void xtest_getInstructionLength_given_instruction_is_not_in_table_should_throw_ERR_INSTRUCTION_NOT_IN_TABLE(void)
 {
   CEXCEPTION_T err;

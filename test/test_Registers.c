@@ -1,6 +1,5 @@
 #include "unity.h"
-#include "ADC.h"
-#include <stdint.h>
+#include "Registers.h"
 
 void setUp(void)
 {
