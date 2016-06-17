@@ -4,6 +4,7 @@
 #include "InstructionTable.h"
 #include "ADDW.h"
 #include "ADD.h"
+#include "ADC.h"
 #include "ErrorCode.h"
 #include "CException.h"
 
