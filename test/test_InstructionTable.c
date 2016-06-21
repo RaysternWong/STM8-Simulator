@@ -43,13 +43,13 @@ void test_getInstructionLength_ADDW_given_opcode_5B_should_return_2(void)
   TEST_ASSERT_EQUAL(2,ans);
 }
 
-void test_getInstructionLength_ADDW_given_opcode_72_F9_should_return_2(void)
+void test_getInstructionLength_ADDW_given_opcode_72_F9_should_return_3(void)
 {
   uint8_t instsSets[] = {
     0x72, 0xf9
   };
   
-  uint8_t ans = getInstructionLength(instsSets);
+  int ans = getInstructionLength(instsSets);
   
   TEST_ASSERT_EQUAL(3,ans);
 }
