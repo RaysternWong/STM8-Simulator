@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "ADDW.h"
+#include "ADC.h"
 #include <stdint.h>
 
 void setUp(void)

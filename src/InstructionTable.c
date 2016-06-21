@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include "ADDW.h"
 #include "ADD.h"
+#include "ADC.h"
+#include "ErrorCode.h"
+
 
 Instruction firstOpcode[256] = {
   
@@ -66,16 +69,20 @@ uint8_t getInstructionLength(uint8_t *opcode)
                 length = opcode72[*opcode](opcode); 
                 break;
                 
-    case 0x90 : length = opcode90[*opcode](opcode);  
+    case 0x90 : *opcode++;
+                length = opcode90[*opcode](opcode);  
                 break;
                 
-    case 0x91 : length = opcode91[*opcode](opcode); 
+    case 0x91 : *opcode++;
+                length = opcode91[*opcode](opcode); 
                 break;
                 
-    case 0x92 : length = opcode92[*opcode](opcode); 
+    case 0x92 : *opcode++;
+                length = opcode92[*opcode](opcode); 
                 break;
     
     default   : length = firstOpcode[*opcode](opcode); 
+                //Throw(ERR_INSTRUCTION_NOT_IN_TABLE);
                 break;
   }
   return length;

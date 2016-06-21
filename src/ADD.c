@@ -1,16 +1,13 @@
 #include "ADD.h"
 #include <stdio.h>
 #include <stdint.h>
-
-/**
-*  Please refer the folowing instruction in the page 77 of programming manual
-*
-*   'a'  means accumulator
-*   'ht' means hast tag , #
-*/
+#include "CPUConfig.h"
 
 
 uint8_t add_a_ht_byte(uint8_t *opcode){
+  
+
+  
   opcode++;
   return 2;
 }
