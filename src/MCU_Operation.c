@@ -16,16 +16,7 @@
 *
 */
 
-
-#define R0  (result & 0X01)
-#define R1  (result & 0X02) >> 1
-#define R2  (result & 0X04) >> 2
-#define R3  (result & 0X08) >> 3
-#define R4  (result & 0X10) >> 4
-#define R5  (result & 0X20) >> 5
-#define R6  (result & 0X40) >> 6
-#define R7  (result & 0X80) >> 7
-
+// Memory
 #define M0  (value & 0X01)
 #define M1  (value & 0X02) >> 1
 #define M2  (value & 0X04) >> 2
@@ -35,33 +26,45 @@
 #define M6  (value & 0X40) >> 6
 #define M7  (value & 0X80) >> 7
 
-#define A0  (A & 0X01)
-#define A1  (A & 0X02) >> 1
-#define A2  (A & 0X04) >> 2
-#define A3  (A & 0X08) >> 3
-#define A4  (A & 0X10) >> 4
-#define A5  (A & 0X20) >> 5
-#define A6  (A & 0X40) >> 6
-#define A7  (A & 0X80) >> 7
+// Accumulator
+#define A0  (a & 0X01)
+#define A1  (a & 0X02) >> 1
+#define A2  (a & 0X04) >> 2
+#define A3  (a & 0X08) >> 3
+#define A4  (a & 0X10) >> 4
+#define A5  (a & 0X20) >> 5
+#define A6  (a & 0X40) >> 6
+#define A7  (a & 0X80) >> 7
 
-#define FLAG (cpu->ccR)
+// Result
+#define R0  (result & 0X01)
+#define R1  (result & 0X02) >> 1
+#define R2  (result & 0X04) >> 2
+#define R3  (result & 0X08) >> 3
+#define R4  (result & 0X10) >> 4
+#define R5  (result & 0X20) >> 5
+#define R6  (result & 0X40) >> 6
+#define R7  (result & 0X80) >> 7
 
+// Bitwised result
+#define _R0  (R0 == 0 ? 1 : 0)
+#define _R1  (R1 == 0 ? 1 : 0)
+#define _R2  (R2 == 0 ? 1 : 0)
+#define _R3  (R3 == 0 ? 1 : 0)
+#define _R4  (R4 == 0 ? 1 : 0)
+#define _R5  (R5 == 0 ? 1 : 0)
+#define _R6  (R6 == 0 ? 1 : 0)
+#define _R7  (R7 == 0 ? 1 : 0)
 
-void mcu_add(CPU *cpu, uint8_t value)
+void mcu_add(uint8_t value)
 {
-   // Accumulator
-  
-  
-  
-  uint8_t A = cpu->accA ;
-  uint8_t result = A + value;
-  
+  uint8_t a       = cpu.accA;
+  uint8_t result  = a + value;
+  cpu.accA += value;
 
-  if(result>0)
-    FLAG.Z = 0;
-  else 
-    FLAG.Z = 1;
-
-  
-  cpu->accA = result;
+  cpu.ccR.V = ( A7 & M7 | M7 & _R7 | _R7 & A7 ) ^ ( A6 & M6 | M6 & _R6 | R6 & A6 );
+  cpu.ccR.H = A3 & M3 | M3 & _R3 | _R3 & A3;
+  cpu.ccR.N = R7;
+  cpu.ccR.Z = _R0 & _R1 & _R2 & _R3 & _R4 & _R5 & _R6 & _R7;
+  cpu.ccR.C = A7 & M7 | M7 & _R7 | _R7 & A7;
 }

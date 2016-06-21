@@ -3,10 +3,13 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 
+/**
+*   ht means hast tag (#)
+*
+*   Please refer the following fuction in the page 77 of programming manual
+*/ 
 
 uint8_t add_a_ht_byte(uint8_t *opcode){
-  
-
   
   opcode++;
   return 2;

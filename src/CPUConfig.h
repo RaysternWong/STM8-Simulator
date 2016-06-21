@@ -4,6 +4,7 @@
 
 
 typedef struct Flag Flag;
+typedef struct CPU_t CPU_t;
 
 struct Flag{ //Condition Flag
   int V;  // OverFlow
@@ -17,12 +18,15 @@ struct Flag{ //Condition Flag
 
 
 
-typedef struct CPU_t{
-  uint8_t accA; //Accumulator
-  Flag    ccR ; //Condition Code Register
-  
-}CPU;
+struct CPU_t{
+  uint8_t   accA;     //Accumulator
+  uint16_t  index_X;  //Index registers X 
+  uint16_t  index_Y;  //Index registers Y
+  uint16_t  sp;       //Stack pointer
+  uint32_t  PC;       //Program counter
+  Flag      ccR ; //Condition Code Register
+};
 
-
+extern CPU_t cpu;
 
 #endif // CPUConfig_H

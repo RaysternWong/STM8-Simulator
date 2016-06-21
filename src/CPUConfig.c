@@ -13,3 +13,4 @@ void clearConditionCodeRegister(Flag *ccR)
 }
 
 
+CPU_t cpu;
