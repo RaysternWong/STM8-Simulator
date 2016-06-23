@@ -1,7 +1,9 @@
 #include "ADD.h"
+#include "MCU_Operation.h"
 #include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
+#include "Memory.h"
 
 /**
 *   ht means hast tag (#)
@@ -12,6 +14,7 @@
 uint8_t add_a_ht_byte(uint8_t *opcode){
   
   opcode++;
+  mcu_add(*opcode);
   return 2;
 }
 
