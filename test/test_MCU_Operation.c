@@ -56,14 +56,8 @@ void test_mcu_add_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_
   TEST_ASSERT_EQUAL(0, CC.C);
 }
  
-/** -0x01 + 0x0 = -0x01 , N = 1 , v =1 
+/** -0x01 + 0x0 = -0x01 , N = 1
 *
-*
-* (OF) overflow flag indicates that result is too large to fit in the 8-bit destination operand
-*  condtion 1. the sum of two positive signed operands exceeds 127 (0x7F).
-*  condtion 2.the difference of two negative operands is less than -128.
-*
-* overflow flag is set to 1, because it meet condtion 1
 * negative flag set to 1, becauser result is negative, which R7 (signing bit) is 1
 */
 void test_mcu_add_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_flag_1_overflow_flag_1(void){
@@ -72,7 +66,7 @@ void test_mcu_add_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_
   
   TEST_ASSERT_EQUAL_INT8(-0x01, A);
 
-  TEST_ASSERT_EQUAL(1, CC.V);
+  TEST_ASSERT_EQUAL(0, CC.V);
   TEST_ASSERT_EQUAL(0, CC.l1);
   TEST_ASSERT_EQUAL(0, CC.H);
   TEST_ASSERT_EQUAL(0, CC.l0);
@@ -157,22 +151,62 @@ void test_mcu_add_given_a_equal_F0_than_add_F0_should_get_A_equal_E0_and_carry_f
   TEST_ASSERT_EQUAL(1, CC.C);
 }
 
-/** 0xFF + 0x00 = 0xFF , V = 1, N = 1
+/** 0xF8 + 0x08 = 0x00, H = 1, C = 1 
 *
+*        1111   1000    F8
+*   +    0000   1000    08
+*--------------------
+*    1   0000   0000    00
+*---------------------
 *
-* (OF) overflow flag indicates that result is too large to fit in the 8-bit destination operand
-*  condtion 1. the sum of two positive signed operands exceeds 127 (0x7F).
-*  condtion 2.the difference of two negative operands is less than -128.
+*  half carry flag is set to 1, because that is carry from bit 3 to bit 4
+*  carry flag is set to 1, because that is carry from bit 7 to bit 8
+*  zero  flag is set to 1
+*/
+void test_mcu_add_given_a_equal_F8_than_add_08_should_get_A_equal_00_and_half_carry_flag_1_carry_flag_1_zero_flag_1(void){
+  A = 0xF8;
+  mcu_add(0x08);
+  
+  TEST_ASSERT_EQUAL_INT8(0x00, A);
+
+  TEST_ASSERT_EQUAL(0, CC.V);
+  TEST_ASSERT_EQUAL(0, CC.l1);
+  TEST_ASSERT_EQUAL(1, CC.H);
+  TEST_ASSERT_EQUAL(0, CC.l0);
+  TEST_ASSERT_EQUAL(0, CC.N);
+  TEST_ASSERT_EQUAL(1, CC.Z);
+  TEST_ASSERT_EQUAL(1, CC.C);
+}
+
+/** 0x40 + 0x40 = 0x80 , V = 1, N = 1
 *
-* overflow flag is set to 1, because it meet condtion 1
+*   In math arithmatic rule
+*   1. Adding two positive numbers must give a positive result
+*  	2. Adding two negative numbers must give a negative result
+*
+*   Overflow occurs if 
+*
+*    (+A) + (+B) = −C
+*    (−A) + (−B) = +C
+*
+*        0100   0000    40  (+Ve)
+*   +    0100   0000    40  (+Ve)
+*--------------------
+*        1000   0000    80  (-Ve)
+*---------------------
+*
+*  40 is positive number, because bit 7 is 0.
+*  80 is negative number, because bit 7 is 1 
+*
+* overflow flag is set to 1, because sum of 2 positive number get negative result
 * negative flag is set to 1, because R7 (signing bit) is 1
 */
-void test_mcu_add_given_a_equal_7F_than_add_7F_should_get_A_equal_E0_and_overfow_flag_1_carry_flag_1(void){
-  A = 0xFF;
-  mcu_add(0x00);
-  
-  TEST_ASSERT_EQUAL_INT8(0xFF, A);
+void test_mcu_add_given_a_equal_40_than_add_40_should_get_A_equal_E0_and_overfow_flag_1_neg_flag_1(void){
+  A = 0x40;
+  mcu_add(0x40);
 
+  TEST_ASSERT_EQUAL_INT8(0x80, A);
+  
   TEST_ASSERT_EQUAL(1, CC.V);
   TEST_ASSERT_EQUAL(0, CC.l1);
   TEST_ASSERT_EQUAL(0, CC.H);
