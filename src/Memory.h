@@ -2,7 +2,7 @@
 #define Memory_H
 #include <stdint.h>
 
-typedef uint8_t *Memory;
+typedef uint8_t Memory;
 
 extern Memory mcu_memory[163839];
 
