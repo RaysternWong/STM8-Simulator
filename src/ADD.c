@@ -54,14 +54,14 @@ uint8_t add_a_longoff_x(uint8_t *opcode){
   int v1 = (*opcode) * 100;
   int v2 = *(++opcode);
   
-  // printf("%d\n",v1);
-  // printf("%d\n",v2);
-  // printf("%d\n",cpu.index_X);
-  
   uint8_t value = mcu_memory[ cpu.index_X + v1+v2];
   mcu_add(value);
   return 3;
 }
+
+  // printf("%d\n",v1);
+  // printf("%d\n",v2);
+  // printf("%d\n",cpu.index_X);
 
 uint8_t add_a_y(uint8_t *opcode){
   opcode++;
