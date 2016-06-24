@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include "CPUConfig.h"
 
-#define A   cpu.accA //Accumulator
-#define CC  cpu.ccR  //Condition Code
+#define A   cpu.accA    //Accumulator
+#define X   cpu.index_X //Index registers X 
+#define Y   cpu.index_Y //Index registers Y 
+#define SP  cpu.sp      //Stack pointer
+#define CC  cpu.ccR     //Condition Code
 
 
 void setUp(void)
@@ -19,10 +22,11 @@ void tearDown(void)
 
 // 0x0 + 0x1 = 0x1
 void test_mcu_addw_given_x_equal_0_than_add_1_should_get_x_equal_0x01_and_all_flags_are_0(void){
-  A = 0x00;
-  //mcu_addw(0x01);
+
+  X = 0x00;
+  mcu_addw(&X, 0x01);
   
-  TEST_ASSERT_EQUAL_INT8(0x01, A);
+  TEST_ASSERT_EQUAL_INT8(0x01, X);
   TEST_ASSERT_EQUAL(0, CC.V);
   TEST_ASSERT_EQUAL(0, CC.l1);
   TEST_ASSERT_EQUAL(0, CC.H);
@@ -33,9 +37,9 @@ void test_mcu_addw_given_x_equal_0_than_add_1_should_get_x_equal_0x01_and_all_fl
 }
 
 // 0x0 + 0x0 = 0x0 , Z = 1
-void xtest_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_1(void){
-  A = 0x00;
-  //mcu_addw(0x00);
+void test_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_1(void){
+  Y = 0x00;
+  mcu_addw(&Y, 0x00);
   
   TEST_ASSERT_EQUAL_INT8(0x00, A);
   TEST_ASSERT_EQUAL(0, CC.V);
