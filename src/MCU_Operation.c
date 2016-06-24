@@ -131,10 +131,13 @@ void mcu_adc(uint8_t value)
 }
 
 void mcu_addw(uint16_t *reg, uint16_t value){
-  uint16_t dst    = *reg;
-  uint16_t result = dst + value;
+  uint16_t a    = *reg;
+  uint16_t result = a + value;
   *reg = result;
 
-  cpu.ccR.Z = (result == 0 ? 1 : 0);
+  cpu.ccR.V = ( A15 & M15 | M15 & _R15 | _R15 & A15 ) ^ ( A14 & M14 | M14 & _R14 | _R14 & A14 );
+  cpu.ccR.H = A7 & M7 | M7 & _R7 | _R7 & A7;
   cpu.ccR.N = R15;
+  cpu.ccR.Z = (result == 0 ? 1 : 0);
+  cpu.ccR.C = A15 & M15 | M15 & _R15 | _R15 & A15;
 }
