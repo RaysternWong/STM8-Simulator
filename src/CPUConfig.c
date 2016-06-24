@@ -6,7 +6,7 @@
 //CPU_t *cpu = malloc( sizeof(CPU_t) );
 
 
-CPU_t *cpu;
+CPU_t *cpu =&mcu_memory[0x007F00];
 
 
 

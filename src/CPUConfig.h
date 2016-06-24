@@ -2,6 +2,8 @@
 #define CPUConfig_H
 #include <stdint.h>
 #include "Memory.h"
+
+
 // struct Flag{ //Condition Flag
   // int V;  // OverFlow
   // int l1; // Interrupt mask level 1
