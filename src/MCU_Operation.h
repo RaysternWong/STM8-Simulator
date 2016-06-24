@@ -4,7 +4,7 @@
 #include "CPUConfig.h"
 
 void mcu_add(uint8_t value);
-void mcu_addc(uint8_t value);
+void mcu_adc(uint8_t value);
 void mcu_addw(uint8_t value);
 
 #endif // MCU_Operation_H

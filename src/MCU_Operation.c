@@ -69,7 +69,7 @@ void mcu_add(uint8_t value)
   cpu.ccR.C = A7 & M7 | M7 & _R7 | _R7 & A7;
 }
 
-void mcu_addc(uint8_t value)
+void mcu_adc(uint8_t value)
 {
   uint8_t a       = cpu.accA;
   uint8_t result  = a + value;
