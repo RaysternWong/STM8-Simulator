@@ -5,6 +5,6 @@
 
 void mcu_add(uint8_t value);
 void mcu_adc(uint8_t value);
-void mcu_addw(uint8_t value);
+void mcu_addw(uint16_t *reg, uint16_t value);
 
 #endif // MCU_Operation_H

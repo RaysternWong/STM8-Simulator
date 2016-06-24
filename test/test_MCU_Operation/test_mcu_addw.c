@@ -27,9 +27,9 @@ void tearDown(void)
 
 
 // 0x0 + 0x1 = 0x1
-void test_mcu_add_given_a_equal_0_than_add_1_should_get_A_equal_0x01_and_all_flags_are_0(void){
+void xtest_mcu_addw_given_a_equal_0_than_add_1_should_get_A_equal_0x01_and_all_flags_are_0(void){
   A = 0x00;
-  mcu_add(0x01);
+  //mcu_addw(0x01);
   
   TEST_ASSERT_EQUAL_INT8(0x01, A);
   TEST_ASSERT_EQUAL(0, CC.V);
@@ -42,9 +42,9 @@ void test_mcu_add_given_a_equal_0_than_add_1_should_get_A_equal_0x01_and_all_fla
 }
 
 // 0x0 + 0x0 = 0x0 , Z = 1
-void test_mcu_add_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_1(void){
+void xtest_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_1(void){
   A = 0x00;
-  mcu_add(0x00);
+  //mcu_addw(0x00);
   
   TEST_ASSERT_EQUAL_INT8(0x00, A);
   TEST_ASSERT_EQUAL(0, CC.V);
@@ -60,9 +60,9 @@ void test_mcu_add_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag_
 *
 * negative flag set to 1, becauser result is negative, which R7 (signing bit) is 1
 */
-void test_mcu_add_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_flag_1_overflow_flag_1(void){
+void xtest_mcu_addw_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_flag_1_overflow_flag_1(void){
   A = -0x01;
-  mcu_add(0x00);
+  //mcu_addw(0x00);
   
   TEST_ASSERT_EQUAL_INT8(-0x01, A);
 
@@ -85,9 +85,9 @@ void test_mcu_add_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_
 *
 *  half carry flag is set to 1, because that is carry from bit 3 to bit 4
 */
-void test_mcu_add_given_a_equal_F_than_add_F_should_get_A_equal_1E_and_half_carry_flag_1(void){
+void xtest_mcu_addw_given_a_equal_F_than_add_F_should_get_A_equal_1E_and_half_carry_flag_1(void){
   A = 0x0F;
-  mcu_add(0x0F);
+ // mcu_addw(0x0F);
   
   TEST_ASSERT_EQUAL_INT8(0x1E, A);
 
@@ -110,9 +110,9 @@ void test_mcu_add_given_a_equal_F_than_add_F_should_get_A_equal_1E_and_half_carr
 *
 *  half carry flag is set to 1, because that is carry from bit 3 to bit 4
 */
-void test_mcu_add_given_a_equal_F_than_add_1_should_get_A_equal_10_and_half_carry_flag_1(void){
+void xtest_mcu_addw_given_a_equal_F_than_add_1_should_get_A_equal_10_and_half_carry_flag_1(void){
   A = 0x0F;
-  mcu_add(0x01);
+ // mcu_addw(0x01);
   
   TEST_ASSERT_EQUAL_INT8(0x10, A);
 
@@ -136,9 +136,9 @@ void test_mcu_add_given_a_equal_F_than_add_1_should_get_A_equal_10_and_half_carr
 *  carry flag is set to 1, because that is carry from bit 7 to bit 8
 *  negative flag is set to 1, because R7 is 1
 */
-void test_mcu_add_given_a_equal_F0_than_add_F0_should_get_A_equal_E0_and_carry_flag_1_neg_flag_1(void){
+void xtest_mcu_addw_given_a_equal_F0_than_add_F0_should_get_A_equal_E0_and_carry_flag_1_neg_flag_1(void){
   A = 0xF0;
-  mcu_add(0xF0);
+  //mcu_addw(0xF0);
   
   TEST_ASSERT_EQUAL_INT8(0xE0, A);
 
@@ -163,9 +163,9 @@ void test_mcu_add_given_a_equal_F0_than_add_F0_should_get_A_equal_E0_and_carry_f
 *  carry flag is set to 1, because that is carry from bit 7 to bit 8
 *  zero  flag is set to 1
 */
-void test_mcu_add_given_a_equal_F8_than_add_08_should_get_A_equal_00_and_half_carry_flag_1_carry_flag_1_zero_flag_1(void){
+void xtest_mcu_addw_given_a_equal_F8_than_add_08_should_get_A_equal_00_and_half_carry_flag_1_carry_flag_1_zero_flag_1(void){
   A = 0xF8;
-  mcu_add(0x08);
+ // mcu_addw(0x08);
   
   TEST_ASSERT_EQUAL_INT8(0x00, A);
 
@@ -201,9 +201,9 @@ void test_mcu_add_given_a_equal_F8_than_add_08_should_get_A_equal_00_and_half_ca
 * overflow flag is set to 1, because sum of 2 positive number get negative result
 * negative flag is set to 1, because R7 (signing bit) is 1
 */
-void test_mcu_add_given_a_equal_40_than_add_40_should_get_A_equal_E0_and_overfow_flag_1_neg_flag_1(void){
+void xtest_mcu_addw_given_a_equal_40_than_add_40_should_get_A_equal_E0_and_overfow_flag_1_neg_flag_1(void){
   A = 0x40;
-  mcu_add(0x40);
+  //mcu_addw(0x40);
 
   TEST_ASSERT_EQUAL_INT8(0x80, A);
   
