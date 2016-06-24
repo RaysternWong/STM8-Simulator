@@ -10,6 +10,6 @@
 *  which is 0 to 163839
 */
 
-Memory mcu_memory[163839] = {
+Memory mcu_memory[0x027FFF] = {
   
 };

@@ -22,6 +22,7 @@ void tearDown(void)
 
 
 // 0x01 + 0x05 = 0x06
+// example : 
 void test_add_a_ht_byte_given_A_0x01_mcu_memory_return_0x05_should_get_0x06_and_return_2(void)
 {
   A = 0x01;
@@ -33,6 +34,7 @@ void test_add_a_ht_byte_given_A_0x01_mcu_memory_return_0x05_should_get_0x06_and_
   TEST_ASSERT_EQUAL(2, ans);
 }
 
+// example : 
 void test_add_a_shortmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and_return_2(void)
 {
   A = 0x01;
@@ -45,6 +47,7 @@ void test_add_a_shortmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and
   TEST_ASSERT_EQUAL(2, ans);
 }
 
+// example : 
 void test_add_a_longmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and_return_3(void)
 {
   A = 0x01;
@@ -57,6 +60,7 @@ void test_add_a_longmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and_
   TEST_ASSERT_EQUAL(3, ans);
 }
 
+// example : 
 void test_add_a_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_1(void)
 {
   A = 0x01;
@@ -70,6 +74,7 @@ void test_add_a_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return
   TEST_ASSERT_EQUAL(1, ans);
 }
 
+// example : 
 void test_add_a_shortoff_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_2(void)
 {
   A = 0x01;
@@ -83,6 +88,7 @@ void test_add_a_shortoff_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_a
   TEST_ASSERT_EQUAL(2, ans);
 }
 
+// example : 
 void test_add_a_longoff_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_3(void)
 {
   A = 0x01;

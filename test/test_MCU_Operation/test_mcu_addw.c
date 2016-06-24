@@ -118,7 +118,7 @@ void test_mcu_addw_given_x_equal_FF80_than_add_0080_should_get_x_equal_00_and_ha
 *  80 is negative number, because bit 7 is 1 
 *
 * overflow flag is set to 1, because sum of 2 positive number get negative result
-* negative flag is set to 1, because R7 (signing bit) is 1
+* negative flag is set to 1, because R15 (signing bit) is 1
 */
 void test_mcu_addw_given_x_equal_40_than_add_40_should_get_A_equal_E0_and_overfow_flag_1_neg_flag_1(void){
   X = 0x4000;

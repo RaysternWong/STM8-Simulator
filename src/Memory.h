@@ -4,6 +4,6 @@
 
 typedef uint8_t Memory;
 
-extern Memory mcu_memory[163839];
+extern Memory mcu_memory[0x027FFF];
 
 #endif // Memory_H
