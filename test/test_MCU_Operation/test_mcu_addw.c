@@ -7,14 +7,6 @@
 #define A   cpu.accA //Accumulator
 #define CC  cpu.ccR  //Condition Code
 
-#define A0  (A & 0X01)
-#define A1  (A & 0X02) >> 1
-#define A2  (A & 0X04) >> 2
-#define A3  (A & 0X08) >> 3
-#define A4  (A & 0X10) >> 4
-#define A5  (A & 0X20) >> 5
-#define A6  (A & 0X40) >> 6
-#define A7  (A & 0X80) >> 7
 
 void setUp(void)
 {
@@ -25,9 +17,8 @@ void tearDown(void)
 {
 }
 
-
 // 0x0 + 0x1 = 0x1
-void xtest_mcu_addw_given_a_equal_0_than_add_1_should_get_A_equal_0x01_and_all_flags_are_0(void){
+void test_mcu_addw_given_x_equal_0_than_add_1_should_get_x_equal_0x01_and_all_flags_are_0(void){
   A = 0x00;
   //mcu_addw(0x01);
   

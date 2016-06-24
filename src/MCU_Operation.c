@@ -73,7 +73,7 @@ void mcu_adc(uint8_t value)
 {
   uint8_t a       = cpu.accA;
   uint8_t result  = a + value + cpu.ccR.C;
-  cpu.accA += result;
+  cpu.accA        = result;
 
   cpu.ccR.V = ( A7 & M7 | M7 & _R7 | _R7 & A7 ) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
   cpu.ccR.H = A3 & M3 | M3 & _R3 | _R3 & A3;

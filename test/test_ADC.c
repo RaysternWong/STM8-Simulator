@@ -11,10 +11,11 @@
 #define X   cpu.index_X    //Index registers X  
 #define Y   cpu.index_Y    //Index registers X  
 #define SP  cpu.sp         //Index registers X  
-
+#define CARRY   (cpu.ccR).C //carry flag
 
 void setUp(void)
 {
+  CARRY = 0;
 }
 
 void tearDown(void)
