@@ -69,7 +69,19 @@ void mcu_add(uint8_t value)
   cpu.ccR.C = A7 & M7 | M7 & _R7 | _R7 & A7;
 }
 
+void mcu_addc(uint8_t value)
+{
+  uint8_t a       = cpu.accA;
+  uint8_t result  = a + value;
+  cpu.accA += (value + cpu.ccR.C );
+
+  cpu.ccR.V = ( A7 & M7 | M7 & _R7 | _R7 & A7 ) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
+  cpu.ccR.H = A3 & M3 | M3 & _R3 | _R3 & A3;
+  cpu.ccR.N = R7;
+  cpu.ccR.Z = (result == 0 ? 1 : 0);
+  cpu.ccR.C = A7 & M7 | M7 & _R7 | _R7 & A7;
+}
+
 void mcu_addw(uint8_t value){
   uint8_t a       = cpu.accA;
-
 }
