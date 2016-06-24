@@ -41,7 +41,7 @@ void test_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag
   Y = 0x00;
   mcu_addw(&Y, 0x00);
   
-  TEST_ASSERT_EQUAL_INT8(0x00, A);
+  TEST_ASSERT_EQUAL_INT8(0x00, Y);
   TEST_ASSERT_EQUAL(0, CC.V);
   TEST_ASSERT_EQUAL(0, CC.l1);
   TEST_ASSERT_EQUAL(0, CC.H);
@@ -51,15 +51,16 @@ void test_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag
   TEST_ASSERT_EQUAL(0, CC.C);
 }
  
-/** -0x01 + 0x0 = -0x01 , N = 1
+/** -0x0001 + 0x0 = -0x01 , N = 1
 *
 * negative flag set to 1, becauser result is negative, which R7 (signing bit) is 1
 */
-void xtest_mcu_addw_given_a_equal_neg1_than_add_0_should_get_A_equal_neg1_and_neg_flag_1_overflow_flag_1(void){
-  A = -0x01;
-  //mcu_addw(0x00);
+void test_mcu_addw_given_X_equal_neg1_than_add_0_should_get_Xequal_neg1_and_neg_flag_1_overflow_flag_1(void){
+  X = -0x0001;
   
-  TEST_ASSERT_EQUAL_INT8(-0x01, A);
+  mcu_addw(&X, 0x00);
+  
+  TEST_ASSERT_EQUAL_INT8(-0x0001, X);
 
   TEST_ASSERT_EQUAL(0, CC.V);
   TEST_ASSERT_EQUAL(0, CC.l1);
