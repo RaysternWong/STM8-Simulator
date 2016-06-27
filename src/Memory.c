@@ -1,6 +1,6 @@
 #include "Memory.h"
 #include <stdint.h>
-
+#include <malloc.h>
 
 /**
 *  Memory register map 
@@ -10,6 +10,8 @@
 *  which is 0 to 163839
 */
 
-Memory mcu_memory[0x027FFF] = {
+Memory mcu_memory[0x027FFF] = malloc( sizeof(Memory) );
+
+// Memory mcu_memory[0x027FFF] = {
   
-};
+// };

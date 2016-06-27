@@ -24,7 +24,7 @@ void tearDown(void)
 void test_mcu_add_given_a_equal_0_than_add_1_should_get_A_equal_0x01_and_all_flags_are_0(void){
   //A = 0x00;
   // mcu_add(0x01);
-  cpu->a = 0 ;
+  //cpu->a = 0 ;
   // TEST_ASSERT_EQUAL_INT8(0x01, A);
   // TEST_ASSERT_EQUAL(0, CC.V);
   // TEST_ASSERT_EQUAL(0, CC.l1);
