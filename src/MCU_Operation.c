@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
+#include "Memory.h"
 
 /**
 *           Binary       Hex
@@ -102,36 +103,57 @@
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
 
+#define A   cpu->a           //Accumulator
 
+#define V   ((cpu->ccr).bits.v)   //overFlow
+#define L1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
+#define H   ((cpu->ccr).bits.h)   //half cary
+#define L0  ((cpu->ccr).bits.l0)  //interrupt mask level 0
+#define N   ((cpu->ccr).bits.n)   //negative
+#define Z   ((cpu->ccr).bits.z)   //zero
+#define C   ((cpu->ccr).bits.c)   //cary
+
+
+uint16_t combineMostLeastByte(uint8_t mostByte, uint8_t leastByte)
+{
+  return ( (mostByte<<8) + leastByte);
+}
+
+void initMostLeastByte(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte)
+{
+  *mostByte  = fullByte >> 8;
+  *leastByte = fullByte & 0x00FF;
+}
 
 void mcu_add(uint8_t value)
 {
-  // uint8_t a       = cpu->A;
-  // uint8_t result  = a + value;
-  // cpu->A          = result;
+  uint8_t a       = cpu->a;
+  uint8_t result  = a + value;
+  cpu->a          = result;
   
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  H = A3 & M3 | M3 & _R3 | _R3 & A3;
+  C = A7 & M7 | M7 & _R7 | _R7 & A7;
+  V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
 
-  // (cpu->CCR).bits.V = ( A7 & M7 | M7 & _R7 | _R7 & A7 ) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
-  // (cpu->CCR).bits.H = A3 & M3 | M3 & _R3 | _R3 & A3;
-  // (cpu->CCR).bits.N = R7;
-  // (cpu->CCR).bits.Z = (result == 0 ? 1 : 0);
-  // (cpu->CCR).bits.C = A7 & M7 | M7 & _R7 | _R7 & A7;
 }
 
 void mcu_adc(uint8_t value)
 {
-  // uint8_t a       = cpu.accA;
-  // uint8_t result  = a + value + cpu.ccR.C;
-  // cpu.accA        = result;
+  uint8_t a       = cpu->a;
+  uint8_t result  = a + value + C;
+  cpu->a          = result;
 
-  // cpu.ccR.V = ( A7 & M7 | M7 & _R7 | _R7 & A7 ) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
-  // cpu.ccR.H = A3 & M3 | M3 & _R3 | _R3 & A3;
-  // cpu.ccR.N = R7;
-  // cpu.ccR.Z = (result == 0 ? 1 : 0);
-  // cpu.ccR.C = A7 & M7 | M7 & _R7 | _R7 & A7;
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  H = A3 & M3 | M3 & _R3 | _R3 & A3;
+  C = A7 & M7 | M7 & _R7 | _R7 & A7;
+  V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
 }
 
-void mcu_addw(uint16_t *reg, uint16_t value){
+void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value)
+{
   // uint16_t a    = *reg;
   // uint16_t result = a + value;
   // *reg = result;

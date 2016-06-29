@@ -3,10 +3,24 @@
 #include <malloc.h>
 #include "Memory.h"
 
-//CPU_t *cpu = malloc( sizeof(CPU_t) );
+CPU_t *cpu;
 
 
-CPU_t *cpu = (CPU_t)(mcu_memory[0x007F00]);
+void instantiateCPU(void)
+{
+  cpu = malloc( sizeof(CPU_t) );
+}
+
+void freeCPU(void)
+{
+  free(cpu);
+}
+
+
+//CPU_t *cpu = (CPU_t)(mcu_memory[0x007F00]);
+
+//CPU_t *cpu = (CPU_t)(mcu_memory);
+//CPU_t *cpu = (mcu_memory);
 
 
 
@@ -25,15 +39,14 @@ CPU_t *cpu = (CPU_t)(mcu_memory[0x007F00]);
 
 void clearConditionCodeRegister(Flag *ccR)
 {
-  //ccR->full = 0;
-  //(ccR->bits).V;
-  //(ccR->bits).V  = 0;
-  // (ccR->bits).l1 = 0;
-  // (ccR->bits).H  = 0;
-  // (ccR->bits).l0 = 0;
-  // (ccR->bits).N  = 0;
-  // (ccR->bits).Z  = 0;
-  // (ccR->bits).C  = 0;
+  ccR->full = 0;
+  (ccR->bits).v  = 0;
+  (ccR->bits).l1 = 0;
+  (ccR->bits).h  = 0;
+  (ccR->bits).l0 = 0;
+  (ccR->bits).n  = 0;
+  (ccR->bits).z  = 0;
+  (ccR->bits).c  = 0;
 }
 
 

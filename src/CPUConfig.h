@@ -1,8 +1,6 @@
 #ifndef CPUConfig_H
 #define CPUConfig_H
 #include <stdint.h>
-#include "Memory.h"
-
 
 // struct Flag{ //Condition Flag
   // int V;  // OverFlow
@@ -19,13 +17,13 @@
 typedef struct CPU_t CPU_t;
 
 typedef struct{
-  uint8_t V :1;
+  uint8_t v :1;
   uint8_t l1:1;
-  uint8_t H :1;
+  uint8_t h :1;
   uint8_t l0:1;
-  uint8_t N :1;
-  uint8_t Z :1;
-  uint8_t C :1;
+  uint8_t n :1;
+  uint8_t z :1;
+  uint8_t c :1;
 }Bits;
 
 typedef union{
@@ -51,6 +49,9 @@ struct CPU_t{
    
   Flag      ccr ;     //Condition Code Register
 };
+
+
+CPU_t *createCPU(void);
 
 extern CPU_t *cpu;
 
