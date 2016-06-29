@@ -10,7 +10,7 @@
 Instruction firstOpcode[256] = {
   
   // ADD
-  [0xAB] = add_a_ht_byte,
+  [0xAB] = add_a_byte,
   [0xBB] = add_a_shortmem,
   [0xCB] = add_a_longmem,
   [0xFB] = add_a_x,

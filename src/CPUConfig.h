@@ -2,17 +2,6 @@
 #define CPUConfig_H
 #include <stdint.h>
 
-// struct Flag{ //Condition Flag
-  // int V;  // OverFlow
-  // int l1; // Interrupt mask level 1
-  // int H;  // Half carry bit
-  // int l0; // Interrupt mask level 0
-  // int N;  // Negative
-  // int Z;  // Zero
-  // int C;  // Carry
-// };
-
-
 
 typedef struct CPU_t CPU_t;
 
