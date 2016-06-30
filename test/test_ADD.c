@@ -99,18 +99,18 @@ void test_add_a_shortoff_x_given_A_0x01_address_contain_0x02_should_get0x03_and_
 }
 
 //Assembly : (longoff,X) | ADD A,($1000,X)
-void test_add_a_longoff_x_given_A_0x01_address_contain_0x02_should_get0x03_and_return_3(void)
+void test_add_a_longoff_x_given_A_0x01_address_contain_0x04_should_get0x05_and_return_3(void)
 {
   A = 0x01;
   XH = 0X2B;
   XL = 0X11;
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   
-  writeValueToTheAddress( 0X3c22 ,  0x02);  //0x2B11 + 0X1111 = 0X3c22
+  writeValueToTheAddress( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
   
   int length = add_a_longoff_x(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x03, A);
+  TEST_ASSERT_EQUAL_INT8(0x05, A);
   TEST_ASSERT_EQUAL(3, length);
 }
 
@@ -130,34 +130,34 @@ void test_add_a_y_given_A_0x01_address_contain_0x02_should_get0x03_and_return_2(
 }
 
 //Assembly : (shortoff,Y) | ADD A,($10,Y)
-void test_add_a_shortoff_y_given_A_0x01_address_contain_0x02_should_get0x03_and_return_3(void)
+void test_add_a_shortoff_y_given_A_0x01_address_contain_0x03_should_get0x04_and_return_3(void)
 {
   A = 0x01;
   YH = 0X2B;
   YL = 0X11;
   uint8_t instr[] = {0XFB, 0X11};
   
-  writeValueToTheAddress( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
+  writeValueToTheAddress( 0X2B22 ,  0x03);  //0x2B11 + 0X11 = 0X2B22
   
   int length = add_a_shortoff_y(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x03, A);
+  TEST_ASSERT_EQUAL_INT8(0x04, A);
   TEST_ASSERT_EQUAL(3, length);
 }
 
 //Assembly : (longoff,Y) | ADD A,($1000,Y)
-void test_add_a_longoff_y_given_A_0x01_address_contain_0x02_should_get0x03_and_return_4(void)
+void test_add_a_longoff_y_given_A_0x01_address_contain_0x07_should_get0x08_and_return_4(void)
 {
   A = 0x01;
   YH = 0X2B;
   YL = 0X11;
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   
-  writeValueToTheAddress( 0X3c22 ,  0x02);  //0x2B11 + 0X1111 = 0X3c22
+  writeValueToTheAddress( 0X3c22 ,  0x07);  //0x2B11 + 0X1111 = 0X3c22
   
   int length = add_a_longoff_y(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x03, A);
+  TEST_ASSERT_EQUAL_INT8(0x08, A);
   TEST_ASSERT_EQUAL(4, length);
 }
 

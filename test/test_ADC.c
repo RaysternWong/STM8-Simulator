@@ -1,151 +1,277 @@
 #include "unity.h"
 #include "ADC.h"
-#include <stdio.h>
 #include "MCU_Operation.h"
-#include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include <malloc.h>
 
-#define A   cpu.accA       //Accumulator
-#define X   cpu.index_X    //Index registers X  
-#define Y   cpu.index_Y    //Index registers X  
-#define SP  cpu.sp         //Index registers X  
-#define CARRY   (cpu.ccR).C //carry flag
+#define A     cpu->a            //Accumulator
+#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
+#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
+#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
+#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
+#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
+#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
+
 
 void setUp(void)
 {
-  CARRY = 0;
+  instantiateCPU();
 }
 
 void tearDown(void)
 {
+   free(cpu);
 }
 
-
-// 0x01 + 0x05 = 0x06
-void test_adc_a_ht_byte_given_A_0x01_mcu_memory_return_0x05_should_get_0x06_and_return_2(void)
+//Assembly : #byte | adc A,#$55
+void test_adc_a_byte_given_A_0x01_byte_is_0x05_should_get_0x06_and_return_2(void)
 {
   A = 0x01;
   uint8_t instr[] = {0XAB, 0X05};
   
-  int ans = adc_a_ht_byte(instr);
+  int length = adc_a_byte(instr);
   
   TEST_ASSERT_EQUAL_INT8(0x06, A);
-  TEST_ASSERT_EQUAL(2, ans);
+  TEST_ASSERT_EQUAL(2, length);
 }
 
-void test_adc_a_shortmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and_return_2(void)
+//Assembly : shortmem | adc A,$10
+void test_adc_a_shortmem_given_A_0x01_adcress_contain_0x05_should_get_0x06_and_return_2(void)
+{
+  A               = 0x01;
+  uint8_t adcr    = 0xAD;
+  uint8_t instr[] = {0XBB, adcr};
+  
+  writeValueToTheAddress( adcr,  0x05);
+  
+  int length = adc_a_shortmem(instr);
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
+  TEST_ASSERT_EQUAL(2, length);
+}
+
+//Assembly : longmem | adc A,$1000
+void test_adc_a_longmem_given_A_0x01_adcress_contain_0x05_should_get_0x06_and_return_3(void)
+{
+  A               = 0x01;
+  uint8_t adcrMSB = 0x11;
+  uint8_t adcrLSB = 0x01;
+  
+  uint8_t instr[] = {0XBB, adcrMSB, adcrLSB};
+  
+  writeValueToTheAddress( 0x1101,  0x05);
+  
+  int length = adc_a_longmem(instr);
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
+  TEST_ASSERT_EQUAL(3, length);
+}
+
+//Assembly : (X) | adc A,(X)
+void test_adc_a_x_given_A_0x01_adcress_contain_0x07_should_get0x08_and_return_1(void)
 {
   A = 0x01;
-  uint8_t instr[] = {0XBB, 10};
-  mcu_memory[10] = 0x02;
+  XH = 0X10;
+  XL = 0X2B;
+  uint8_t instr[] = {0XFB};
+
+  writeValueToTheAddress( 0X102B ,  0x07);
   
-  int ans = adc_a_shortmem(instr);
+  int length = adc_a_x(instr);
+  TEST_ASSERT_EQUAL_INT8(0x08, A);
+  TEST_ASSERT_EQUAL(1, length);
+}
+
+//Assembly : (shortoff,X) | adc A,($10,X)
+void test_adc_a_shortoff_x_given_A_0x01_adcress_contain_0x02_should_get0x03_and_return_2(void)
+{
+  A = 0x01;
+  XH = 0X2B;
+  XL = 0X11;
+  uint8_t instr[] = {0XFB, 0X11};
+  
+  writeValueToTheAddress( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
+  
+  int length = adc_a_shortoff_x(instr);
   
   TEST_ASSERT_EQUAL_INT8(0x03, A);
-  TEST_ASSERT_EQUAL(2, ans);
+  TEST_ASSERT_EQUAL(2, length);
 }
 
-void test_adc_a_longmem_given_A_0x01_mcu_memory_return_0x02_should_get_0x03_and_return_3(void)
+//Assembly : (longoff,X) | adc A,($1000,X)
+void test_adc_a_longoff_x_given_A_0x01_adcress_contain_0x04_should_get0x05_and_return_3(void)
 {
   A = 0x01;
-  uint8_t instr[] = {0XCB, 10, 00};
-  mcu_memory[1000] = 0x02;
+  XH = 0X2B;
+  XL = 0X11;
+  uint8_t instr[] = {0XFB, 0X11, 0x11};
   
-  int ans = adc_a_longmem(instr);
+  writeValueToTheAddress( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
+  
+  int length = adc_a_longoff_x(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x05, A);
+  TEST_ASSERT_EQUAL(3, length);
+}
+
+//Assembly : (Y) | adc A,(Y)
+void test_adc_a_y_given_A_0x01_adcress_contain_0x02_should_get0x03_and_return_2(void)
+{
+  A = 0x01;
+  YH = 0X10;
+  YL = 0X2B;
+  uint8_t instr[] = {0XFB};
+
+  writeValueToTheAddress( 0X102B ,  0x02);
+  
+  int length = adc_a_y(instr);
+  TEST_ASSERT_EQUAL_INT8(0x03, A);
+  TEST_ASSERT_EQUAL(2, length);
+}
+
+//Assembly : (shortoff,Y) | adc A,($10,Y)
+void test_adc_a_shortoff_y_given_A_0x01_adcress_contain_0x03_should_get0x04_and_return_3(void)
+{
+  A = 0x01;
+  YH = 0X2B;
+  YL = 0X11;
+  uint8_t instr[] = {0XFB, 0X11};
+  
+  writeValueToTheAddress( 0X2B22 ,  0x03);  //0x2B11 + 0X11 = 0X2B22
+  
+  int length = adc_a_shortoff_y(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x04, A);
+  TEST_ASSERT_EQUAL(3, length);
+}
+
+//Assembly : (longoff,Y) | adc A,($1000,Y)
+void test_adc_a_longoff_y_given_A_0x01_adcress_contain_0x07_should_get0x08_and_return_4(void)
+{
+  A = 0x01;
+  YH = 0X2B;
+  YL = 0X11;
+  uint8_t instr[] = {0XFB, 0X11, 0x11};
+  
+  writeValueToTheAddress( 0X3c22 ,  0x07);  //0x2B11 + 0X1111 = 0X3c22
+  
+  int length = adc_a_longoff_y(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x08, A);
+  TEST_ASSERT_EQUAL(4, length);
+}
+
+//Assembly : A  | (shortoff,SP) adc A,($10,SP)
+void test_adc_a_shortoff_sp_given_A_0x01_adcress_contain_0x02_should_get0x03_and_return_3(void)
+{
+  A = 0x01;
+  SPH = 0X2B;
+  SPL = 0X11;
+  uint8_t instr[] = {0XFB, 0X11};
+  
+  writeValueToTheAddress( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
+  
+  int length = adc_a_shortoff_sp(instr);
   
   TEST_ASSERT_EQUAL_INT8(0x03, A);
-  TEST_ASSERT_EQUAL(3, ans);
+  TEST_ASSERT_EQUAL(2, length);
 }
 
-void test_adc_a_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_1(void)
+//Assembly : [shortptr.w] | adc A,[$10.w]
+// Please refer this instruction in page 46 of stm8 programming manual
+void test_adc_a_shortptr_w_given_A_0x01_adcress_contain_0x04_should_get0x05_and_return_3(void)
 {
   A = 0x01;
-  X = 100;
-  uint8_t instr[] = {0XFB, 5};
-  mcu_memory[100] = 0x40;
+
+  uint8_t instr[] = {0XFB, 0X13};
   
-  int ans = adc_a_x(instr);
+  writeValueToTheAddress( 0X13 , 0xAA);  
+  writeValueToTheAddress( 0X14 , 0xBB);  
+  writeValueToTheAddress( 0xAABB , 0x04);  
   
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(1, ans);
+  int length = adc_a_shortptr_w(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x05, A);
+  TEST_ASSERT_EQUAL(3, length);
 }
 
-void test_adc_a_shortoff_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_2(void)
+//Assembly : [longptr.w] | adc A,[$1000.w]
+// Please refer this instruction in page 47 of stm8 programming manual
+void test_adc_a_longptr_w_given_A_0x01_adcress_contain_0x09_should_get0x0A_and_return_4(void)
 {
   A = 0x01;
-  X = 100;
-  uint8_t instr[] = {0XEB, 5};
-  mcu_memory[105] = 0x40;
+
+  uint8_t instr[] = {0XFB, 0X13, 0X15};
   
-  int ans = adc_a_shortoff_x(instr);
+  writeValueToTheAddress( 0X1315 , 0xAA);  
+  writeValueToTheAddress( 0X1316 , 0xBB);  
+  writeValueToTheAddress( 0xAABB , 0x09);  
   
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(2, ans);
+  int length = adc_a_longptr_w(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x0A, A);
+  TEST_ASSERT_EQUAL(4, length);
 }
 
-void test_adc_a_longoff_x_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_3(void)
+//Assembly : ([shortptr.w],X) | adc A,([$10.w],X)
+// Please refer this instruction in page 50 of stm8 programming manual
+void test_adc_a_shortptr_w_x_given_A_0x01_adcress_contain_0x05_should_get0x06_and_return_3(void)
 {
   A = 0x01;
-  X = 100;
-  uint8_t instr[] = {0XDB, 10, 00};
-  mcu_memory[1100] = 0x40;
   
-  int ans = adc_a_longoff_x(instr);
+  XH = 0X00;
+  XL = 0X11;
+
+  uint8_t instr[] = {0XFB, 0X13};
   
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(3, ans);
+  writeValueToTheAddress( 0X13 , 0x11);  
+  writeValueToTheAddress( 0X14 , 0x11);  
+  writeValueToTheAddress( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
+  
+  int length = adc_a_shortptr_w_x(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
+  TEST_ASSERT_EQUAL(3, length);
 }
 
-void test_adc_a_y_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_2(void)
+// Assembly : ([longptr.w],X) | adc A,([$1000.w],X)
+// Please refer this instruction in page 50 of stm8 programming manual
+void test_adc_a_longptr_w_x_given_A_0x01_adcress_contain_0x02_should_get0x03_and_return_4(void)
 {
   A = 0x01;
-  Y = 100;
-  uint8_t instr[] = {0XFB, 5};
-  mcu_memory[100] = 0x40;
   
-  int ans = adc_a_y(instr);
+  XH = 0X00;
+  XL = 0X11;
+
+  uint8_t instr[] = {0XFB, 0X13, 0X00};
   
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(2, ans);
+  writeValueToTheAddress( 0X1300 , 0xAA);  
+  writeValueToTheAddress( 0X1301 , 0xBB);  
+  writeValueToTheAddress( 0xAACC , 0x02);  // 0XAABB + 0X11 = 0XAACC
+  
+  int length = adc_a_longptr_w_x(instr);
+  
+  TEST_ASSERT_EQUAL_INT8(0x03, A);
+  TEST_ASSERT_EQUAL(4, length);
 }
 
-void test_adc_a_shortoff_y_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_3(void)
+//Assembly : ([shortptr.w],Y) adc A,([$10.w],Y)
+// Please refer this instruction in page 50 of stm8 programming manual
+void test_adc_a_shortptr_w_y_given_A_0x01_adcress_contain_0x05_should_get0x06_and_return_3(void)
 {
   A = 0x01;
-  Y = 100;
-  uint8_t instr[] = {0XEB, 5};
-  mcu_memory[105] = 0x40;
   
-  int ans = adc_a_shortoff_y(instr);
-  
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(3, ans);
-}
+  YH = 0X00;
+  YL = 0X11;
 
-void test_adc_a_longoff_y_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_4(void)
-{
-  A = 0x01;
-  Y = 100;
-  uint8_t instr[] = {0XDB, 10, 00};
-  mcu_memory[1100] = 0x40;
+  uint8_t instr[] = {0XFB, 0X13};
   
-  int ans = adc_a_longoff_y(instr);
+  writeValueToTheAddress( 0X13 , 0x11);  
+  writeValueToTheAddress( 0X14 , 0x11);  
+  writeValueToTheAddress( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(4, ans);
-}
-
-void test_adc_a_shortoff_sp_given_A_0x01_mcu_memory_return_0x40_should_get_0x41_and_return_3(void)
-{
-  A = 0x01;
-  SP = 100;
-  uint8_t instr[] = {0X1B, 5};
-  mcu_memory[105] = 0x40;
+  int length = adc_a_shortptr_w_y(instr);
   
-  int ans = adc_a_shortoff_sp(instr);
-  
-  TEST_ASSERT_EQUAL_INT8(0x41, A);
-  TEST_ASSERT_EQUAL(2, ans);
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
+  TEST_ASSERT_EQUAL(3, length);
 }
