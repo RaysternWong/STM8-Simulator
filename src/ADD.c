@@ -14,12 +14,6 @@
 #define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
 
 
-/**
-*   ht means hast tag (#)
-*
-*   Please refer the following fuction in the page 77 of programming manual
-*/ 
-
 uint8_t add_a_byte(uint8_t *opcode){
   opcode++;
   mcu_add(*opcode);

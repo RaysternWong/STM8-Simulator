@@ -117,7 +117,7 @@
 #define L0  ((cpu->ccr).bits.l0)  //interrupt mask level 0
 #define N   ((cpu->ccr).bits.n)   //negative
 #define Z   ((cpu->ccr).bits.z)   //zero
-#define C   ((cpu->ccr).bits.c)   //cary
+#define C   ((cpu->ccr).bits.c)   //carry
 
 
 uint16_t combineMostLeastByte(uint8_t mostByte, uint8_t leastByte)
