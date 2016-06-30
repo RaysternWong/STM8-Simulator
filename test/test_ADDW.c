@@ -203,7 +203,6 @@ void test_addw_sp_byte(void)
 
   uint8_t instr[] = {0XBB, byte};
   
-
   int length = addw_sp_byte(instr);
   TEST_ASSERT_EQUAL_INT8(0x12, SPH);
   TEST_ASSERT_EQUAL_INT8(0x24, SPL);

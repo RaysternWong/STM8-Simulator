@@ -10,13 +10,25 @@
 #include "Memory.h"
 #include "ErrorCode.h"
 #include "CException.h"
+#include <malloc.h>
+
+#define A     cpu->a            //Accumulator
+#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
+#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
+#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
+#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
+#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
+#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
+
 
 void setUp(void)
 {
+  instantiateCPU();
 }
 
 void tearDown(void)
 {
+   free(cpu);
 }
 
 
@@ -115,18 +127,18 @@ void test_getInstructionLength_ADD_given_opcode_92_DB_should_return_3(void)
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-void xtest_getInstructionLength_given_instruction_is_not_in_table_should_throw_ERR_INSTRUCTION_NOT_IN_TABLE(void)
-{
-  CEXCEPTION_T err;
+// void xtest_getInstructionLength_given_instruction_is_not_in_table_should_throw_ERR_INSTRUCTION_NOT_IN_TABLE(void)
+// {
+  // CEXCEPTION_T err;
   
-  uint8_t instsSets[] = {
-    0x00, 0x00, 0x00
-  };
+  // uint8_t instsSets[] = {
+    // 0x00, 0x00, 0x00
+  // };
   
-  Try{
-    int ans = getInstructionLength(instsSets);
-    TEST_FAIL_MESSAGE("Expected ERR_INSTRUCTION_NOT_IN_TABLE");
-  }Catch(err){
-    TEST_ASSERT_EQUAL_MESSAGE(ERR_INSTRUCTION_NOT_IN_TABLE, err, "Expected ERR_INSTRUCTION_NOT_IN_TABLE");
-  }
-}
+  // Try{
+    // int ans = getInstructionLength(instsSets);
+    // TEST_FAIL_MESSAGE("Expected ERR_INSTRUCTION_NOT_IN_TABLE");
+  // }Catch(err){
+    // TEST_ASSERT_EQUAL_MESSAGE(ERR_INSTRUCTION_NOT_IN_TABLE, err, "Expected ERR_INSTRUCTION_NOT_IN_TABLE");
+  // }
+// }

@@ -20,7 +20,7 @@ Instruction firstOpcode[256] = {
   
   // ADDW
   [0x1c] = addw_x_word,
-  [0x5b] = addw_sp_ht_byte,
+  [0x5b] = addw_sp_byte,
 };
 
 
@@ -34,7 +34,7 @@ Instruction opcode72[256] = {
   // ADDW
   [0xBB] = addw_x_longmem,
   [0xFB] = addw_x_shortoff_sp,
-  [0xA9] = addw_y_ht_word,
+  [0xA9] = addw_y_word,
   [0xB9] = addw_y_longmem,
   [0xF9] = addw_y_shortoff_sp,
 };

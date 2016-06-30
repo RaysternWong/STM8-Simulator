@@ -103,7 +103,13 @@
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
 
-#define A   cpu->a           //Accumulator
+#define A     cpu->a            //Accumulator
+#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
+#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
+#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
+#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
+#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
+#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
 
 #define V   ((cpu->ccr).bits.v)   //overFlow
 #define L1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
@@ -136,7 +142,6 @@ void mcu_add(uint8_t value)
   H = A3 & M3 | M3 & _R3 | _R3 & A3;
   C = A7 & M7 | M7 & _R7 | _R7 & A7;
   V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
-
 }
 
 void mcu_adc(uint8_t value)
@@ -164,3 +169,4 @@ void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value)
   C = A15 & M15 | M15 & _R15 | _R15 & A15;
   V = C ^ ( A14 & M14 | M14 & _R14 | _R14 & A14 );
 }
+
