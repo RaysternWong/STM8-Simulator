@@ -91,7 +91,7 @@ void writeCPU(void)
 *   so the checking statement is simplied
 *
 */
-uint8_t getValueFromAddress(uint16_t addr)
+uint8_t getValueFromAddress(uint32_t addr)
 {
   if( addr  <= RAM_END_ADDR){
     return ram_addr[addr];
@@ -149,7 +149,7 @@ uint8_t getValueFromAddress(uint16_t addr)
   }
 }
 
-void  writeValueToTheAddress(uint16_t addr, uint8_t value)
+void  writeValueToTheAddress(uint32_t addr, uint8_t value)
 {
   if( addr  <= RAM_END_ADDR){
      ram_addr[addr] = value;

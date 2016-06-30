@@ -33,8 +33,8 @@ struct CPU_t{
   uint8_t   yh;  
   uint8_t   yl;   
   
-  uint16_t  sph; 
-  uint16_t  spl; 
+  uint8_t  sph; 
+  uint8_t  spl; 
    
   Flag      ccr ;     //Condition Code Register
 };
