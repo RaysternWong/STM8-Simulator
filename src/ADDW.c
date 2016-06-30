@@ -1,52 +1,84 @@
 #include "ADDW.h"
-#include <stdint.h>
+#include "MCU_Operation.h"
 #include <stdio.h>
+#include <stdint.h>
+#include "CPUConfig.h"
+#include "Memory.h"
 
-/**
-*  Please refer the folowing instruction in the page 78 of programming manual
-*
-*   'ht' means hast tag
-*    example  addw_x_ht_word(), it means addw x,#$1000
-*
-*/
+#define A     (cpu->a)           //Accumulator
+#define XH    (cpu->xh)           //most significant byte of the X index register  (1 byte)
+#define XL    (cpu->xl)           //least significant byte of the X index register (1 byte)
+#define YH    (cpu->yh)           //most significant byte of the y index register  (1 byte)
+#define YL    (cpu->yl)           //least significant byte of the y index register (1 byte)
+#define SPH   (cpu->sph)          //most significant byte of the sph index register  (1 byte)
+#define SPL   (cpu->spl)          //least significant byte of the spl index register (1 byte)
 
-
-uint8_t addw_x_ht_word(uint8_t *opcode){
-  opcode++;
-  int arg = *opcode;
-  printf("addw_sp_ht_byte = %d\n", arg);
+uint8_t addw_x_word(uint8_t *opcode){
+  uint8_t msb = *(++opcode);
+  uint8_t lsb = *(++opcode);
+  
+  uint16_t value = combineMostLeastByte( msb , lsb);
+  mcu_addw(&XH, &XL, value);
   return 3;
 }
 
 
 uint8_t addw_x_longmem(uint8_t *opcode){
-  opcode++;
+  uint8_t msb = *(++opcode);
+  uint8_t lsb = *(++opcode);
+  
+  uint16_t fullAddr = combineMostLeastByte( msb , lsb);
+
+  uint8_t  value    = getValueFromAddress(fullAddr);
+  mcu_addw(&XH, &XL, value);
   return 4;
 }
 
 uint8_t addw_x_shortoff_sp(uint8_t *opcode){
   opcode++;
+
+  uint16_t sp = combineMostLeastByte( SPH , SPL);
+           sp += *opcode;
+           
+  uint8_t  value =  getValueFromAddress(sp);
+  mcu_addw(&XH, &XL, value);
   return 3;
 }
 
-uint8_t addw_y_ht_word(uint8_t *opcode){
-  opcode++;
+uint8_t addw_y_word(uint8_t *opcode){
+  uint8_t msb = *(++opcode);
+  uint8_t lsb = *(++opcode);
+  
+  uint16_t value = combineMostLeastByte( msb , lsb);
+  mcu_addw(&YH, &YL, value);
   return 4;
 }
 
 uint8_t addw_y_longmem(uint8_t *opcode){
-  opcode++;
+  uint8_t msb = *(++opcode);
+  uint8_t lsb = *(++opcode);
+  
+  uint16_t fullAddr = combineMostLeastByte( msb , lsb);
+
+  uint8_t  value    = getValueFromAddress(fullAddr);
+  mcu_addw(&YH, &YL, value);
   return 4;
 }
 
 uint8_t addw_y_shortoff_sp(uint8_t *opcode){
   opcode++;
+
+  uint16_t sp = combineMostLeastByte( SPH , SPL);
+           sp += *opcode;
+           
+  uint8_t  value =  getValueFromAddress(sp);
+  mcu_addw(&YH, &YL, value);
   return 3;
 }
 
-uint8_t addw_sp_ht_byte(uint8_t *opcode){
-  opcode++; 
-  int arg = *opcode;
-  printf("addw_sp_ht_byte = %d\n", arg);
+uint8_t addw_sp_byte(uint8_t *opcode){
+  opcode++;
+  
+  mcu_addw(&SPH, &SPL, *opcode);
   return 2;
 }

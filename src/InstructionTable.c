@@ -19,7 +19,7 @@ Instruction firstOpcode[256] = {
   [0x1B] = add_a_shortoff_sp,
   
   // ADDW
-  [0x1c] = addw_x_ht_word,
+  [0x1c] = addw_x_word,
   [0x5b] = addw_sp_ht_byte,
 };
 
