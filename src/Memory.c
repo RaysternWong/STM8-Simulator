@@ -4,6 +4,8 @@
 #include <malloc.h>
 #include "CPUConfig.h"
 
+#define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
+
 MemoryBlock *ramBlock;
 MemoryBlock *cpuBlock;
 MemoryBlock *flashBlock;
@@ -30,29 +32,29 @@ MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size){
 uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data)
 {
   if(mode == MEM_WRITE){
-    ramBlock->data[address-RAM_START_ADDR] = data;
+    RAM_ARR(address) = data;
   }
   
   if(mode == MEM_READ){
-    return ( ramBlock->data[address-RAM_START_ADDR] );
+    return ( RAM_ARR(address) );
   }
 }
 
 uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data)
 {
   if(mode == MEM_WRITE){
-    ramBlock->data[address-CPU_START_ADDR] = data;
+    cpuBlock->data[address-CPU_START_ADDR] = data;
   }
   
   if(mode == MEM_READ){
-    return ( ramBlock->data[address-CPU_START_ADDR] );
+    return ( cpuBlock->data[address-CPU_START_ADDR] );
   }
 }
 
 uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data)
 {
   if(mode == MEM_READ){
-    return ( ramBlock->data[address-EEPROM_START_ADDR] );
+    return ( flashBlock->data[address-EEPROM_START_ADDR] );
   }
 }
 

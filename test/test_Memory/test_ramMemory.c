@@ -29,7 +29,7 @@ void test_ramMemory_write_in_0xBB_and_getBack_0xBB(void)
 {
   uint8_t data = 0xBB;
   
-  uint32_t addr = 0x02FF;
+  uint32_t addr = 0x0FF;
   uint8_t size = 0x1;
   
  
@@ -47,6 +47,8 @@ void test_ramMemory_write_in_0xBBCC_and_getBack_0xBB(void)
   
  
   MEM_WRITE_BYTE(addr,data);
+
+  
   uint8_t value = MEM_READ_BYTE(addr);
   TEST_ASSERT_EQUAL_INT8(0xBBCC, value);
 }
@@ -64,16 +66,4 @@ void test_ramMemory_write_in_0xBBCC_and_getBack_0xBBCC(void)
   TEST_ASSERT_EQUAL_INT8(0xBBCC, value);
 }
 
-void test_cpuMemory_write_in_0xAADE_and_getBack_0xAADE(void)
-{
-  uint16_t data = 0xAADE;
-  
-  uint32_t addr = 0x7FCF;
-  uint8_t size = 0x1;
-  
- 
-  // MEM_WRITE_BYTE(addr,data);
-  // uint8_t value = MEM_READ_BYTE(addr);
-  // TEST_ASSERT_EQUAL_INT8(0xAADE, value);
-}
 
