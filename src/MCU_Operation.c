@@ -120,14 +120,24 @@
 #define C   ((cpu->ccr).bits.c)   //carry
 
 
-uint16_t combineMostLeastByte(uint8_t mostByte, uint8_t leastByte)
+uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte)
 {
   return ( (mostByte<<8) + leastByte);
 }
 
-void initMostLeastByte(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte)
+void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte)
 {
   *mostByte  = fullByte >> 8;
+  *leastByte = fullByte & 0x00FF;
+}
+
+void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte)
+{
+  *mostByte  = fullByte >> 8;
+}
+
+void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte)
+{
   *leastByte = fullByte & 0x00FF;
 }
 

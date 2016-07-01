@@ -4,52 +4,60 @@
 #include <malloc.h>
 #include "CPUConfig.h"
 
-#define RAM_SIZE          0x3FF
-#define RES1_SIZE         0X37FF
-#define EEPROM_SIZE       0X27F
-#define RES2_SIZE         0X57F
-#define OPTION_BYTE_SIZE  0XA
-#define RES3_SIZE         0X59
-#define UNIQUE_ID_SIZE    0XB
-#define RES4_SIZE         0X8E
-#define GPIO_SIZE         0X7FF
-#define RES5_SIZE         0X26FF
-#define CPU_SIZE          0xFF
-#define IRQ_SIZE          0X7F
-#define FLASH_SIZE        0X1F7F
-#define RES6_SIZE         0X1DFF
+MemoryBlock *ramBlock;
+MemoryBlock *cpuBlock;
+MemoryBlock *flashBlock;
 
-#define RAM_START_ADDR          0x0
-#define RAM_END_ADDR            0x3FF
+MemoryMap memoryTable[0x280] = {
 
-#define RES1_START_ADDR         0X800
-#define EEPROM_START_ADDR       0X4000
-#define RES2_START_ADDR         0X4280
-#define OPTION_BYTE_START_ADDR  0X4800
-#define RES3_START_ADDR         0X480B
-#define UNIQUE_ID_START_ADDR    0X4865
-#define RES4_START_ADDR         0X4871
-#define GPIO_START_ADDR         0X5000
-#define RES5_START_ADDR         0X5800
-#define CPU_START_ADDR          0x7F00
-#define IRQ_START_ADDR          0X8000
-#define FLASH_START_ADDR        0X8080
-#define RES6_START_ADDR         0XA000
-
-
-
-stm8Memory memoryTable[256] = {
-
+  [0X00] = ramMemory,
+  [0X01] = ramMemory,
+  [0X02] = ramMemory,
   [0X03] = ramMemory,
   [0X04] = ramMemory,
-  [0X05] = ramMemory,
 
 };
 
-uint8_t ramMemory( Mode mode, uint8_t size)
-{
-  return 0x01;
+
+MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size){
+  MemoryBlock *mb = malloc(400 + sizeof(MemoryBlock));
+  *(mb->startAddr) = startAddr;
+  mb->size = size;
+  
+  return mb;
 }
+
+uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data)
+{
+  if(mode == MEM_WRITE){
+    ramBlock->data[address-RAM_START_ADDR] = data;
+  }
+  
+  if(mode == MEM_READ){
+    return ( ramBlock->data[address-RAM_START_ADDR] );
+  }
+}
+
+uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data)
+{
+  if(mode == MEM_WRITE){
+    ramBlock->data[address-CPU_START_ADDR] = data;
+  }
+  
+  if(mode == MEM_READ){
+    return ( ramBlock->data[address-CPU_START_ADDR] );
+  }
+}
+
+uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data)
+{
+  if(mode == MEM_READ){
+    return ( ramBlock->data[address-EEPROM_START_ADDR] );
+  }
+}
+
+
+
 
 
 
@@ -80,7 +88,6 @@ Memory cpu_addr         [CPU_SIZE];
 Memory interrupt_addr   [IRQ_SIZE];
 Memory flash_addr       [FLASH_SIZE];
 Memory reserved6_addr   [RES6_SIZE];
-
 
 void readCPU(void)
 {

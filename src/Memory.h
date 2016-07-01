@@ -18,6 +18,23 @@
 #define FLASH_SIZE        0X1F7F
 #define RES6_SIZE         0X1DFF
 
+#define RAM_START_ADDR          0x0
+#define RAM_END_ADDR            0x3FF
+
+#define RES1_START_ADDR         0X800
+#define EEPROM_START_ADDR       0X4000
+#define RES2_START_ADDR         0X4280
+#define OPTION_BYTE_START_ADDR  0X4800
+#define RES3_START_ADDR         0X480B
+#define UNIQUE_ID_START_ADDR    0X4865
+#define RES4_START_ADDR         0X4871
+#define GPIO_START_ADDR         0X5000
+#define RES5_START_ADDR         0X5800
+#define CPU_START_ADDR          0x7F00
+#define IRQ_START_ADDR          0X8000
+#define FLASH_START_ADDR        0X8080
+#define RES6_START_ADDR         0XA000
+
 typedef enum{
   MEM_READ,
   MEM_WRITE,
@@ -29,16 +46,21 @@ typedef struct{
   uint8_t   data[0];
 }MemoryBlock;
 
-typedef uint8_t (*stm8Memory)(uint32_t *address);
+typedef uint8_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size);
 
-stm8Memory memoryTable[256] ;
+MemoryMap memoryTable[0x280] ;
+
+extern MemoryBlock *ramBlock;
+extern MemoryBlock *cpuBlock;
+extern MemoryBlock *flashBlock;
 
 
-uint8_t ramMemory( Mode mode, uint8_t size);
+MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size);
+uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data);
+uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data);
+uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data);
 
 
-
-//uint8_t ramMemory( uint32_t size, uint8_t size);
 
 
 typedef uint8_t Memory;

@@ -27,7 +27,7 @@ void mul_x_a(void)
   H = 0;
   C = 0;
   
-  X *= A;
+  XL *= A;
 }
 
 void mul_y_a(void)
@@ -35,5 +35,5 @@ void mul_y_a(void)
   H = 0;
   C = 0;
   
-  Y *= A;
+  YL *= A;
 }
