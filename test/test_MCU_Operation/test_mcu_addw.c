@@ -14,7 +14,13 @@
 #define SPH   (cpu->sph)          //most significant byte of the sph index register  (1 byte)
 #define SPL   (cpu->spl)          //least significant byte of the spl index register (1 byte)
 
-
+#define V   (cpu->ccr).bits.v   //overFlow
+#define L1  (cpu->ccr).bits.l1  //interrupt mask level 1
+#define H   (cpu->ccr).bits.h   //half cary
+#define L0  (cpu->ccr).bits.l0  //interrupt mask level 0
+#define N   (cpu->ccr).bits.n   //negative
+#define Z   (cpu->ccr).bits.z   //zero
+#define C   (cpu->ccr).bits.c   //carry
 
 void setUp(void)
 {
