@@ -59,6 +59,7 @@ Instruction opcode92[256] = {
   [0xDB] = add_a_shortptr_w_x,
 };
 
+
 uint8_t getInstructionLength(uint8_t *opcode)
 {
   uint8_t length = 0;

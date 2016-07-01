@@ -4,17 +4,6 @@
 #include <malloc.h>
 #include "CPUConfig.h"
 
-/**
-*  Memory register map 
-*
-*  from 0x00 0000 to 0x02 7FFF
-*
-*  which is 0 to 163839
-*/
-
-//Memory *cpu_addr = malloc( sizeof(Memory) );
-
-
 #define RAM_SIZE          0x3FF
 #define RES1_SIZE         0X37FF
 #define EEPROM_SIZE       0X27F
@@ -29,7 +18,6 @@
 #define IRQ_SIZE          0X7F
 #define FLASH_SIZE        0X1F7F
 #define RES6_SIZE         0X1DFF
-
 
 #define RAM_START_ADDR          0x0
 #define RAM_END_ADDR            0x3FF
@@ -47,6 +35,36 @@
 #define IRQ_START_ADDR          0X8000
 #define FLASH_START_ADDR        0X8080
 #define RES6_START_ADDR         0XA000
+
+
+
+stm8Memory memoryTable[256] = {
+
+  [0X03] = ramMemory,
+  [0X04] = ramMemory,
+  [0X05] = ramMemory,
+
+};
+
+uint8_t ramMemory( Mode mode, uint8_t size)
+{
+  return 0x01;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Memory ram_addr         [RAM_SIZE];
 Memory reserved1_addr   [RES1_SIZE];
@@ -206,4 +224,3 @@ void  writeValueToTheAddress(uint32_t addr, uint8_t value)
      reserved6_addr[addr - RES6_START_ADDR ] = value;
   }
 }
-

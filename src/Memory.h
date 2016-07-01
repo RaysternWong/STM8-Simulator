@@ -3,7 +3,6 @@
 #include "CPUConfig.h"
 #include <stdint.h>
 
-
 #define RAM_SIZE          0x3FF
 #define RES1_SIZE         0X37FF
 #define EEPROM_SIZE       0X27F
@@ -18,6 +17,29 @@
 #define IRQ_SIZE          0X7F
 #define FLASH_SIZE        0X1F7F
 #define RES6_SIZE         0X1DFF
+
+typedef enum{
+  MEM_READ,
+  MEM_WRITE,
+}Mode;
+
+typedef struct{
+  uint32_t *startAddr;
+  uint16_t  size;
+  uint8_t   data[0];
+}MemoryBlock;
+
+typedef uint8_t (*stm8Memory)(uint32_t *address);
+
+stm8Memory memoryTable[256] ;
+
+
+uint8_t ramMemory( Mode mode, uint8_t size);
+
+
+
+//uint8_t ramMemory( uint32_t size, uint8_t size);
+
 
 typedef uint8_t Memory;
 
@@ -41,7 +63,6 @@ void    readCPU(void);
 
 uint8_t getValueFromAddress   (uint32_t addr);
 void    writeValueToTheAddress(uint32_t addr, uint8_t value);
-
 
 #endif // Memory_H
 
