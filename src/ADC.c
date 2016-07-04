@@ -13,12 +13,21 @@
 #define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
 #define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
 
+#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1)
+#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
 
-/**
-*   ht means hast tag (#)
-*
-*   Please refer the following fuction in the page 77 of programming manual
-*/ 
+void mcu_adc(uint8_t value)
+{
+  uint8_t a       = cpu->a;
+  uint8_t result  = a + value + C;
+  cpu->a          = result;
+
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  H = A3 & M3 | M3 & _R3 | _R3 & A3;
+  C = A7 & M7 | M7 & _R7 | _R7 & A7;
+  V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
+}
 
 uint8_t adc_a_byte(uint8_t *opcode){
   opcode++;
@@ -28,7 +37,7 @@ uint8_t adc_a_byte(uint8_t *opcode){
 
 uint8_t adc_a_shortmem(uint8_t *opcode){
   opcode++;
-  uint8_t value =  getValueFromAddress(*opcode);
+  uint8_t value =  MEM_READ_BYTE(*opcode);
   mcu_adc(value);
   return 2;
 }
@@ -38,17 +47,17 @@ uint8_t adc_a_longmem(uint8_t *opcode){
   uint8_t msb = *(++opcode);
   uint8_t lsb = *(++opcode);
   
-  uint16_t fulladdr = combineMostLeastByte( msb , lsb);
+  uint16_t fulladdr = getBigEndianWord( msb , lsb);
+  uint8_t  value    = MEM_READ_BYTE(fulladdr);
 
-  uint8_t  value    = getValueFromAddress(fulladdr);
   mcu_adc(value);
   return 3;
 }
 
 uint8_t adc_a_x(uint8_t *opcode){
 
-  uint16_t x     = combineMostLeastByte( XH , XL);
-  uint8_t  value = getValueFromAddress(x);
+  uint16_t x     = getBigEndianWord( XH , XL);
+  uint8_t  value = MEM_READ_BYTE(x);
   
   mcu_adc(value);
   return 1;
@@ -57,9 +66,9 @@ uint8_t adc_a_x(uint8_t *opcode){
 uint8_t adc_a_shortoff_x(uint8_t *opcode){
   opcode++;
 
-  uint16_t x = combineMostLeastByte( XH , XL);
+  uint16_t x = getBigEndianWord( XH , XL);
            x += *opcode;
-  uint8_t  value =  getValueFromAddress(x);
+  uint8_t  value =  MEM_READ_BYTE(x);
   mcu_adc(value);
   return 2;
 }
@@ -68,19 +77,19 @@ uint8_t adc_a_longoff_x(uint8_t *opcode){
   uint8_t msb = *(++opcode);
   uint8_t lsb = *(++opcode);
   
-  uint16_t fulladdr = combineMostLeastByte( msb , lsb);
-  uint16_t x        = combineMostLeastByte( XH , XL);
+  uint16_t fulladdr = getBigEndianWord( msb , lsb);
+  uint16_t x        = getBigEndianWord( XH , XL);
            x       += fulladdr;
-
-  uint8_t  value = getValueFromAddress(x);
+           
+  
+  uint8_t  value = MEM_READ_BYTE(x);
   mcu_adc(value);
   return 3;
 }
 
-
 uint8_t adc_a_y(uint8_t *opcode){
-  uint16_t y     = combineMostLeastByte( YH , YL);
-  uint8_t  value = getValueFromAddress(y);
+  uint16_t y     = getBigEndianWord( YH , YL);
+  uint8_t  value = MEM_READ_BYTE(y);
   
   mcu_adc(value);
   return 2;
@@ -89,9 +98,9 @@ uint8_t adc_a_y(uint8_t *opcode){
 uint8_t adc_a_shortoff_y(uint8_t *opcode){
   opcode++;
 
-  uint16_t y = combineMostLeastByte( YH , YL);
+  uint16_t y = getBigEndianWord( YH , YL);
            y += *opcode;
-  uint8_t  value =  getValueFromAddress(y);
+  uint8_t  value =  MEM_READ_BYTE(y);
   mcu_adc(value);
   return 3;
 }
@@ -100,63 +109,70 @@ uint8_t adc_a_longoff_y(uint8_t *opcode){
   uint8_t msb = *(++opcode);
   uint8_t lsb = *(++opcode);
   
-  uint16_t fulladdr = combineMostLeastByte( msb , lsb);
-  uint16_t y        = combineMostLeastByte( YH , YL);
+  uint16_t fulladdr = getBigEndianWord( msb , lsb);
+  uint16_t y        = getBigEndianWord( YH , YL);
            y       += fulladdr;
 
-  uint8_t  value = getValueFromAddress(y);
+  uint8_t  value = MEM_READ_BYTE(y);
   mcu_adc(value);
   return 4;
 }
 
 uint8_t adc_a_shortoff_sp(uint8_t *opcode){
   opcode++;
-
-  uint16_t sp = combineMostLeastByte( SPH , SPL);
+ 
+  uint16_t sp = getBigEndianWord( SPH , SPL);
            sp += *opcode;
-  uint8_t  value =  getValueFromAddress(sp);
+  uint8_t  value =  MEM_READ_BYTE(sp);
   mcu_adc(value);
   return 2;
 }
 
 uint8_t adc_a_shortptr_w(uint8_t *opcode){
+  opcode++;
+
+  uint8_t  value1 =  MEM_READ_BYTE( *(opcode) );
+  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
   
-  uint8_t  value1 =  getValueFromAddress( *(++opcode) );
-  uint8_t  value2 =  getValueFromAddress( *opcode + 1 );
-  
-  uint16_t fulladdr = combineMostLeastByte( value1 , value2);
-  uint8_t  value    = getValueFromAddress(fulladdr);
+  uint16_t fulladdr = getBigEndianWord( value1 , value2);
+  uint8_t  value    = MEM_READ_BYTE(fulladdr);
   mcu_adc(value);
 
   return 3;
 }
 
+  // printf("%x\n", *opcode);
+     // printf("%x\n", value2);
+     // printf("%x\n", fulladdr);
+       // printf("value : %x\n", value);
+       
 uint8_t adc_a_longptr_w(uint8_t *opcode){
+  opcode++;
+  uint8_t msb = *(opcode);
+  opcode++;
+  uint8_t lsb = *(opcode);
   
-  uint8_t msb = *(++opcode);
-  uint8_t lsb = *(++opcode);
+  uint16_t fulladdr1 = getBigEndianWord( msb , lsb);
   
-  uint16_t fulladdr1 = combineMostLeastByte( msb , lsb);
+  uint8_t  value1 =  MEM_READ_BYTE( fulladdr1);
+  uint8_t  value2 =  MEM_READ_BYTE( fulladdr1 + 1 );
   
-  uint8_t  value1 =  getValueFromAddress( fulladdr1);
-  uint8_t  value2 =  getValueFromAddress( fulladdr1 + 1 );
-  
-  uint16_t fulladdr = combineMostLeastByte( value1 , value2);
-  uint8_t  value    = getValueFromAddress(fulladdr);
+  uint16_t fulladdr = getBigEndianWord( value1 , value2);
+  uint8_t  value    = MEM_READ_BYTE(fulladdr);
   mcu_adc(value);
 
   return 4;
 }
 
 uint8_t adc_a_shortptr_w_x(uint8_t *opcode){
-  uint8_t  value1 =  getValueFromAddress( *(++opcode) );
-  uint8_t  value2 =  getValueFromAddress( *opcode + 1 );
+  uint8_t  value1 =  MEM_READ_BYTE( *(++opcode) );
+  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
   
-  uint16_t fulladdr = combineMostLeastByte( value1 , value2);
-  uint16_t x        = combineMostLeastByte( XH , XL);
+  uint16_t fulladdr = getBigEndianWord( value1 , value2);
+  uint16_t x        = getBigEndianWord( XH , XL);
            x       += fulladdr;
            
-  uint8_t  value    = getValueFromAddress(x);
+  uint8_t  value    = MEM_READ_BYTE(x);
   mcu_adc(value); 
   return 3;
 }
@@ -165,29 +181,29 @@ uint8_t adc_a_longptr_w_x(uint8_t *opcode){
   uint8_t msb = *(++opcode);
   uint8_t lsb = *(++opcode);
   
-  uint16_t fulladdr1 = combineMostLeastByte( msb , lsb);
+  uint16_t fulladdr1 = getBigEndianWord( msb , lsb);
   
-  uint8_t  value1 =  getValueFromAddress( fulladdr1);
-  uint8_t  value2 =  getValueFromAddress( fulladdr1 + 1 );
+  uint8_t  value1 =  MEM_READ_BYTE( fulladdr1);
+  uint8_t  value2 =  MEM_READ_BYTE( fulladdr1 + 1 );
   
-  uint16_t fulladdr = combineMostLeastByte( value1 , value2);
-  uint16_t x        = combineMostLeastByte( XH , XL);
+  uint16_t fulladdr = getBigEndianWord( value1 , value2);
+  uint16_t x        = getBigEndianWord( XH , XL);
            x       += fulladdr;
           
-  uint8_t  value    = getValueFromAddress(x);
+  uint8_t  value    = MEM_READ_BYTE(x);
   mcu_adc(value); 
   return 4;
 }
 
 uint8_t adc_a_shortptr_w_y(uint8_t *opcode){
-  uint8_t  value1 =  getValueFromAddress( *(++opcode) );
-  uint8_t  value2 =  getValueFromAddress( *opcode + 1 );
+  uint8_t  value1 =  MEM_READ_BYTE( *(++opcode) );
+  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
   
-  uint16_t fulladdr = combineMostLeastByte( value1 , value2);
-  uint16_t y        = combineMostLeastByte( YH , YL);
+  uint16_t fulladdr = getBigEndianWord( value1 , value2);
+  uint16_t y        = getBigEndianWord( YH , YL);
            y       += fulladdr;
            
-  uint8_t  value    = getValueFromAddress(y);
+  uint8_t  value    = MEM_READ_BYTE(y);
   mcu_adc(value); 
   return 3;
 }

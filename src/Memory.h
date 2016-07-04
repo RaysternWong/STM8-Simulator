@@ -20,7 +20,6 @@
 
 #define RAM_START_ADDR          0x0
 #define RAM_END_ADDR            0x3FF
-
 #define RES1_START_ADDR         0X800
 #define EEPROM_START_ADDR       0X4000
 #define RES2_START_ADDR         0X4280
@@ -54,37 +53,12 @@ extern MemoryBlock *ramBlock;
 extern MemoryBlock *cpuBlock;
 extern MemoryBlock *flashBlock;
 
-
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size);
 uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data);
 uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data);
 uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data);
 
-
-
-
-typedef uint8_t Memory;
-
-extern Memory ram_addr         [RAM_SIZE];
-extern Memory reserved1_addr   [RES1_SIZE];
-extern Memory eeprom_addr      [EEPROM_SIZE];
-extern Memory reserved2_addr   [RES2_SIZE];
-extern Memory optionByte_addr  [OPTION_BYTE_SIZE];
-extern Memory reserved3_addr   [RES3_SIZE];
-extern Memory uniqueID_addr    [UNIQUE_ID_SIZE];
-extern Memory reserved4_addr   [RES4_SIZE];
-extern Memory gpio_addr        [GPIO_SIZE];
-extern Memory reserved5_addr   [RES5_SIZE];
-extern Memory cpu_addr         [CPU_SIZE];
-extern Memory interrupt_addr   [IRQ_SIZE];
-extern Memory flash_addr       [FLASH_SIZE];
-extern Memory reserved6_addr   [RES6_SIZE];
-
-void    writeCPU(void);
-void    readCPU(void);
-
-uint8_t getValueFromAddress   (uint32_t addr);
-void    writeValueToTheAddress(uint32_t addr, uint8_t value);
+void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), int start, int end);
 
 #endif // Memory_H
 

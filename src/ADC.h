@@ -2,7 +2,9 @@
 #define ADC_H
 #include <stdint.h>
 
-uint8_t adc_a_byte     (uint8_t *opcode);
+void mcu_adc(uint8_t value);
+
+uint8_t adc_a_byte        (uint8_t *opcode);
 uint8_t adc_a_shortmem    (uint8_t *opcode);
 uint8_t adc_a_longmem     (uint8_t *opcode);
 uint8_t adc_a_x           (uint8_t *opcode);

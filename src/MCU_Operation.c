@@ -154,24 +154,11 @@ void mcu_add(uint8_t value)
   V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
 }
 
-void mcu_adc(uint8_t value)
-{
-  uint8_t a       = cpu->a;
-  uint8_t result  = a + value + C;
-  cpu->a          = result;
-
-  N = R7;
-  Z = (result == 0 ? 1 : 0);
-  H = A3 & M3 | M3 & _R3 | _R3 & A3;
-  C = A7 & M7 | M7 & _R7 | _R7 & A7;
-  V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
-}
-
 void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value)
 {
-  uint16_t a  = combineMostLeastByte(*mostByte, *leastByte);
+  uint16_t a  = getBigEndianWord(*mostByte, *leastByte);
   uint16_t result = a + value;
-  initMostLeastByte( mostByte, leastByte, result);
+  setBigEndianWord( mostByte, leastByte, result);
 
   N = R15;
   Z = (result == 0 ? 1 : 0);
