@@ -7,6 +7,9 @@
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #define A     cpu->a            //Accumulator
+#define PCE   cpu->pce          //Program counter extended
+#define PCH   cpu->pch          //Program counter high
+#define PCL   cpu->pcl          //Program counter low
 #define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
 #define XL    cpu->xl           //least significant byte of the X index register (1 byte)
 #define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
@@ -31,7 +34,34 @@
 #define SET_Y(word)  setBigEndianWord(&YH, &YL, word)
 #define SET_SP(word)  setBigEndianWord(&SPH, &SPL, word)
 
+#define X   getBigEndianWord(XH, XL)
+#define Y   getBigEndianWord(YH, YL)
+#define SP  getBigEndianWord(SPH, SPL)
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/**
+*           Binary       Hex
+*       0000 0001         1     bit 0
+*       0000 0010         2
+*       0000 0100         4
+*       0000 1000         8
+*       0001 0000        10
+*       0010 0000        20
+*       0100 0000        40
+*       1000 0000        80     bit 7
+*
+*                       100    bit 8
+*                       200
+*                       400
+*                       800
+*                      1000
+*                      2000
+*                      4000
+*                      8000    bit 15
+
+*/
+
 // Memory
 #define M0  (value & 0X01)      
 #define M1  ( (value & 0X02) >> 1 )
@@ -115,8 +145,9 @@ void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 
+void sp_decrement(void);
+void mcu_push(uint8_t value);
 void mcu_add(uint8_t value);
-
 void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value);
 
 #endif // MCU_Operation_H

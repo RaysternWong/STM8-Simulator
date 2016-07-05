@@ -4,8 +4,6 @@
 #include <malloc.h>
 #include "CPUConfig.h"
 
-#define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
-
 MemoryBlock *ramBlock;
 MemoryBlock *cpuBlock;
 MemoryBlock *flashBlock;
@@ -22,13 +20,12 @@ MemoryMap memoryTable[0x280] = {
 
 };
 
-
-
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size){
   MemoryBlock *mb = malloc(400 + sizeof(MemoryBlock));
+
   mb->startAddr =& startAddr;
   mb->size = size;
-  mb->size = size;
+  mb->data = malloc(size * sizeof(uint8_t));
   return mb;
 }
 
@@ -65,12 +62,10 @@ uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data)
 void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), int start, int end)
 {
   int i;
-  
   end /= 0x100;
   
   for( i=start ; i<= end ; i++)
     memoryTable[i] = memoryFunc;
-  
 }
 
 

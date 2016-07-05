@@ -34,15 +34,19 @@
 #define FLASH_START_ADDR        0X8080
 #define RES6_START_ADDR         0XA000
 
+#define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
+
+
 typedef enum{
   MEM_READ,
   MEM_WRITE,
 }Mode;
 
 typedef struct{
-  uint32_t *startAddr;
+  uint32_t  *startAddr;
   uint16_t  size;
-  uint8_t   data[0];
+  uint8_t   *data; // array pointer, containing data
+  //uint8_t   data[0];
 }MemoryBlock;
 
 typedef uint8_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size);

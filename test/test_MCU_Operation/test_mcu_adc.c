@@ -4,20 +4,8 @@
 #include <stdio.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ADC.h"
 #include <malloc.h>
-
-#define A   cpu->a           //Accumulator
-
-#define CC  (cpu->ccr).bits  //Condition Code
-
-#define V   (cpu->ccr).bits.v   //overFlow
-#define L1  (cpu->ccr).bits.l1  //interrupt mask level 1
-#define H   (cpu->ccr).bits.h   //half cary
-#define L0  (cpu->ccr).bits.l0  //interrupt mask level 0
-#define N   (cpu->ccr).bits.n   //negative
-#define Z   (cpu->ccr).bits.z   //zero
-#define C   (cpu->ccr).bits.c   //carry
-
 
 
 void setUp(void)
