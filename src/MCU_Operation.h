@@ -17,6 +17,8 @@
 #define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
 #define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
 
+#define CC   ((cpu->ccr).full)  //  Condition code register ( 1 byte)
+
 #define V   ((cpu->ccr).bits.v)   //overFlow
 #define L1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
 #define H   ((cpu->ccr).bits.h)   //half cary
