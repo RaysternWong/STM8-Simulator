@@ -149,6 +149,7 @@
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 uint16_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
 uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte);
+void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t fullByte);
 void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);

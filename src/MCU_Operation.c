@@ -13,6 +13,12 @@ uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte){
   return ( (mostByte<<8) + leastByte);
 }
 
+void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t fullByte){
+  *extByte  = fullByte >> 16;
+  *highByte  = fullByte >> 8;
+  *lowByte = fullByte & 0x00FF;
+}
+
 void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
   *mostByte  = fullByte >> 8;
   *leastByte = fullByte & 0x00FF;
