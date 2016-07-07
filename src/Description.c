@@ -18,3 +18,8 @@ uint8_t getValueHoldByLongmem(uint8_t *opcode){
   uint8_t    value = MEM_READ_BYTE(longmem);
   return value;
 }
+
+void setValueHoldByLongmem(uint8_t *opcode, uint8_t value){
+  uint16_t longmem = getlongmem(opcode);
+  MEM_WRITE_BYTE(longmem, value);
+}

@@ -26,9 +26,20 @@ void sp_decrement(void){
   setBigEndianWord(&SPH, &SPL, --stack);
 }
 
+void sp_increment(void){
+  uint16_t stack = SP;
+  setBigEndianWord(&SPH, &SPL, ++stack);  
+}
+
 void mcu_push(uint8_t value){
   MEM_WRITE_BYTE(SP,value);
   sp_decrement();
+}
+
+uint8_t mcu_pop(void){
+  sp_increment();
+  uint16_t value = MEM_READ_BYTE(SP);
+  return value;
 }
 
 void mcu_add(uint8_t value){

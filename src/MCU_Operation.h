@@ -148,8 +148,11 @@ void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 
 void sp_decrement(void);
+void sp_increment(void);
 void mcu_push(uint8_t value);
 void mcu_add(uint8_t value);
 void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value);
+
+uint8_t mcu_pop(void);
 
 #endif // MCU_Operation_H
