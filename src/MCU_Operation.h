@@ -44,7 +44,7 @@
 #define PC_WORD  getBigEndianWord(PCH, PCL)
 #define PC       getBigEndianExt(PCE, PCH, PCL)
 
-#define NEXT_OPCODE *(++opcode)
+#define NEXT_OPCODE  *(++opcode) 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 

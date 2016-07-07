@@ -59,9 +59,7 @@ void tearDown(void)
 }
 
 void test_call_longmem(void){
-  
-  uint16_t lgth = 3;
-  
+ 
   uint8_t memMSB = 0xAA, memLSB = 0xBB;
   uint16_t longmem = 0xAABB;
   MEM_WRITE_BYTE(longmem, value);
