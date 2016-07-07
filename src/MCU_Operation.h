@@ -36,9 +36,15 @@
 #define SET_Y(word)  setBigEndianWord(&YH, &YL, word)
 #define SET_SP(word)  setBigEndianWord(&SPH, &SPL, word)
 
+#define SET_PC_WORD(word)  setBigEndianWord(&PCH, &PCL, word)
+
 #define X   getBigEndianWord(XH, XL)
 #define Y   getBigEndianWord(YH, YL)
 #define SP  getBigEndianWord(SPH, SPL)
+#define PC_WORD  getBigEndianWord(PCH, PCL)
+#define PC       getBigEndianExt(PCE, PCH, PCL)
+
+#define NEXT_OPCODE *(++opcode)
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -141,7 +147,7 @@
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-
+uint16_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
 uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte);
 void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
@@ -151,6 +157,7 @@ void sp_decrement(void);
 void sp_increment(void);
 void mcu_push(uint8_t value);
 void mcu_add(uint8_t value);
+void mcu_call(uint16_t address, uint8_t length);
 void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value);
 
 uint8_t mcu_pop(void);

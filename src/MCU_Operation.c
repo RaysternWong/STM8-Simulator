@@ -4,6 +4,11 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
+
+uint16_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte){
+  return ( (extByte<<16) + (highByte<<8) + lowByte);
+}
+
 uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte){
   return ( (mostByte<<8) + leastByte);
 }
@@ -40,6 +45,14 @@ uint8_t mcu_pop(void){
   sp_increment();
   uint16_t value = MEM_READ_BYTE(SP);
   return value;
+}
+
+void mcu_call(uint16_t address, uint8_t length){
+  uint16_t pcPlusLength = PC_WORD + length;
+  SET_PC_WORD(pcPlusLength);
+  mcu_push(PCL);
+  mcu_push(PCH);
+  SET_PC_WORD(address);
 }
 
 void mcu_add(uint8_t value){
