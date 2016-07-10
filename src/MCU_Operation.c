@@ -5,7 +5,7 @@
 #include "Memory.h"
 
 
-uint16_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte){
+uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte){
   return ( (extByte<<16) + (highByte<<8) + lowByte);
 }
 

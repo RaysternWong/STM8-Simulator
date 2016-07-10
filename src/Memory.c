@@ -20,9 +20,8 @@ MemoryMap memoryTable[0x280] = {
 
 };
 
-MemoryBlock *createMemoryBlock( uint32_t startAddr, uint16_t size){
+MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
   MemoryBlock *mb = malloc(400 + sizeof(MemoryBlock));
-
   mb->startAddr =& startAddr;
   mb->size = size;
   mb->data = malloc(size * sizeof(uint8_t));
@@ -59,9 +58,10 @@ uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data)
   }
 }
 
-void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), int start, int end)
+void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), uint32_t start, uint32_t end)
 {
   int i;
+  start /= 0x100;
   end /= 0x100;
   
   for( i=start ; i<= end ; i++)

@@ -6,19 +6,24 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-void mcu_callF(uint32_t address, uint8_t length)
+void mcu_callf(uint32_t address, uint8_t length)
 {
-  uint16_t newPC = PC + length;
-  SET_PC_WORD(pcPlusLength);
+  uint32_t pc_ext = PC + length;
+  SET_PC(pc_ext);
   mcu_push(PCL);
   mcu_push(PCH);
-  SET_PC_WORD(address);
+  mcu_push(PCE);
+  SET_PC(address);
 }
 
 uint8_t callf_extmem(uint8_t *opcode){
-  
+  uint32_t extmem = getExtmem(opcode);
+  mcu_callf(extmem, 4);
+  return 4;
 }
 
 uint8_t callf_longptr_e(uint8_t *opcode){
-  
+  uint32_t extmem = getLongE(opcode);
+  mcu_callf(extmem, 4);
+  return 4;
 }

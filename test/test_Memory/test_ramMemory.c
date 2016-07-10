@@ -10,9 +10,9 @@
 #define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
 
 void setUp(void)
-{
+{ // RAM_SIZE   FULL_SIZE
   ramBlock = createMemoryBlock(RAM_START_ADDR, RAM_SIZE);
-  setMemoryTable( ramMemory , 0 , 0x3FF );
+  setMemoryTable( ramMemory , 0 , RAM_SIZE );
 }
 
 void tearDown(void)

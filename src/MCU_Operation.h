@@ -37,6 +37,7 @@
 #define SET_SP(word)  setBigEndianWord(&SPH, &SPL, word)
 
 #define SET_PC_WORD(word)  setBigEndianWord(&PCH, &PCL, word)
+#define SET_PC(word)        setBigEndianExt(&PCE, &PCH, &PCL, word)
 
 #define X   getBigEndianWord(XH, XL)
 #define Y   getBigEndianWord(YH, YL)
@@ -147,7 +148,7 @@
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-uint16_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
+uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
 uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte);
 void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t fullByte);
 void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);

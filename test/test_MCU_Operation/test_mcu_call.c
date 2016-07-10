@@ -29,6 +29,14 @@ void tearDown(void)
 } 
 
 /**
+
+CALL [$1234.w]
+          PC← PC + 4
+          M(SP--) ← PCL
+          M(SP--) ← PCH
+          PCH← M(longmem)
+          PCL← M(longmem + 1)
+
     PC = PC+length
     (SP--) = PCL
     (SP--) = PCH

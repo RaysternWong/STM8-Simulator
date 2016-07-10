@@ -6,13 +6,22 @@
 #include "MCU_Operation.h"
 
 
+
 uint16_t getlongmem(uint8_t *opcode){
   uint8_t      msb = NEXT_OPCODE;
   uint8_t      lsb = NEXT_OPCODE;
   uint16_t longmem = getBigEndianWord( msb , lsb );
   return longmem;
-
 }
+
+uint32_t getExtmem(uint8_t *opcode){
+  uint8_t      ext = NEXT_OPCODE;
+  uint8_t      msb = NEXT_OPCODE;
+  uint8_t      lsb = NEXT_OPCODE;
+  uint32_t extmem  = getBigEndianExt( ext, msb , lsb );
+  return extmem;
+}
+
 
 uint8_t getValueHoldByLongmem(uint8_t *opcode){
   uint16_t longmem = getlongmem(opcode);
@@ -87,10 +96,31 @@ uint16_t getLongW(uint8_t *opcode){
   return longW;
 }
 
+uint32_t getLongE(uint8_t *opcode){
+  uint16_t longmem = getlongmem(opcode);
+  uint16_t longmem_plus1 = longmem + 1;
+  uint16_t longmem_plus2 = longmem + 2;
+
+
+  uint8_t  ext = MEM_READ_BYTE( longmem);
+  uint8_t  msb = MEM_READ_BYTE( longmem_plus1 );
+  uint8_t  lsb = MEM_READ_BYTE( longmem_plus2 );
+  
+  uint32_t longE = getBigEndianExt( ext, msb , lsb); 
+  
+  return longE;
+}
+
 uint8_t getLongPtr(uint8_t *opcode){
   uint16_t longW = getLongW(opcode); 
   uint8_t  value = MEM_READ_BYTE(longW);
   return value;     
+}
+
+uint8_t getLongPtrE(uint8_t *opcode){
+  uint32_t longE = getLongE(opcode); 
+  uint8_t  value = MEM_READ_BYTE(longE);
+  return value;  
 }
 
 uint8_t getShortPtrX(uint8_t *opcode){
