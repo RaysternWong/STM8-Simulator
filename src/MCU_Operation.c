@@ -64,8 +64,8 @@ void mcu_call(uint16_t address, uint8_t length){
 void mcu_add(uint8_t value){
   uint8_t a       = cpu->a;
   uint8_t result  = a + value;
-  cpu->a          = result;
   
+  A = result;
   N = R7;
   Z = (result == 0 ? 1 : 0);
   H = A3 & M3 | M3 & _R3 | _R3 & A3;

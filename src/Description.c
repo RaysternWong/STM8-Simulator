@@ -71,16 +71,22 @@ uint8_t getShortPtrY(uint8_t *opcode){
 
 //Long
 
-
-
-//Extend
-
 uint16_t getlongmem(uint8_t *opcode){
   uint8_t      msb = NEXT_OPCODE;
   uint8_t      lsb = NEXT_OPCODE;
   uint16_t longmem = getBigEndianWord( msb , lsb );
   return longmem;
 }
+
+uint8_t getlongmemSrc(uint8_t *opcode){
+  uint16_t longmem = getlongmem(opcode);
+  uint8_t    value = MEM_READ_BYTE(longmem);
+  return value;
+}
+
+
+//Extend
+
 
 uint32_t getExtmem(uint8_t *opcode){
   uint8_t      ext = NEXT_OPCODE;
@@ -91,11 +97,7 @@ uint32_t getExtmem(uint8_t *opcode){
 }
 
 
-uint8_t getValueHoldByLongmem(uint8_t *opcode){
-  uint16_t longmem = getlongmem(opcode);
-  uint8_t    value = MEM_READ_BYTE(longmem);
-  return value;
-}
+
 
 
 

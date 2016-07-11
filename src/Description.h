@@ -21,7 +21,7 @@ uint8_t   getShortPtrY(uint8_t *opcode);
 
 //Long
 uint16_t  getlongmem(uint8_t *opcode);
-uint8_t   getValueHoldByLongmem(uint8_t *opcode);
+uint8_t   getlongmemSrc(uint8_t *opcode);
 uint8_t   getLongOffX(uint8_t *opcode);
 uint8_t   getLongOffY(uint8_t *opcode);
 uint8_t   getLongPtr(uint8_t *opcode);

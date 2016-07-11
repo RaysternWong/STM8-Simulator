@@ -1,18 +1,11 @@
 #include "unity.h"
 #include "ADD.h"
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
 #include <malloc.h>
-
-#define A     cpu->a            //Accumulator
-#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
-#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
-#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
-#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
-#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
-#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
 
 
 void setUp(void)
@@ -30,6 +23,7 @@ void tearDown(void)
    free(ramBlock);
 }
 
+
 //Assembly : #byte | ADD A,#$55
 void test_add_a_byte_given_A_0x01_byte_is_0x05_should_get_0x06_and_return_2(void)
 {
@@ -41,6 +35,7 @@ void test_add_a_byte_given_A_0x01_byte_is_0x05_should_get_0x06_and_return_2(void
   TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(2, length);
 }
+
 
 //Assembly : shortmem | ADD A,$10
 void test_add_a_shortmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_return_2(void)
@@ -55,6 +50,7 @@ void test_add_a_shortmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_r
   TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(2, length);
 }
+
 
 //Assembly : longmem | ADD A,$1000
 void test_add_a_longmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_return_3(void)
@@ -72,6 +68,7 @@ void test_add_a_longmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_re
   TEST_ASSERT_EQUAL(3, length);
 }
 
+/**
 //Assembly : (X) | ADD A,(X)
 void test_add_a_x_given_A_0x01_address_contain_0x07_should_get0x08_and_return_1(void)
 {
@@ -280,3 +277,5 @@ void test_add_a_shortptr_w_y_given_A_0x01_address_contain_0x05_should_get0x06_an
   TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(3, length);
 }
+
+*/

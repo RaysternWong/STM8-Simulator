@@ -8,7 +8,7 @@
 
 
 uint8_t call_longmem(uint8_t *opcode){
-  uint8_t address = getValueHoldByLongmem(opcode);
+  uint8_t address = getlongmemSrc(opcode);
   mcu_call( address, 3);
   return 3;
 }

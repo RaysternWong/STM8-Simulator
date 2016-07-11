@@ -5,23 +5,12 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-#define A     cpu->a            //Accumulator
-#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
-#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
-#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
-#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
-#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
-#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
-
-#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1)
-#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
-
 void mcu_adc(uint8_t value)
 {
   uint8_t a       = cpu->a;
   uint8_t result  = a + value + C;
-  cpu->a          = result;
-
+  
+  A = result;
   N = R7;
   Z = (result == 0 ? 1 : 0);
   H = A3 & M3 | M3 & _R3 | _R3 & A3;

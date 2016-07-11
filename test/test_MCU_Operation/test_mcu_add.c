@@ -6,29 +6,6 @@
 #include "Memory.h"
 #include <malloc.h>
 
-#define A   cpu->a           //Accumulator
-
-#define V   (cpu->ccr).bits.v   //overFlow
-#define L1  (cpu->ccr).bits.l1  //interrupt mask level 1
-#define H   (cpu->ccr).bits.h   //half cary
-#define L0  (cpu->ccr).bits.l0  //interrupt mask level 0
-#define N   (cpu->ccr).bits.n   //negative
-#define Z   (cpu->ccr).bits.z   //zero
-#define C   (cpu->ccr).bits.c   //carry
-
-#define FULL   ((cpu->ccr).full)
-
-
-#define R0  (FULL & 0X01)
-#define R1  ((FULL & 0X02) >> 1)
-#define R2  ((FULL & 0X04) >> 2)
-#define R3  ((FULL & 0X08) >> 3)
-#define R4  ((FULL & 0X10) >> 4)
-#define R5  ((FULL & 0X20) >> 5)
-#define R6  ((FULL & 0X40) >> 6)
-#define R7  ((FULL & 0X80) >> 7)
-
-
 void setUp(void)
 {
   instantiateCPU();
