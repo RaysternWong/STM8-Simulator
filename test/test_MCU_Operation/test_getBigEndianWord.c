@@ -9,48 +9,48 @@
 
 void setUp(void)
 {
-
+  instantiateCPU();
 }
 
 void tearDown(void)
 {
-
+  free(cpu);
 }
 
 /**
-*     uint16_t combineMostLeastByte(uint8_t mostByte, uint8_t leastByte)
+*     uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte)
 *
 */ 
 
-void test_combineMostLeastByte_given_mostByte_is_0x24_leastByte_is_0x31_should_return_0x2341(void){
+void test_getBigEndianWord(void){
   
-  uint8_t mostByte  = 0x24;
-  uint8_t leastByte = 0x31;
+  uint8_t instr[] = {0XAB, 0xCC};
+  uint16_t fullByte = getBigEndianWord(instr);
   
-  uint16_t fullByte = combineMostLeastByte(mostByte, leastByte);
-  
-  TEST_ASSERT_EQUAL_INT16(0x2431, fullByte);
+  TEST_ASSERT_EQUAL_INT16(0xABCC, fullByte);
 }
 
-// -0x7f = 0x81
-void test_combineMostLeastByte_given_mostByte_is_neg_0x7f_leastByte_is_0xab_should_return_0x81ab(void){
-  
-  uint8_t mostByte  = -0x7f;
-  uint8_t leastByte = 0xab;
-  
-  uint16_t fullByte = combineMostLeastByte(mostByte, leastByte);
-  
-  TEST_ASSERT_EQUAL_INT16(0x81ab, fullByte);
+// #define X   getBigEndianWord(&XH) in mcu_operation.h
+void test_getBigEndianWord_given_set_XH_and_XL_then_get_back_X(void){
+  XH = 0X33;
+  XL = 0X77;
+  TEST_ASSERT_EQUAL_INT16(0x3377, X);
 }
 
 
- // -0x34 = 0xcc , -0x21 = 0xdf
-void test_combineMostLeastByte_given_mostByte_is_neg_0x34_leastByte_is_neg_0x21_should_return_0xccdf(void){
+// #define Y   getBigEndianWord(&YH) in mcu_operation.h
+void test_getBigEndianWord_given_set_YH_and_YL_then_get_back_Y(void){
   
-  uint8_t mostByte  = -0x34;
-  uint8_t leastByte = -0x21;
+  YH = 0X33;
+  YL = 0X77;
+  TEST_ASSERT_EQUAL_INT16(0x3377, Y);
+}
+
+
+// #define SP  getBigEndianWord(&SPH) in mcu_operation.h
+void test_getBigEndianWord_given_set_SPH_and_SPL_then_get_back_SP(void){
   
-  uint16_t fullByte = combineMostLeastByte(mostByte, leastByte);
-  
-  TEST_ASSERT_EQUAL_INT16(0xccdf, fullByte);
+  SPH = 0X33;
+  SPL = 0X77;
+  TEST_ASSERT_EQUAL_INT16(0x3377, SP);
 }

@@ -9,36 +9,43 @@
 
 void setUp(void)
 {
-
+  instantiateCPU();
 }
 
 void tearDown(void)
 {
-
+  free(cpu);
 }
 
-void test_initMostLeastByte_given_fullByte_is_0x22cd(void){
+//#define SET_X(word)  setBigEndianWord(&XH, word)
+void test_setBigEndianWord_given_X(void){
   
-  uint16_t fullByte = 0x22cd;
+  SET_X(0xABCC);
   
-  uint8_t mostByte , leastByte;
-  
-  initMostLeastByte(&mostByte, &leastByte, fullByte);
-  
-  TEST_ASSERT_EQUAL_INT8(0x22, mostByte);
-  TEST_ASSERT_EQUAL_INT8(0xcd, leastByte);
+  TEST_ASSERT_EQUAL_INT32(0xABCC, X);
 }
 
-// -0x22cd = 0xdd33
-void test_initMostLeastByte_given_fullByte_is_nrg_0x22cd(void){
+//#define SET_Y(word)  setBigEndianWord(&YH, word)
+void test_setBigEndianWord_given_Y(void){
   
-  uint16_t fullByte = -0x22cd;
+  SET_Y(0xABCC);
   
-  
-  uint8_t mostByte , leastByte;
-
-  initMostLeastByte(&mostByte, &leastByte, fullByte);
-  
-  TEST_ASSERT_EQUAL_INT8(0xdd, mostByte);
-  TEST_ASSERT_EQUAL_INT8(0x33, leastByte);
+  TEST_ASSERT_EQUAL_INT32(0xABCC, Y);
 }
+
+//#define SET_SP(word)  setBigEndianWord(&SPH, word)
+void test_setBigEndianWord_given_SP(void){
+  
+  SET_SP(0xABCC);
+  
+  TEST_ASSERT_EQUAL_INT32(0xABCC, SP);
+}
+
+//#define SET_PC_WORD(word)  setBigEndianWord(&PCH, word)
+void test_setBigEndianWord_given_PC_WORD(void){
+  
+  SET_PC_WORD(0xABCC);
+  
+  TEST_ASSERT_EQUAL_INT32(0xABCC, PC_WORD);
+}
+

@@ -1,26 +1,40 @@
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
 
-uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte){
-  return ( (mostByte<<8) + leastByte);
+uint16_t getBigEndianWord(uint8_t *bytes){
+  uint8_t msb = *bytes;
+  uint8_t lsb = GET_BYTE(bytes);
+  
+  return ( (msb<<8) + lsb);
 }
 
-uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte){
-  return ( (extByte<<16) + (highByte<<8) + lowByte);
+uint32_t getBigEndianExt(uint8_t *bytes){
+  uint8_t extB = *bytes;
+  uint8_t msb  = GET_BYTE(bytes);
+  uint8_t lsb  = GET_BYTE(bytes);
+  return ( (extB<<16) + (msb<<8) + lsb);
 }
 
-void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t word){
-  *mostByte  = word >> 8;
-  *leastByte = word & 0x00FF;
+void setBigEndianWord(uint8_t *bytes, uint16_t word){
+  uint8_t *msb =  bytes;
+  uint8_t *lsb =  ++bytes;
+  
+  *msb = word >> 8;
+  *lsb = word & 0x00FF;
 }
 
-void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t extend){
-  *extByte  = extend >> 16;
-  *highByte = extend >> 8;
-  *lowByte  = extend & 0x00FF;
+void setBigEndianExt(uint8_t *bytes, uint32_t extend){
+  uint8_t *ext =  bytes;
+  uint8_t *msb =  ++bytes;
+  uint8_t *lsb =  ++bytes;
+  
+  *ext = extend >> 16;
+  *msb = extend >> 8;
+  *lsb = extend & 0x00FF;
 }
 
 
@@ -34,12 +48,12 @@ void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
 
 void sp_decrement(void){
   uint16_t stack = SP;
-  setBigEndianWord(&SPH, &SPL, --stack);
+  setBigEndianWord(&SPH, --stack);
 }
 
 void sp_increment(void){
   uint16_t stack = SP;
-  setBigEndianWord(&SPH, &SPL, ++stack);  
+  setBigEndianWord(&SPH, ++stack);  
 }
 
 void mcu_push(uint8_t value){
@@ -74,9 +88,9 @@ void mcu_add(uint8_t value){
 }
 
 void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value){
-  uint16_t a  = getBigEndianWord(*mostByte, *leastByte);
+  uint16_t a  = getBigEndianWord(mostByte);
   uint16_t result = a + value;
-  setBigEndianWord( mostByte, leastByte, result);
+  setBigEndianWord( mostByte, result);
 
   N = R15;
   Z = (result == 0 ? 1 : 0);

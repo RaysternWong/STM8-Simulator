@@ -32,18 +32,18 @@
 #define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2)
 #define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
 
-#define SET_X(word)  setBigEndianWord(&XH, &XL, word)
-#define SET_Y(word)  setBigEndianWord(&YH, &YL, word)
-#define SET_SP(word)  setBigEndianWord(&SPH, &SPL, word)
+#define SET_X(word)        setBigEndianWord(&XH, word)
+#define SET_Y(word)        setBigEndianWord(&YH, word)
+#define SET_SP(word)       setBigEndianWord(&SPH, word)
+#define SET_PC_WORD(word)  setBigEndianWord(&PCH, word)
 
-#define SET_PC_WORD(word)  setBigEndianWord(&PCH, &PCL, word)
-#define SET_PC(word)        setBigEndianExt(&PCE, &PCH, &PCL, word)
+#define SET_PC(extend)       setBigEndianExt(&PCE, extend)
 
-#define X   getBigEndianWord(XH, XL)
-#define Y   getBigEndianWord(YH, YL)
-#define SP  getBigEndianWord(SPH, SPL)
-#define PC_WORD  getBigEndianWord(PCH, PCL)
-#define PC       getBigEndianExt(PCE, PCH, PCL)
+#define X   getBigEndianWord(&XH)
+#define Y   getBigEndianWord(&YH)
+#define SP  getBigEndianWord(&SPH)
+#define PC_WORD  getBigEndianWord(&PCH)
+#define PC       getBigEndianExt(&PCE)
 
 #define NEXT_OPCODE  *(++opcode) 
 
@@ -149,11 +149,11 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte);
-uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
+uint16_t getBigEndianWord(uint8_t *bytes);
+uint32_t getBigEndianExt(uint8_t *bytes);
 
-void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t word);
-void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t extend);
+void setBigEndianWord(uint8_t *bytes, uint16_t word);
+void setBigEndianExt(uint8_t *bytes, uint32_t extend);
 
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);

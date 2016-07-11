@@ -28,6 +28,19 @@ MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
   return mb;
 }
 
+
+/*
+
+MemoryBlock *createMemoryBlock( uint32_t *startAddr, uint32_t size){
+  MemoryBlock *mb = malloc( sizeof(MemoryBlock));
+  mb->startAddr =  startAddr;
+  mb->size = size;
+  mb->data = malloc(size );
+  return mb;
+}
+
+*/
+
 uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data)
 {
 

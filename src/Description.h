@@ -4,9 +4,13 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
+
+#define GET_BYTE(p)  ( *(++p) ) 
+
+
+
+
 //Short
-
-
 uint8_t  getShortmemSrc(uint8_t *opcode);
 
 uint8_t   getShortOffX(uint8_t *opcode);
