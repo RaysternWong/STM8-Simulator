@@ -18,11 +18,16 @@
 void setUp(void)
 {
   instantiateCPU();
+  
+  // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose (FFFF / 100 = FF)
+  ramBlock = createMemoryBlock(0x0000 , 0xFFFF);
+  setMemoryTable( ramMemory , 0 , 0xFFFF); 
 }
 
 void tearDown(void)
 {
    free(cpu);
+   free(ramBlock);
 }
 
 //Assembly : #byte | ADD A,#$55
@@ -44,7 +49,7 @@ void test_add_a_shortmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_r
   uint8_t addr    = 0xAD;
   uint8_t instr[] = {0XBB, addr};
   
-  writeValueToTheAddress( addr,  0x05);
+  MEM_WRITE_BYTE( addr,  0x05);
   
   int length = add_a_shortmem(instr);
   TEST_ASSERT_EQUAL_INT8(0x06, A);
@@ -60,7 +65,7 @@ void test_add_a_longmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_re
   
   uint8_t instr[] = {0XBB, addrMSB, addrLSB};
   
-  writeValueToTheAddress( 0x1101,  0x05);
+  MEM_WRITE_BYTE( 0x1101,  0x05);
   
   int length = add_a_longmem(instr);
   TEST_ASSERT_EQUAL_INT8(0x06, A);
@@ -75,7 +80,7 @@ void test_add_a_x_given_A_0x01_address_contain_0x07_should_get0x08_and_return_1(
   XL = 0X2B;
   uint8_t instr[] = {0XFB};
 
-  writeValueToTheAddress( 0X102B ,  0x07);
+  MEM_WRITE_BYTE( 0X102B ,  0x07);
   
   int length = add_a_x(instr);
   TEST_ASSERT_EQUAL_INT8(0x08, A);
@@ -90,7 +95,7 @@ void test_add_a_shortoff_x_given_A_0x01_address_contain_0x02_should_get0x03_and_
   XL = 0X11;
   uint8_t instr[] = {0XFB, 0X11};
   
-  writeValueToTheAddress( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
+  MEM_WRITE_BYTE( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
   
   int length = add_a_shortoff_x(instr);
   
@@ -106,7 +111,7 @@ void test_add_a_longoff_x_given_A_0x01_address_contain_0x04_should_get0x05_and_r
   XL = 0X11;
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   
-  writeValueToTheAddress( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
+  MEM_WRITE_BYTE( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
   
   int length = add_a_longoff_x(instr);
   
@@ -122,7 +127,7 @@ void test_add_a_y_given_A_0x01_address_contain_0x02_should_get0x03_and_return_2(
   YL = 0X2B;
   uint8_t instr[] = {0XFB};
 
-  writeValueToTheAddress( 0X102B ,  0x02);
+  MEM_WRITE_BYTE( 0X102B ,  0x02);
   
   int length = add_a_y(instr);
   TEST_ASSERT_EQUAL_INT8(0x03, A);
@@ -137,7 +142,7 @@ void test_add_a_shortoff_y_given_A_0x01_address_contain_0x03_should_get0x04_and_
   YL = 0X11;
   uint8_t instr[] = {0XFB, 0X11};
   
-  writeValueToTheAddress( 0X2B22 ,  0x03);  //0x2B11 + 0X11 = 0X2B22
+  MEM_WRITE_BYTE( 0X2B22 ,  0x03);  //0x2B11 + 0X11 = 0X2B22
   
   int length = add_a_shortoff_y(instr);
   
@@ -153,7 +158,7 @@ void test_add_a_longoff_y_given_A_0x01_address_contain_0x07_should_get0x08_and_r
   YL = 0X11;
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   
-  writeValueToTheAddress( 0X3c22 ,  0x07);  //0x2B11 + 0X1111 = 0X3c22
+  MEM_WRITE_BYTE( 0X3c22 ,  0x07);  //0x2B11 + 0X1111 = 0X3c22
   
   int length = add_a_longoff_y(instr);
   
@@ -169,7 +174,7 @@ void test_add_a_shortoff_sp_given_A_0x01_address_contain_0x02_should_get0x03_and
   SPL = 0X11;
   uint8_t instr[] = {0XFB, 0X11};
   
-  writeValueToTheAddress( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
+  MEM_WRITE_BYTE( 0X2B22 ,  0x02);  //0x2B11 + 0X11 = 0X2B22
   
   int length = add_a_shortoff_sp(instr);
   
@@ -185,9 +190,9 @@ void test_add_a_shortptr_w_given_A_0x01_address_contain_0x04_should_get0x05_and_
 
   uint8_t instr[] = {0XFB, 0X13};
   
-  writeValueToTheAddress( 0X13 , 0xAA);  
-  writeValueToTheAddress( 0X14 , 0xBB);  
-  writeValueToTheAddress( 0xAABB , 0x04);  
+  MEM_WRITE_BYTE( 0X13 , 0xAA);  
+  MEM_WRITE_BYTE( 0X14 , 0xBB);  
+  MEM_WRITE_BYTE( 0xAABB , 0x04);  
   
   int length = add_a_shortptr_w(instr);
   
@@ -203,9 +208,9 @@ void test_add_a_longptr_w_given_A_0x01_address_contain_0x09_should_get0x0A_and_r
 
   uint8_t instr[] = {0XFB, 0X13, 0X15};
   
-  writeValueToTheAddress( 0X1315 , 0xAA);  
-  writeValueToTheAddress( 0X1316 , 0xBB);  
-  writeValueToTheAddress( 0xAABB , 0x09);  
+  MEM_WRITE_BYTE( 0X1315 , 0xAA);  
+  MEM_WRITE_BYTE( 0X1316 , 0xBB);  
+  MEM_WRITE_BYTE( 0xAABB , 0x09);  
   
   int length = add_a_longptr_w(instr);
   
@@ -224,9 +229,9 @@ void test_add_a_shortptr_w_x_given_A_0x01_address_contain_0x05_should_get0x06_an
 
   uint8_t instr[] = {0XFB, 0X13};
   
-  writeValueToTheAddress( 0X13 , 0x11);  
-  writeValueToTheAddress( 0X14 , 0x11);  
-  writeValueToTheAddress( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
+  MEM_WRITE_BYTE( 0X13 , 0x11);  
+  MEM_WRITE_BYTE( 0X14 , 0x11);  
+  MEM_WRITE_BYTE( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
   int length = add_a_shortptr_w_x(instr);
   
@@ -245,9 +250,9 @@ void test_add_a_longptr_w_x_given_A_0x01_address_contain_0x02_should_get0x03_and
 
   uint8_t instr[] = {0XFB, 0X13, 0X00};
   
-  writeValueToTheAddress( 0X1300 , 0xAA);  
-  writeValueToTheAddress( 0X1301 , 0xBB);  
-  writeValueToTheAddress( 0xAACC , 0x02);  // 0XAABB + 0X11 = 0XAACC
+  MEM_WRITE_BYTE( 0X1300 , 0xAA);  
+  MEM_WRITE_BYTE( 0X1301 , 0xBB);  
+  MEM_WRITE_BYTE( 0xAACC , 0x02);  // 0XAABB + 0X11 = 0XAACC
   
   int length = add_a_longptr_w_x(instr);
   
@@ -266,9 +271,9 @@ void test_add_a_shortptr_w_y_given_A_0x01_address_contain_0x05_should_get0x06_an
 
   uint8_t instr[] = {0XFB, 0X13};
   
-  writeValueToTheAddress( 0X13 , 0x11);  
-  writeValueToTheAddress( 0X14 , 0x11);  
-  writeValueToTheAddress( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
+  MEM_WRITE_BYTE( 0X13 , 0x11);  
+  MEM_WRITE_BYTE( 0X14 , 0x11);  
+  MEM_WRITE_BYTE( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
   int length = add_a_shortptr_w_y(instr);
   

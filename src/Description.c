@@ -5,7 +5,75 @@
 #include "Memory.h"
 #include "MCU_Operation.h"
 
+//Short
 
+
+
+uint8_t  getShortmemSrc(uint8_t *opcode){
+  opcode++;
+  uint8_t src = MEM_READ_BYTE(*opcode);
+  return src;
+}
+
+uint8_t getShortOffX(uint8_t *opcode){
+  uint16_t     x = X + NEXT_OPCODE;
+  uint8_t  value = MEM_READ_BYTE(x);
+  return value;
+}
+
+uint8_t getShortOffY(uint8_t *opcode){
+  uint16_t     y = Y + NEXT_OPCODE;
+  uint8_t  value = MEM_READ_BYTE(y);
+  return value;  
+}
+
+uint8_t getShortOffSP(uint8_t *opcode){
+  uint16_t     sp = SP + NEXT_OPCODE;
+  uint8_t  value = MEM_READ_BYTE(sp);
+  return value;  
+}
+
+uint16_t getShortW(uint8_t *opcode){
+  opcode++;
+  uint8_t  msb =  MEM_READ_BYTE( *opcode );
+  uint8_t  lsb =  MEM_READ_BYTE( *opcode + 1 );
+  
+  uint16_t shortW = getBigEndianWord( msb , lsb);  
+  
+  // printf("%x\n", msb );
+  // printf("%x\n", lsb );
+  return shortW;
+}
+uint8_t getShortPtrW(uint8_t *opcode){
+  uint16_t shortW = getShortW(opcode); 
+  uint8_t  value  = MEM_READ_BYTE(shortW); 
+  
+  // printf("%x\n", shortW );
+  // printf("%x\n", value );
+  return value;    
+}
+
+uint8_t getShortPtrX(uint8_t *opcode){
+  uint16_t shortW = getShortW(opcode);
+  uint16_t      x = X + shortW; 
+  uint8_t   value = MEM_READ_BYTE(x);  
+  
+  //printf("%x\n", x );
+  return value;   
+}
+
+uint8_t getShortPtrY(uint8_t *opcode){
+  uint16_t shortW = getShortW(opcode);
+  uint16_t      y = Y + shortW; 
+  uint8_t   value = MEM_READ_BYTE(y);  
+  return value;   
+}
+
+//Long
+
+
+
+//Extend
 
 uint16_t getlongmem(uint8_t *opcode){
   uint8_t      msb = NEXT_OPCODE;
@@ -30,11 +98,7 @@ uint8_t getValueHoldByLongmem(uint8_t *opcode){
 }
 
 
-uint8_t getShortOffX(uint8_t *opcode){
-  uint16_t     x = X + NEXT_OPCODE;
-  uint8_t  value = MEM_READ_BYTE(x);
-  return value;
-}
+
 
 uint8_t getLongOffX(uint8_t *opcode){
   uint16_t longOff = getlongmem(opcode);
@@ -46,12 +110,7 @@ uint8_t getLongOffX(uint8_t *opcode){
   return value;  
 }
 
-uint8_t getShortOffY(uint8_t *opcode){
-  uint16_t     y = Y + NEXT_OPCODE;
-  uint8_t  value = MEM_READ_BYTE(y);
-  return value;  
-  
-}
+
 
 uint8_t getLongOffY(uint8_t *opcode){
   uint16_t longOff = getlongmem(opcode);
@@ -60,26 +119,9 @@ uint8_t getLongOffY(uint8_t *opcode){
   return value;  
 }
 
-uint16_t getShortW(uint8_t *opcode){
-  opcode++;
-  uint8_t  msb =  MEM_READ_BYTE( *opcode );
-  uint8_t  lsb =  MEM_READ_BYTE( *opcode + 1 );
-  
-  uint16_t shortW = getBigEndianWord( msb , lsb);  
-  
-  // printf("%x\n", msb );
-  // printf("%x\n", lsb );
-  return shortW;
-}
 
-uint8_t getShortPtr(uint8_t *opcode){
-  uint16_t shortW = getShortW(opcode); 
-  uint8_t  value  = MEM_READ_BYTE(shortW); 
-  
-  // printf("%x\n", shortW );
-  // printf("%x\n", value );
-  return value;    
-}
+
+
 
 uint16_t getLongW(uint8_t *opcode){
   uint16_t longmem = getlongmem(opcode);
@@ -123,12 +165,6 @@ uint8_t getLongPtrE(uint8_t *opcode){
   return value;  
 }
 
-uint8_t getShortPtrX(uint8_t *opcode){
-  uint16_t shortW = getShortW(opcode);
-  uint16_t      x = X + shortW; 
-  uint8_t   value = MEM_READ_BYTE(x);  
-  return value;   
-}
 
 uint8_t getLongPtrX(uint8_t *opcode){
   uint16_t longW = getLongW(opcode);
@@ -138,13 +174,7 @@ uint8_t getLongPtrX(uint8_t *opcode){
   
 }
 
-uint8_t getShortPtrY(uint8_t *opcode){
-  uint16_t shortW = getShortW(opcode);
-  uint16_t      y = Y + shortW; 
-  uint8_t   value = MEM_READ_BYTE(y);  
-  return value;   
-  
-}
+
 
 void setValueHoldByLongmem(uint8_t *opcode, uint8_t value){
   uint16_t longmem = getlongmem(opcode);
