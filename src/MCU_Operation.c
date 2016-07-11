@@ -4,25 +4,25 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
+uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte){
+  return ( (mostByte<<8) + leastByte);
+}
 
 uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte){
   return ( (extByte<<16) + (highByte<<8) + lowByte);
 }
 
-uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte){
-  return ( (mostByte<<8) + leastByte);
+void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t word){
+  *mostByte  = word >> 8;
+  *leastByte = word & 0x00FF;
 }
 
-void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t fullByte){
-  *extByte  = fullByte >> 16;
-  *highByte  = fullByte >> 8;
-  *lowByte = fullByte & 0x00FF;
+void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t extend){
+  *extByte  = extend >> 16;
+  *highByte = extend >> 8;
+  *lowByte  = extend & 0x00FF;
 }
 
-void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
-  *mostByte  = fullByte >> 8;
-  *leastByte = fullByte & 0x00FF;
-}
 
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
   *mostByte  = fullByte >> 8;

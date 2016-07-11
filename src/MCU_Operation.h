@@ -148,10 +148,13 @@
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
+
 uint16_t getBigEndianWord(uint8_t mostByte, uint8_t leastByte);
-void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t fullByte);
-void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
+uint32_t getBigEndianExt(uint8_t extByte, uint8_t highByte, uint8_t lowByte);
+
+void setBigEndianWord(uint8_t *mostByte, uint8_t *leastByte, uint16_t word);
+void setBigEndianExt(uint8_t *extByte, uint8_t *highByte, uint8_t *lowByte, uint32_t extend);
+
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 
