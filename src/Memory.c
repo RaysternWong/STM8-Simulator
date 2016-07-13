@@ -43,7 +43,6 @@ MemoryBlock *createMemoryBlock( uint32_t *startAddr, uint32_t size){
 
 uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data)
 {
-
   if(mode == MEM_WRITE){
     ramBlock->data[address] = data;
   }

@@ -9,13 +9,12 @@
 
 
 
-uint8_t  getShortmemSrc(uint8_t *opcode){
-  opcode++;
-  uint8_t src = MEM_READ_BYTE(*opcode);
-  return src;
+uint8_t  getShortMemSrc(uint8_t *opcode){
+  uint8_t  shortMem = GET_BYTE(opcode);
+  return MEM_READ_BYTE(shortMem);
 }
 
-uint8_t getShortOffX(uint8_t *opcode){
+uint8_t getShortOffXSrc(uint8_t *opcode){
   uint16_t     x = X + NEXT_OPCODE;
   uint8_t  value = MEM_READ_BYTE(x);
   return value;
@@ -34,11 +33,9 @@ uint8_t getShortOffSP(uint8_t *opcode){
 }
 
 uint16_t getShortW(uint8_t *opcode){
-  opcode++;
-  uint8_t  msb =  MEM_READ_BYTE( *opcode );
-  uint8_t  lsb =  MEM_READ_BYTE( *opcode + 1 );
-  
-  uint16_t shortW = getBigEndianWord( msb , lsb);  
+ 
+
+  uint16_t shortW = getBigEndianWord( opcode);  
   
   // printf("%x\n", msb );
   // printf("%x\n", lsb );
@@ -72,9 +69,8 @@ uint8_t getShortPtrY(uint8_t *opcode){
 //Long
 
 uint16_t getlongmem(uint8_t *opcode){
-  uint8_t      msb = NEXT_OPCODE;
-  uint8_t      lsb = NEXT_OPCODE;
-  uint16_t longmem = getBigEndianWord( msb , lsb );
+
+  uint16_t longmem = getBigEndianWord( opcode );
   return longmem;
 }
 
@@ -89,10 +85,9 @@ uint8_t getlongmemSrc(uint8_t *opcode){
 
 
 uint32_t getExtmem(uint8_t *opcode){
-  uint8_t      ext = NEXT_OPCODE;
-  uint8_t      msb = NEXT_OPCODE;
-  uint8_t      lsb = NEXT_OPCODE;
-  uint32_t extmem  = getBigEndianExt( ext, msb , lsb );
+
+
+  uint32_t extmem  = getBigEndianExt( opcode );
   return extmem;
 }
 
@@ -126,33 +121,33 @@ uint8_t getLongOffY(uint8_t *opcode){
 
 
 uint16_t getLongW(uint8_t *opcode){
-  uint16_t longmem = getlongmem(opcode);
-  uint16_t longmem_plus1 = longmem + 1;
+  // uint16_t longmem = getlongmem(opcode);
+  // uint16_t longmem_plus1 = longmem + 1;
 
 
-  uint8_t  msb = MEM_READ_BYTE( longmem);
-  uint8_t  lsb = MEM_READ_BYTE( longmem_plus1 );
+  // uint8_t  msb = MEM_READ_BYTE( longmem);
+  // uint8_t  lsb = MEM_READ_BYTE( longmem_plus1 );
   
-  uint16_t longW = getBigEndianWord( msb , lsb); 
+  // uint16_t longW = getBigEndianWord( msb , lsb); 
   
   // printf("%x\n", msb );
   // printf("%x\n", lsb );
-  return longW;
+  //return longW;
 }
 
 uint32_t getLongE(uint8_t *opcode){
-  uint16_t longmem = getlongmem(opcode);
-  uint16_t longmem_plus1 = longmem + 1;
-  uint16_t longmem_plus2 = longmem + 2;
+  // uint16_t longmem = getlongmem(opcode);
+  // uint16_t longmem_plus1 = longmem + 1;
+  // uint16_t longmem_plus2 = longmem + 2;
 
 
-  uint8_t  ext = MEM_READ_BYTE( longmem);
-  uint8_t  msb = MEM_READ_BYTE( longmem_plus1 );
-  uint8_t  lsb = MEM_READ_BYTE( longmem_plus2 );
+  // uint8_t  ext = MEM_READ_BYTE( longmem);
+  // uint8_t  msb = MEM_READ_BYTE( longmem_plus1 );
+  // uint8_t  lsb = MEM_READ_BYTE( longmem_plus2 );
   
-  uint32_t longE = getBigEndianExt( ext, msb , lsb); 
+  // uint32_t longE = getBigEndianExt( ext, msb , lsb); 
   
-  return longE;
+  // return longE;
 }
 
 uint8_t getLongPtr(uint8_t *opcode){

@@ -3,19 +3,24 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include <stdio.h>
 
 
-#define GET_BYTE(p)  ( *(++p) ) 
+#define GET_BYTE(p)            ( *(++p) ) 
+#define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE( *( GET_BYTE(p) ) )  
+
+
+#define GET_SHORT_OFF_X(p)   (X + GET_BYTE(p) )
 
 
 
 
 //Short
-uint8_t  getShortmemSrc(uint8_t *opcode);
+uint8_t   getShortMemSrc(uint8_t *opcode);
 
-uint8_t   getShortOffX(uint8_t *opcode);
-uint8_t   getShortOffY(uint8_t *opcode);
-uint8_t   getShortOffSP(uint8_t *opcode);
+uint8_t   getShortOffXSrc(uint8_t *opcode);
+uint8_t   getShortOffYSrc(uint8_t *opcode);
+uint8_t   getShortOffSPSrc(uint8_t *opcode);
 uint16_t  getShortW   (uint8_t *opcode);
 uint8_t   getShortPtrW(uint8_t *opcode);
 uint8_t   getShortPtrX(uint8_t *opcode);

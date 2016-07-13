@@ -5,6 +5,12 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
+
+void qqqqq(uint8_t one, uint8_t two, uint8_t three){
+  
+}
+
+
 uint16_t getBigEndianWord(uint8_t *bytes){
   uint8_t msb = *bytes;
   uint8_t lsb = GET_BYTE(bytes);

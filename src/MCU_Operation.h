@@ -47,6 +47,7 @@
 
 #define NEXT_OPCODE  *(++opcode) 
 
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -152,9 +153,9 @@
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
 
+
 void setBigEndianWord(uint8_t *bytes, uint16_t word);
 void setBigEndianExt(uint8_t *bytes, uint32_t extend);
-
 void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 
