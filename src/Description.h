@@ -25,6 +25,9 @@
 #define GET_LONG_PTR_E(p)   getBigEndianExtFromAddress(GET_LONG_MEM(p)) 
 #define GET_LONG_PTR_W_X(p)   X + getBigEndianWordFromAddress(GET_LONG_MEM(p)) 
 
+
+#define GET_EXT_MEM(p)     getBigEndianExt(++p)
+
 //Short
 uint8_t   getShortMemSrc(uint8_t *opcode);
 

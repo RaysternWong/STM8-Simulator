@@ -15,7 +15,7 @@ JP ([$1234.w],X) PC ← M(longmem).w + X
 */
 
 
-uint8_t value;
+
 void setUp(void)
 {
   instantiateCPU();
@@ -23,12 +23,6 @@ void setUp(void)
   // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose 
   ramBlock = createMemoryBlock(0x0000 , 0xFFFF);
   setMemoryTable( ramMemory , 0 , 0xFFFF); 
-  
-  
-  PCH = 0x33;
-  PCL = 0x44;
-  
-  value = 0xEE;
 }
 
 void tearDown(void)
