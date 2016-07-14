@@ -9,6 +9,9 @@ uint16_t getBigEndianWord(uint8_t *bytes){
   uint8_t msb = *bytes;
   uint8_t lsb = GET_BYTE(bytes);
   
+  // printf("%x\n",msb);
+  // printf("%x\n",lsb);
+  
   return ( (msb<<8) + lsb);
 }
 

@@ -56,87 +56,134 @@ void test_GET_SHORT_OFF_X(void){
   TEST_ASSERT_EQUAL_INT16(0X2B22, GET_SHORT_OFF_X(opcode));
 }
 
-// void test_getShortOffX(void){
+void test_GET_SHORT_OFF_Y(void){
 
-  // SET_X(0x2B11);
-  // uint8_t instr[] = {0XFB, 0X11};
+  SET_Y(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11};
+  uint8_t *opcode = instr;
   
-  // MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
-  
-  // uint8_t src = getShortOffX( instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src);
-// }
+  //0x2B11 + 0X11 = 0X2B22
+  TEST_ASSERT_EQUAL_INT16(0X2B22, GET_SHORT_OFF_Y(opcode));
+}
 
-// void test_getShortOffSP(void){
+void test_GET_SHORT_OFF_SP(void){
 
-  // SET_SP(0x2B11);
-  // uint8_t instr[] = {0XFB, 0X11};
+  SET_SP(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11};
+  uint8_t *opcode = instr;
   
-  // MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
-  
-  // uint8_t src = getShortOffSP( instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src);
-// }
+  //0x2B11 + 0X11 = 0X2B22
+  TEST_ASSERT_EQUAL_INT16(0X2B22, GET_SHORT_OFF_SP(opcode));
+}
 
-// void test_getShortOffY(void){
+void test_getShortOffXSrc(void){
 
-  // SET_Y(0x2B11);
-  // uint8_t instr[] = {0XFB, 0X11};
+  SET_X(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11};
   
-  // MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
+  MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
   
-  // uint8_t src = getShortOffY( instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src);
-// }
+  uint8_t src = getShortOffXSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src);
+}
 
-// void test_getShortW(void){
+void test_getShortOffYSrc(void){
 
-  // uint8_t instr[] = {0XFB, 0X11}; 
+  SET_Y(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11};
   
-  // MEM_WRITE_BYTE( 0x11 ,  0xAA);  
-  // MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
   
-  // uint16_t word = getShortW( instr);
-  // TEST_ASSERT_EQUAL_INT16(0xAABB, word); 
-// }
+  uint8_t src = getShortOffYSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src);
+}
 
-// void test_getShortPtrW(void){
+void test_getShortOffSPSrc(void){
 
-  // uint8_t instr[] = {0XFB, 0X11}; 
+  SET_SP(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11};
   
-  // MEM_WRITE_BYTE( 0x11 ,  0xAA);  
-  // MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  MEM_WRITE_BYTE( 0X2B22 ,  value);  //0x2B11 + 0X11 = 0X2B22
   
-  // MEM_WRITE_BYTE( 0xAABB ,  value);  
-  
-  // uint8_t src = getShortPtrW(instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src); 
-// }
+  uint8_t src = getShortOffSPSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src);
+}
 
-// void test_getShortPtrX(void){
+void test_GET_SHORT_PTR_W(void){
 
-  // SET_X(0x2B11);
-  // uint8_t instr[] = {0XFB, 0X11}; 
+  uint8_t instr[] = {0XFB, 0X11};
+  uint8_t *opcode = instr;  
   
-  // MEM_WRITE_BYTE( 0x11 ,  0xAA);  
-  // MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
   
-  // MEM_WRITE_BYTE( 0xd5cc ,  value);  //2b11 + aabb = d5cc
-  
-  // uint8_t src = getShortPtrX(instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src); 
-// }
+  uint16_t word = GET_SHORT_PTR_W(opcode);
+  TEST_ASSERT_EQUAL_INT16(0xAABB, word); 
+}
 
-// void test_getShortPtrY(void){
+void test_getShortPtrWSrc(void){
 
-  // SET_Y(0x2B11);
-  // uint8_t instr[] = {0XFB, 0X11}; 
+  uint8_t instr[] = {0XFB, 0X11}; 
   
-  // MEM_WRITE_BYTE( 0x11 ,  0xAA);  
-  // MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
   
-  // MEM_WRITE_BYTE( 0xd5cc ,  value);  //2b11 + aabb = d5cc
+  MEM_WRITE_BYTE( 0xAABB ,  value);  
   
-  // uint8_t src = getShortPtrY(instr);
-  // TEST_ASSERT_EQUAL_INT8(value, src); 
-// }
+  uint8_t src = getShortPtrWSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src); 
+}
+
+void test_GET_SHORT_PTR_W_X(void){
+
+  SET_X(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11}; 
+  uint8_t *opcode = instr;
+  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  
+  //2b11 + aabb = d5cc
+  TEST_ASSERT_EQUAL_INT16(0xd5cc, GET_SHORT_PTR_W_X(opcode)); 
+}
+
+void test_GET_SHORT_PTR_W_Y(void){
+
+  SET_Y(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11}; 
+  uint8_t *opcode = instr;
+  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  
+  //2b11 + aabb = d5cc
+  TEST_ASSERT_EQUAL_INT16(0xd5cc, GET_SHORT_PTR_W_Y(opcode)); 
+}
+
+void test_getShortPtrWXSrc(void){
+
+  SET_X(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11}; 
+  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  
+  MEM_WRITE_BYTE( 0xd5cc ,  value);  //2b11 + aabb = d5cc
+  
+  uint8_t src = getShortPtrWXSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src); 
+}
+
+void test_getShortPtrWYSrc(void){
+
+  SET_Y(0x2B11);
+  uint8_t instr[] = {0XFB, 0X11}; 
+  
+  MEM_WRITE_BYTE( 0x11 ,  0xAA);  
+  MEM_WRITE_BYTE( 0x12 ,  0xBB);  
+  
+  MEM_WRITE_BYTE( 0xd5cc ,  value);  //2b11 + aabb = d5cc
+  
+  uint8_t src = getShortPtrWYSrc(instr);
+  TEST_ASSERT_EQUAL_INT8(value, src); 
+}

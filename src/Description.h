@@ -8,12 +8,22 @@
 
 #define GET_BYTE(p)            ( *(++p) ) 
 #define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE( *( GET_BYTE(p) ) )  
-
+//  MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 
 #define GET_SHORT_OFF_X(p)   (X + GET_BYTE(p) )
+#define GET_SHORT_OFF_Y(p)   (Y + GET_BYTE(p) )
+#define GET_SHORT_OFF_SP(p)  (SP + GET_BYTE(p) )
+#define GET_SHORT_PTR_W(p)   ( getBigEndianWordFromAddress(GET_BYTE(p)) )
+#define GET_SHORT_PTR_W_X(p)  ( X + GET_SHORT_PTR_W(p) )
+#define GET_SHORT_PTR_W_Y(p)  ( Y + GET_SHORT_PTR_W(p) )
 
 
-
+#define GET_LONG_MEM(p)     getBigEndianWord(++p)
+#define GET_LONG_OFF_X(p)   X + GET_LONG_MEM(p) 
+#define GET_LONG_OFF_Y(p)   Y + GET_LONG_MEM(p) 
+#define GET_LONG_PTR_W(p)   getBigEndianWordFromAddress(GET_LONG_MEM(p)) 
+#define GET_LONG_PTR_E(p)   getBigEndianExtFromAddress(GET_LONG_MEM(p)) 
+#define GET_LONG_PTR_W_X(p)   X + getBigEndianWordFromAddress(GET_LONG_MEM(p)) 
 
 //Short
 uint8_t   getShortMemSrc(uint8_t *opcode);
@@ -21,24 +31,21 @@ uint8_t   getShortMemSrc(uint8_t *opcode);
 uint8_t   getShortOffXSrc(uint8_t *opcode);
 uint8_t   getShortOffYSrc(uint8_t *opcode);
 uint8_t   getShortOffSPSrc(uint8_t *opcode);
-uint16_t  getShortW   (uint8_t *opcode);
-uint8_t   getShortPtrW(uint8_t *opcode);
-uint8_t   getShortPtrX(uint8_t *opcode);
-uint8_t   getShortPtrY(uint8_t *opcode);
+uint8_t   getShortPtrWSrc(uint8_t *opcode);
+uint8_t   getShortPtrWXSrc(uint8_t *opcode);
+uint8_t   getShortPtrWYSrc(uint8_t *opcode);
 
 
 
 //Long
-uint16_t  getlongmem(uint8_t *opcode);
-uint8_t   getlongmemSrc(uint8_t *opcode);
-uint8_t   getLongOffX(uint8_t *opcode);
-uint8_t   getLongOffY(uint8_t *opcode);
-uint8_t   getLongPtr(uint8_t *opcode);
-uint16_t  getLongW(uint8_t *opcode);
-uint8_t   getLongPtrX(uint8_t *opcode);
 
-uint32_t  getLongE(uint8_t *opcode);
-uint8_t   getLongPtrE(uint8_t *opcode);
+uint8_t   getLongMemSrc(uint8_t *opcode);
+uint8_t   getLongOffXSrc(uint8_t *opcode);
+uint8_t   getLongOffYSrc(uint8_t *opcode);
+uint8_t   getLongPtrWSrc(uint8_t *opcode);
+uint8_t   getLongPtrWXSrc(uint8_t *opcode);
+
+
 
 //Extend
 
