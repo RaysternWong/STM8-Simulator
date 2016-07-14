@@ -28,9 +28,10 @@
 #define C   ((cpu->ccr).bits.c)   //carry
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1)
-#define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2)
-#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
+#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
+#define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2, 0)
+#define MEM_READ_EXT(addr)   memoryTable[addr/0x100](MEM_READ, addr, 3, 0)
+#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 0, data)
 
 #define SET_X(word)        setBigEndianWord(&XH, word)
 #define SET_Y(word)        setBigEndianWord(&YH, word)
@@ -150,8 +151,12 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
+
+uint16_t getBigEndianWordFromAddress(uint32_t address);
+uint32_t getBigEndianExtFromAddress(uint32_t address);
 
 
 void setBigEndianWord(uint8_t *bytes, uint16_t word);

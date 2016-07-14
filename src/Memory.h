@@ -51,7 +51,7 @@ typedef struct{
   //uint8_t   data[0];
 }MemoryBlock;
 
-typedef uint8_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size);
+typedef uint32_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size, uint8_t data);
 
 MemoryMap memoryTable[0x280] ;
 
@@ -60,11 +60,15 @@ extern MemoryBlock *cpuBlock;
 extern MemoryBlock *flashBlock;
 
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
-uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data);
-uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data);
-uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data);
 
-void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), uint32_t start, uint32_t end);
+uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
+
+CPU_t *createCPU(void);
+void clearConditionCodeRegister(Flag *ccR);
 
 #endif // Memory_H
 

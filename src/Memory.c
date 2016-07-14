@@ -3,10 +3,20 @@
 #include <stdio.h>
 #include <malloc.h>
 #include "CPUConfig.h"
+#include "MCU_Operation.h"
+#include "Description.h"
 
-MemoryBlock *ramBlock;
-MemoryBlock *cpuBlock;
-MemoryBlock *flashBlock;
+CPU_t *cpu;
+
+MemoryBlock *ramBlock, *cpuBlock, *flashBlock;
+
+void instantiateCPU(void)
+{
+  cpu = malloc( sizeof(CPU_t) );
+}
+
+
+
 
 MemoryMap memoryTable[0x280] = {
 
@@ -32,7 +42,7 @@ MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
 /*
 
 MemoryBlock *createMemoryBlock( uint32_t *startAddr, uint32_t size){
-  MemoryBlock *mb = malloc( sizeof(MemoryBlock));
+  MemoryBlock *mb = malloc( 400 + sizeof(MemoryBlock));
   mb->startAddr =  startAddr;
   mb->size = size;
   mb->data = malloc(size );
@@ -41,18 +51,25 @@ MemoryBlock *createMemoryBlock( uint32_t *startAddr, uint32_t size){
 
 */
 
-uint8_t ramMemory(Mode mode, uint32_t address, uint8_t data)
+uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 {
+  if(mode == MEM_READ){
+    if(size == 1)  
+      return ( RAM_ARR(address) );
+    if(size == 2)  
+      return ( getBigEndianWordFromAddress(address) );
+    return ( getBigEndianExtFromAddress(address) );
+  }
+  
+  
   if(mode == MEM_WRITE){
     ramBlock->data[address] = data;
   }
   
-  if(mode == MEM_READ){
-    return ( RAM_ARR(address) );
-  }
+
 }
 
-uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data)
+uint32_t cpuMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 {
   if(mode == MEM_WRITE){
     cpuBlock->data[address-CPU_START_ADDR] = data;
@@ -63,14 +80,14 @@ uint8_t cpuMemory(Mode mode, uint32_t address, uint8_t data)
   }
 }
 
-uint8_t eepromMemory(Mode mode, uint32_t address, uint8_t data)
+uint32_t eepromMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 {
   if(mode == MEM_READ){
     return ( flashBlock->data[address-EEPROM_START_ADDR] );
   }
 }
 
-void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t data), uint32_t start, uint32_t end)
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end)
 {
   int i;
   start /= 0x100;
@@ -80,5 +97,15 @@ void setMemoryTable(uint8_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t d
     memoryTable[i] = memoryFunc;
 }
 
-
+void clearConditionCodeRegister(Flag *ccR)
+{
+  ccR->full = 0;
+  (ccR->bits).v  = 0;
+  (ccR->bits).l1 = 0;
+  (ccR->bits).h  = 0;
+  (ccR->bits).l0 = 0;
+  (ccR->bits).n  = 0;
+  (ccR->bits).z  = 0;
+  (ccR->bits).c  = 0;
+}
 

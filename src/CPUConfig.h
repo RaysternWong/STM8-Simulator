@@ -40,7 +40,7 @@ struct CPU_t{
 };
 
 
-CPU_t *createCPU(void);
+
 
 extern CPU_t *cpu;
 
