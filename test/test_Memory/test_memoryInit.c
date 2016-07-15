@@ -12,8 +12,7 @@
 
 void setUp(void)
 {                          
-                            // 0x00          0x027FFF
-  setMemoryTable(noMemory, STM8_START_ADDR, STM8_END_ADDR );
+
 }
 
 void tearDown(void)
@@ -21,14 +20,6 @@ void tearDown(void)
   
 }
 
-/**
-*     Ram address range
-*
-*     0x00 0000  ----------->  0x00 03FF
-*
-*
-*
-*/
 
 void test_ramInit_given_write_a_data_to_a_address_is_within_ram_address_range(void)
 { 
@@ -41,7 +32,7 @@ void test_ramInit_given_write_a_data_to_a_address_is_within_ram_address_range(vo
   free(ramBlock);
 }
 
-void xtest_ramInit_given_write_a_data_to_a_address_is_without_ram_address_range(void)
+void test_ramInit_given_write_a_data_to_a_address_is_without_ram_address_range(void)
 {
   ErrorObject* err;
   

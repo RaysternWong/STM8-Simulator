@@ -38,6 +38,7 @@
 #define RES6_START_ADDR         0XA000
 
 #define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
+#define GPIO_ARR(addr) ( gpioBlock->data[addr-RAM_START_ADDR]  )
 
 
 typedef enum{
@@ -49,26 +50,29 @@ typedef struct{
   uint32_t  *startAddr;
   uint16_t  size;
   uint8_t   *data; // array pointer, containing data
-  //uint8_t   data[0];
 }MemoryBlock;
 
 typedef uint32_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size, uint8_t data);
 
 MemoryMap memoryTable[0x280] ;
 
-extern MemoryBlock *ramBlock;
-extern MemoryBlock *cpuBlock;
-extern MemoryBlock *flashBlock;
+extern MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
 
 uint32_t noMemory      (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t gpioMemory    (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 
-
-void ramInit(void);
+void memoryInit(void);
+void memoryFree(void);
+void ramInit(uint32_t address, uint32_t size);
+void gpioInit(uint32_t address, uint32_t size);
+void eepromInit(uint32_t address, uint32_t size);
+void flashInit(uint32_t address, uint32_t size);
 
 void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
 

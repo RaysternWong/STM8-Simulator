@@ -28,9 +28,7 @@ void test_ramMemory_write_in_0xBB_and_getBack_0xBB(void)
   
   MEM_WRITE_BYTE(addr,data);
   TEST_ASSERT_EQUAL_INT8(0xBB, RAM_ARR(addr));
-  
-  uint8_t value = MEM_READ_BYTE(addr);
-  TEST_ASSERT_EQUAL_INT8(0xBB, value);
+  TEST_ASSERT_EQUAL_INT8(0xBB, MEM_READ_BYTE(addr));
 }
 
 void test_ramMemory_write_in_0xBBCC_and_getBack_0xBBCC(void)
@@ -43,9 +41,7 @@ void test_ramMemory_write_in_0xBBCC_and_getBack_0xBBCC(void)
   
   MEM_WRITE_BYTE(addr,data);
   TEST_ASSERT_EQUAL_INT8(0xBBCC, RAM_ARR(addr));
-
-  uint8_t value = MEM_READ_BYTE(addr);
-  TEST_ASSERT_EQUAL_INT8(0xBBCC, value);
+  TEST_ASSERT_EQUAL_INT8(0xBBCC, MEM_READ_BYTE(addr));
 }
 
 void test_ramMemory_write_in_AA_BB_then_MEM_READ_WORD_should_get_0xAABB(void)
@@ -61,9 +57,7 @@ void test_ramMemory_write_in_AA_BB_then_MEM_READ_WORD_should_get_0xAABB(void)
   MEM_WRITE_BYTE(addr1 ,lsb);
   TEST_ASSERT_EQUAL_INT8(0xAA, RAM_ARR(addr));
   TEST_ASSERT_EQUAL_INT8(0xBB, RAM_ARR(addr1));
-  
-  uint16_t word = MEM_READ_WORD(addr);
-  TEST_ASSERT_EQUAL_INT16(0xAABB, word);
+  TEST_ASSERT_EQUAL_INT16(0xAABB, MEM_READ_WORD(addr));
 }
 
 void test_ramMemory_write_in_AA_BB_then_MEM_READ_EXT_should_get_0xAABB(void)
@@ -83,7 +77,5 @@ void test_ramMemory_write_in_AA_BB_then_MEM_READ_EXT_should_get_0xAABB(void)
   TEST_ASSERT_EQUAL_INT8(0x22, RAM_ARR(addr));
   TEST_ASSERT_EQUAL_INT8(0xAA, RAM_ARR(addr1));
   TEST_ASSERT_EQUAL_INT8(0xBB, RAM_ARR(addr2));
-  
-  uint32_t ext = MEM_READ_EXT(addr);
-  TEST_ASSERT_EQUAL_INT32(0x22AABB, ext);
+  TEST_ASSERT_EQUAL_INT32(0x22AABB, MEM_READ_EXT(addr));
 }
