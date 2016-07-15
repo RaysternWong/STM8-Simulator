@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include "MCU_Operation.h"
 #include <malloc.h>
 
@@ -79,12 +80,12 @@ void test_push_longmem(void)
 {
   uint8_t memMSB = 0xAA, memLSB = 0xBB;
   uint16_t longmem = 0xAABB;
-  MEM_WRITE_BYTE(longmem, value);
+  MEM_WRITE_BYTE(longmem, 0x99);
   
   uint8_t instr[] = {0XAB, memMSB, memLSB};
   
   uint8_t length = push_longmem(instr);
-  TEST_ASSERT_EQUAL_INT8(value, MEM_READ_BYTE(inputSP) );  //test is value hold by longmem has pushed into the address
+  TEST_ASSERT_EQUAL_INT8(0x99, MEM_READ_BYTE(inputSP) );  //test is value hold by longmem has pushed into the address
   TEST_ASSERT_EQUAL_INT8( --inputSP, SP );   
   TEST_ASSERT_EQUAL_INT8( 3, length );  
 }

@@ -17,13 +17,13 @@ void mcu_callf(uint32_t address, uint8_t length)
 }
 
 uint8_t callf_extmem(uint8_t *opcode){
-  uint32_t extmem = getExtmem(opcode);
+  uint32_t extmem = GET_EXT_MEM(opcode);
   mcu_callf(extmem, 4);
   return 4;
 }
 
 uint8_t callf_longptr_e(uint8_t *opcode){
-  uint32_t extmem = getLongE(opcode);
+  uint32_t extmem = GET_LONG_PTR_E(opcode);
   mcu_callf(extmem, 4);
   return 4;
 }

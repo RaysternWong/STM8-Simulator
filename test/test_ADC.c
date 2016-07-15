@@ -19,6 +19,8 @@ void setUp(void)
   setMemoryTable( ramMemory , 0 , 0xFFFF); 
 
   A = 0x01;
+  C = 0;    // default carry is 0
+  
   SET_X(0X0040);
   SET_Y(0x1170);
   SET_SP(0x2290);
@@ -40,10 +42,11 @@ void tearDown(void)
 void test_adc_a_byte(void)
 {
   uint8_t instr[] = {0XAB, 0X05};
-  
+  C = 1;
+
   int length = adc_a_byte(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x06, A);
+  TEST_ASSERT_EQUAL_INT8(0x07, A);  // 1 + 1 + 5 = 7   (A+ C+ 5= 7)
   TEST_ASSERT_EQUAL(2, length);
 }
 

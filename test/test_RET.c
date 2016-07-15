@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include "MCU_Operation.h"
 #include <malloc.h>
 

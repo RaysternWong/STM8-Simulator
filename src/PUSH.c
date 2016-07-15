@@ -14,7 +14,6 @@
 *
 */ 
 
-# define NEXT_OP *(++opcode)
 
 uint8_t push_a(uint8_t *opcode){
   mcu_push(A);
@@ -27,12 +26,11 @@ uint8_t push_cc(uint8_t *opcode){
 }
 
 uint8_t push_byte(uint8_t *opcode){
-  mcu_push(NEXT_OP);
+  mcu_push( GET_BYTE(opcode) );
   return 2;
 }
 
 uint8_t push_longmem(uint8_t *opcode){
-  uint8_t value = getValueHoldByLongmem(opcode);
-  mcu_push(value);
+  mcu_push(getLongMemSrc(opcode));
   return 3;
 }
