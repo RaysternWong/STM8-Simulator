@@ -8,27 +8,25 @@
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"
-#include "ErrorCode.h"
+#include "ErrorObject.h"
 #include "CException.h"
 #include <malloc.h>
-
-#define A     cpu->a            //Accumulator
-#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
-#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
-#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
-#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
-#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
-#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
-
+#include "Description.h"
 
 void setUp(void)
 {
   instantiateCPU();
+  
+    // Set the ramMemory occupy the memoryTable from 0000 to 27FFFF, for testing purpose (FFFF / 100 = FF)
+  ramBlock = createMemoryBlock(0x0000 , 0x17FFFF);
+  setMemoryTable( ramMemory , 0 , 0x17FFFF); 
+
 }
 
 void tearDown(void)
 {
    free(cpu);
+   free(ramBlock);
 }
 
 

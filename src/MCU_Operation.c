@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 
 uint16_t getBigEndianWord(uint8_t *bytes){
   uint8_t msb = *bytes;
@@ -56,15 +57,6 @@ void setBigEndianExt(uint8_t *bytes, uint32_t extend){
   *ext = extend >> 16;
   *msb = extend >> 8;
   *lsb = extend & 0x00FF;
-}
-
-
-void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
-  *mostByte  = fullByte >> 8;
-}
-
-void setBigEndianLSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte){
-  *leastByte = fullByte & 0x00FF;
 }
 
 void sp_decrement(void){
@@ -132,3 +124,22 @@ void mcu_addw(uint8_t *reg, uint16_t value){
   V = C ^ ( A14 & M14 | M14 & _R14 | _R14 & A14 );
 }
 
+void mcu_div(uint8_t *reg)
+{
+  if( A == 0){
+    C = 1;
+    Throw(ERR_DIVIDER_IS_0);
+  }
+ 
+  uint16_t regXY      = getBigEndianWord(reg);
+  uint16_t quotient   = regXY / A;
+  uint8_t  remainder  = regXY % A;
+  
+  N = 0;
+  Z = (quotient == 0 ? 1 : 0);
+  H = 0;
+  V = 0;
+  
+  A = remainder;
+  setBigEndianWord(reg, quotient);
+}

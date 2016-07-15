@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include "CPUConfig.h"
 #include <malloc.h>
 #include <stdint.h>

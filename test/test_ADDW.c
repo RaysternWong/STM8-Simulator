@@ -11,11 +11,14 @@
 void setUp(void)
 {
   instantiateCPU();
+  ramBlock = createMemoryBlock(0, 0xFFFF);
+  setMemoryTable( ramMemory , 0 , 0xFFFF); 
 }
 
 void tearDown(void)
 {
-   free(cpu);
+  free(cpu);
+  free(ramBlock);
 }
 
 
@@ -75,7 +78,7 @@ void test_add_x_longmem(void)
   
   uint8_t instr[] = {0XBB, addrMSB, addrLSB};
   
-  writeValueToTheAddress( 0x1101,  0x02);
+  MEM_WRITE_BYTE( 0x1101,  0x02);
   
   int length = addw_x_longmem(instr);
   TEST_ASSERT_EQUAL_INT8(0x13, XH);
@@ -102,7 +105,7 @@ void test_addw_x_shortoff_sp(void)
   
   uint8_t instr[] = {0XBB, addr};
   
-  writeValueToTheAddress( 0x2B22,  0x02);  //2B11 + 11 = 2B22
+  MEM_WRITE_BYTE( 0x2B22,  0x02);  //2B11 + 11 = 2B22
   
   int length = addw_x_shortoff_sp(instr);
   TEST_ASSERT_EQUAL_INT8(0x13, XH);
@@ -146,7 +149,7 @@ void test_add_y_longmem(void)
   
   uint8_t instr[] = {0XBB, addrMSB, addrLSB};
   
-  writeValueToTheAddress( 0x1101,  0x02);
+  MEM_WRITE_BYTE( 0x1101,  0x02);
   
   int length = addw_y_longmem(instr);
   TEST_ASSERT_EQUAL_INT8(0x13, YH);
@@ -173,7 +176,7 @@ void test_addw_y_shortoff_sp(void)
   
   uint8_t instr[] = {0XBB, addr};
   
-  writeValueToTheAddress( 0x2B22,  0x02);  //2B11 + 11 = 2B22
+  MEM_WRITE_BYTE( 0x2B22,  0x02);  //2B11 + 11 = 2B22
   
   int length = addw_y_shortoff_sp(instr);
   TEST_ASSERT_EQUAL_INT8(0x13, YH);

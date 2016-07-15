@@ -5,6 +5,8 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 #include <malloc.h>
+#include "Memory.h"
+#include "ErrorObject.h"
 
 
 void setUp(void)

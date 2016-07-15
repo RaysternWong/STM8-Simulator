@@ -1,9 +1,11 @@
 #include "unity.h"
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdint.h>
 #include <stdio.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include "ADC.h"
 #include <malloc.h>
 
