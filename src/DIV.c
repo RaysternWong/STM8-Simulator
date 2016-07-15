@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
-#include "ErrorCode.h"
+#include "ErrorObject.h"
 
 #define A     cpu->a            //Accumulator
 #define XH    cpu->xh           //most significant byte of the X index register  (1 byte)

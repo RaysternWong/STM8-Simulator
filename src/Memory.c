@@ -5,6 +5,7 @@
 #include "CPUConfig.h"
 #include "MCU_Operation.h"
 #include "Description.h"
+#include "ErrorObject.h"
 
 CPU_t *cpu;
 
@@ -14,9 +15,6 @@ void instantiateCPU(void)
 {
   cpu = malloc( sizeof(CPU_t) );
 }
-
-
-
 
 MemoryMap memoryTable[0x280] = {
 
@@ -31,25 +29,25 @@ MemoryMap memoryTable[0x280] = {
 };
 
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
-  MemoryBlock *mb = malloc(400 + sizeof(MemoryBlock));
+  MemoryBlock *mb = malloc(sizeof(MemoryBlock));
   mb->startAddr =& startAddr;
   mb->size = size;
-  mb->data = malloc(size * sizeof(uint8_t));
+  mb->data = malloc(size);
   return mb;
 }
 
-
-/*
-
-MemoryBlock *createMemoryBlock( uint32_t *startAddr, uint32_t size){
-  MemoryBlock *mb = malloc( 400 + sizeof(MemoryBlock));
-  mb->startAddr =  startAddr;
-  mb->size = size;
-  mb->data = malloc(size );
-  return mb;
+void ramInit(void){
+   ramBlock = createMemoryBlock(RAM_START_ADDR, RAM_SIZE);
+   setMemoryTable( ramMemory , RAM_START_ADDR , RAM_SIZE );
 }
 
-*/
+
+uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
+  if(mode == MEM_READ)
+    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Access uninitialized memory from Type: MEM_READ Address: %x\t", address);
+  if(mode == MEM_WRITE)
+    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Access uninitialized memory from Type: MEM_READ Address: %x\t Size %d\n", address, size);
+}
 
 uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 {

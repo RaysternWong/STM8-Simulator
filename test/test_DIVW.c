@@ -1,11 +1,12 @@
 #include "unity.h"
 #include "DIVW.h"
 #include "MCU_Operation.h"
+#include "Memory.h"
 #include <stdint.h>
 #include <stdio.h>
 #include "CPUConfig.h"
 #include <malloc.h>
-#include "ErrorCode.h"
+#include "ErrorObject.h"
 #include "CException.h"
 
 void setUp(void)

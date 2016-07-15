@@ -18,7 +18,8 @@
 #define FLASH_SIZE        0X1F7F
 #define RES6_SIZE         0X1DFF
 
-#define FULL_SIZE         0X280000
+#define STM8_START_ADDR         0X0
+#define STM8_END_ADDR         0x027FFF
 
 #define RAM_START_ADDR          0x0
 #define RAM_END_ADDR            0x3FF
@@ -61,9 +62,13 @@ extern MemoryBlock *flashBlock;
 
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
 
+uint32_t noMemory      (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+
+
+void ramInit(void);
 
 void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
 

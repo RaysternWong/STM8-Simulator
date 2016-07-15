@@ -2,28 +2,11 @@
 #include <stdint.h>
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
-#include "ErrorCode.h"
-
-#define A     (cpu->a)           //Accumulator
-#define XH    (cpu->xh)           //most significant byte of the X index register  (1 byte)
-#define XL    (cpu->xl)           //least significant byte of the X index register (1 byte)
-#define YH    (cpu->yh)           //most significant byte of the y index register  (1 byte)
-#define YL    (cpu->yl)           //least significant byte of the y index register (1 byte)
-#define SPH   (cpu->sph)          //most significant byte of the sph index register  (1 byte)
-#define SPL   (cpu->spl)          //least significant byte of the spl index register (1 byte)
-
-#define V   ((cpu->ccr).bits.v)   //overFlow
-#define L1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
-#define H   ((cpu->ccr).bits.h)   //half cary
-#define L0  ((cpu->ccr).bits.l0)  //interrupt mask level 0
-#define N   ((cpu->ccr).bits.n)   //negative
-#define Z   ((cpu->ccr).bits.z)   //zero
-#define C   ((cpu->ccr).bits.c)   //cary
+#include "ErrorObject.h"
 
 uint8_t div_x_y(void)
 {
-  uint16_t x      = combineMostLeastByte(XH, XL);
-  uint16_t y      = combineMostLeastByte(YH, YL);
+  uint16_t x = X, y = Y;
   
   if( y == 0){
     C = 1;
@@ -38,8 +21,10 @@ uint8_t div_x_y(void)
   H = 0;
   V = 0;
   
-  initMostLeastByte( &XH, &XL, quotient);
-  initMostLeastByte( &YH, &YL, remainder);
+  SET_X(quotient);
+  SET_Y(remainder);
+  // initMostLeastByte( &XH, &XL, quotient);
+  // initMostLeastByte( &YH, &YL, remainder);
   
   return 1;
 }
