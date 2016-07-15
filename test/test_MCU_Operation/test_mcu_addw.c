@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "MCU_Operation.h"
+#include "ErrorObject.h"
 #include <stdint.h>
 #include <stdio.h>
 #include "CPUConfig.h"
@@ -23,7 +24,7 @@ void test_mcu_addw_given_x_equal_0_than_add_1_should_get_x_equal_0x0001_and_all_
 
   XH = 0x00;
   XL = 0x00;
-  mcu_addw(&XH, &XL, 0x01);
+  mcu_addw(&XH, 0x01);
   
   TEST_ASSERT_EQUAL_INT8(0x00, XH);
   TEST_ASSERT_EQUAL_INT8(0x01, XL);
@@ -42,7 +43,7 @@ void test_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag
   
   XH = 0x00;
   XL = 0x00;
-  mcu_addw(&XH, &XL, 0x00);
+  mcu_addw(&XH, 0x00);
   
   TEST_ASSERT_EQUAL_INT8(0x00, XH);
   TEST_ASSERT_EQUAL_INT8(0x00, XL);
@@ -65,7 +66,7 @@ void test_mcu_addw_given_X_equal_neg1_than_add_0_should_get_Xequal_neg1_and_neg_
 
   XH = 0x00;
   XL = 0x00;
-  mcu_addw(&XH, &XL, -0x01);
+  mcu_addw(&XH, -0x01);
   
   TEST_ASSERT_EQUAL_INT8(0xFF, XH);
   TEST_ASSERT_EQUAL_INT8(0xFF, XL);
@@ -94,7 +95,7 @@ void test_mcu_addw_given_x_equal_FF80_than_add_0080_should_get_x_equal_00_and_ha
   
   XH = 0xFF;
   XL = 0x80;
-  mcu_addw(&XH, &XL, 0X0080);
+  mcu_addw(&XH, 0X0080);
   
   TEST_ASSERT_EQUAL_INT8(0x00, XH);
   TEST_ASSERT_EQUAL_INT8(0x00, XL);
@@ -135,7 +136,7 @@ void test_mcu_addw_given_x_equal_40_than_add_40_should_get_A_equal_E0_and_overfo
   
   XH = 0x40;
   XL = 0x00;
-  mcu_addw(&XH, &XL, 0X4000);
+  mcu_addw(&XH, 0X4000);
   
   TEST_ASSERT_EQUAL_INT8(0x80, XH);
   TEST_ASSERT_EQUAL_INT8(0x00, XL);

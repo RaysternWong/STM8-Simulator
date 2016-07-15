@@ -43,10 +43,10 @@ void ramInit(void){
 
 
 uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
+  
   if(mode == MEM_READ)
-    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Access uninitialized memory from Type: MEM_READ Address: %x\t", address);
-  if(mode == MEM_WRITE)
-    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Access uninitialized memory from Type: MEM_READ Address: %x\t Size %d\n", address, size);
+    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Attend to read %d byte start from address 0x%x\n"   , size, address);
+    ThrowError(ERR_UNINITIALIZED_ADDRESS, "Attend to write data 0x%x start from address 0x%x\n", data, address);
 }
 
 uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)

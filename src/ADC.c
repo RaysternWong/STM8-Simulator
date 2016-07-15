@@ -1,199 +1,86 @@
 #include "ADC.h"
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
 
-void mcu_adc(uint8_t value)
-{
-  uint8_t a       = cpu->a;
-  uint8_t result  = a + value + C;
-  
-  A = result;
-  N = R7;
-  Z = (result == 0 ? 1 : 0);
-  H = A3 & M3 | M3 & _R3 | _R3 & A3;
-  C = A7 & M7 | M7 & _R7 | _R7 & A7;
-  V = C ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
-}
-
 uint8_t adc_a_byte(uint8_t *opcode){
-  opcode++;
-  mcu_adc(*opcode);
+  mcu_adc( GET_BYTE(opcode) );
   return 2;
 }
 
 uint8_t adc_a_shortmem(uint8_t *opcode){
-  opcode++;
-  uint8_t value =  MEM_READ_BYTE(*opcode);
-  mcu_adc(value);
+  mcu_adc(getShortMemSrc(opcode));
   return 2;
 }
 
 uint8_t adc_a_longmem(uint8_t *opcode){
-  
-  uint8_t msb = *(++opcode);
-  uint8_t lsb = *(++opcode);
-  
-  uint16_t fulladdr = getBigEndianWord( msb , lsb);
-  uint8_t  value    = MEM_READ_BYTE(fulladdr);
-
-  mcu_adc(value);
+  mcu_adc( getLongMemSrc(opcode) );
   return 3;
 }
 
+
 uint8_t adc_a_x(uint8_t *opcode){
 
-  uint16_t x     = getBigEndianWord( XH , XL);
-  uint8_t  value = MEM_READ_BYTE(x);
-  
-  mcu_adc(value);
+  mcu_adc( X_SRC);
   return 1;
 }
 
 uint8_t adc_a_shortoff_x(uint8_t *opcode){
-  opcode++;
-
-  uint16_t x = getBigEndianWord( XH , XL);
-           x += *opcode;
-  uint8_t  value =  MEM_READ_BYTE(x);
-  mcu_adc(value);
+  mcu_adc( getShortOffXSrc(opcode) );
   return 2;
 }
 
 uint8_t adc_a_longoff_x(uint8_t *opcode){
-  uint8_t msb = *(++opcode);
-  uint8_t lsb = *(++opcode);
-  
-  uint16_t fulladdr = getBigEndianWord( msb , lsb);
-  uint16_t x        = getBigEndianWord( XH , XL);
-           x       += fulladdr;
-           
-  
-  uint8_t  value = MEM_READ_BYTE(x);
-  mcu_adc(value);
+  mcu_adc( getLongOffXSrc(opcode) );
   return 3;
 }
 
+
 uint8_t adc_a_y(uint8_t *opcode){
-  uint16_t y     = getBigEndianWord( YH , YL);
-  uint8_t  value = MEM_READ_BYTE(y);
-  
-  mcu_adc(value);
+  mcu_adc(  Y_SRC );
   return 2;
 }
 
 uint8_t adc_a_shortoff_y(uint8_t *opcode){
-  opcode++;
-
-  uint16_t y = getBigEndianWord( YH , YL);
-           y += *opcode;
-  uint8_t  value =  MEM_READ_BYTE(y);
-  mcu_adc(value);
+  mcu_adc( getShortOffYSrc(opcode) );
   return 3;
 }
 
 uint8_t adc_a_longoff_y(uint8_t *opcode){
-  uint8_t msb = *(++opcode);
-  uint8_t lsb = *(++opcode);
-  
-  uint16_t fulladdr = getBigEndianWord( msb , lsb);
-  uint16_t y        = getBigEndianWord( YH , YL);
-           y       += fulladdr;
-
-  uint8_t  value = MEM_READ_BYTE(y);
-  mcu_adc(value);
+  mcu_adc( getLongOffYSrc(opcode) );
   return 4;
 }
 
 uint8_t adc_a_shortoff_sp(uint8_t *opcode){
-  opcode++;
- 
-  uint16_t sp = getBigEndianWord( SPH , SPL);
-           sp += *opcode;
-  uint8_t  value =  MEM_READ_BYTE(sp);
-  mcu_adc(value);
+  mcu_adc( getShortOffSPSrc(opcode) );
   return 2;
 }
 
 uint8_t adc_a_shortptr_w(uint8_t *opcode){
-  opcode++;
-
-  uint8_t  value1 =  MEM_READ_BYTE( *(opcode) );
-  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
-  
-  uint16_t fulladdr = getBigEndianWord( value1 , value2);
-  uint8_t  value    = MEM_READ_BYTE(fulladdr);
-  mcu_adc(value);
-
+  mcu_adc( getShortPtrWSrc(opcode) );
   return 3;
 }
 
-  // printf("%x\n", *opcode);
-     // printf("%x\n", value2);
-     // printf("%x\n", fulladdr);
-       // printf("value : %x\n", value);
-       
 uint8_t adc_a_longptr_w(uint8_t *opcode){
-  opcode++;
-  uint8_t msb = *(opcode);
-  opcode++;
-  uint8_t lsb = *(opcode);
-  
-  uint16_t fulladdr1 = getBigEndianWord( msb , lsb);
-  
-  uint8_t  value1 =  MEM_READ_BYTE( fulladdr1);
-  uint8_t  value2 =  MEM_READ_BYTE( fulladdr1 + 1 );
-  
-  uint16_t fulladdr = getBigEndianWord( value1 , value2);
-  uint8_t  value    = MEM_READ_BYTE(fulladdr);
-  mcu_adc(value);
-
+  mcu_adc( getLongPtrWSrc(opcode) );
   return 4;
 }
 
 uint8_t adc_a_shortptr_w_x(uint8_t *opcode){
-  uint8_t  value1 =  MEM_READ_BYTE( *(++opcode) );
-  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
-  
-  uint16_t fulladdr = getBigEndianWord( value1 , value2);
-  uint16_t x        = getBigEndianWord( XH , XL);
-           x       += fulladdr;
-           
-  uint8_t  value    = MEM_READ_BYTE(x);
-  mcu_adc(value); 
+  mcu_adc( getShortPtrWXSrc(opcode) );
   return 3;
 }
 
 uint8_t adc_a_longptr_w_x(uint8_t *opcode){
-  uint8_t msb = *(++opcode);
-  uint8_t lsb = *(++opcode);
-  
-  uint16_t fulladdr1 = getBigEndianWord( msb , lsb);
-  
-  uint8_t  value1 =  MEM_READ_BYTE( fulladdr1);
-  uint8_t  value2 =  MEM_READ_BYTE( fulladdr1 + 1 );
-  
-  uint16_t fulladdr = getBigEndianWord( value1 , value2);
-  uint16_t x        = getBigEndianWord( XH , XL);
-           x       += fulladdr;
-          
-  uint8_t  value    = MEM_READ_BYTE(x);
-  mcu_adc(value); 
+  mcu_adc( getLongPtrWXSrc(opcode) );
   return 4;
 }
 
 uint8_t adc_a_shortptr_w_y(uint8_t *opcode){
-  uint8_t  value1 =  MEM_READ_BYTE( *(++opcode) );
-  uint8_t  value2 =  MEM_READ_BYTE( *opcode + 1 );
-  
-  uint16_t fulladdr = getBigEndianWord( value1 , value2);
-  uint16_t y        = getBigEndianWord( YH , YL);
-           y       += fulladdr;
-           
-  uint8_t  value    = MEM_READ_BYTE(y);
-  mcu_adc(value); 
+  mcu_adc( getShortPtrWYSrc(opcode) ); 
   return 3;
 }
 

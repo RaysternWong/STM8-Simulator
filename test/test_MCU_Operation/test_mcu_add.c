@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include <malloc.h>
 
 void setUp(void)

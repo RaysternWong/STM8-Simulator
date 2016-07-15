@@ -46,6 +46,11 @@
 #define PC_WORD  getBigEndianWord(&PCH)
 #define PC       getBigEndianExt(&PCE)
 
+#define X_SRC   MEM_READ_BYTE(X)
+#define Y_SRC   MEM_READ_BYTE(Y)
+
+
+
 #define NEXT_OPCODE  *(++opcode) 
 
 
@@ -167,9 +172,10 @@ void setBigEndianMSB(uint8_t *mostByte, uint8_t *leastByte, uint16_t fullByte);
 void sp_decrement(void);
 void sp_increment(void);
 void mcu_push(uint8_t value);
-void mcu_add(uint8_t value);
 void mcu_call(uint16_t address, uint8_t length);
-void mcu_addw(uint8_t *mostByte, uint8_t *leastByte, uint16_t value);
+void mcu_add(uint8_t value);
+void mcu_adc(uint8_t value);
+void mcu_addw(uint8_t *reg, uint16_t value);
 
 uint8_t mcu_pop(void);
 

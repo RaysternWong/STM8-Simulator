@@ -52,13 +52,13 @@ void test_ramInit_given_write_a_data_to_a_address_is_without_ram_address_range(v
     TEST_FAIL_MESSAGE("Expected ERR_UNINITIALIZED_ADDRESS but no error were thrown");
   }Catch(err){
     TEST_ASSERT_EQUAL(ERR_UNINITIALIZED_ADDRESS, err->errorCode);
-    TEST_ASSERT_EQUAL_STRING( "Access uninitialized memory from Type: MEM_READ Address: 400\t Size 0\n", err->errorMsg);
+    TEST_ASSERT_EQUAL_STRING( "Attend to write data 0xaa start from address 0x400\n", err->errorMsg);
   }
   free(ramBlock);
   freeError(err);
 }
 
-void test_ramInit_given_read_a_data_from_a_address_is_without_ram_address_range(void)
+void test_ramInit_given_read_1_byte_from_a_address_is_without_ram_address_range(void)
 {
   ErrorObject* err;
   
@@ -69,10 +69,25 @@ void test_ramInit_given_read_a_data_from_a_address_is_without_ram_address_range(
     TEST_FAIL_MESSAGE("Expected ERR_UNINITIALIZED_ADDRESS but no error were thrown");
   }Catch(err){
     TEST_ASSERT_EQUAL(ERR_UNINITIALIZED_ADDRESS, err->errorCode);
-    TEST_ASSERT_EQUAL_STRING( "Access uninitialized memory from Type: MEM_READ Address: 400\t", err->errorMsg);
+    TEST_ASSERT_EQUAL_STRING( "Attend to read 1 byte start from address 0x400\n", err->errorMsg);
   }
   free(ramBlock);
   freeError(err);
 }
 
-
+void test_ramInit_given_read_2_byte_from_a_address_is_without_ram_address_range(void)
+{
+  ErrorObject* err;
+  
+  ramInit();
+ 
+  Try{
+    MEM_READ_WORD(0x400);
+    TEST_FAIL_MESSAGE("Expected ERR_UNINITIALIZED_ADDRESS but no error were thrown");
+  }Catch(err){
+    TEST_ASSERT_EQUAL(ERR_UNINITIALIZED_ADDRESS, err->errorCode);
+    TEST_ASSERT_EQUAL_STRING( "Attend to read 2 byte start from address 0x400\n", err->errorMsg);
+  }
+  free(ramBlock);
+  freeError(err);
+}

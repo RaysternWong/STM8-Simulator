@@ -1,49 +1,28 @@
 #include "unity.h"
 #include "ADC.h"
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
 #include <malloc.h>
-
-#define A     cpu->a            //Accumulator
-#define XH    cpu->xh           //most significant byte of the X index register  (1 byte)
-#define XL    cpu->xl           //least significant byte of the X index register (1 byte)
-#define YH    cpu->yh           //most significant byte of the y index register  (1 byte)
-#define YL    cpu->yl           //least significant byte of the y index register (1 byte)
-#define SPH   cpu->sph          //most significant byte of the sph index register  (1 byte)
-#define SPL   cpu->spl          //least significant byte of the spl index register (1 byte)
-
-#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1)
-#define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2)
-#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, data)
-
-#define SET_X(word)  setBigEndianWord(&XH, &XL, word)
-#define SET_Y(word)  setBigEndianWord(&YH, &YL, word)
-#define SET_SP(word)  setBigEndianWord(&SPH, &SPL, word)
-
-#define X   getBigEndianWord(XH, XL)
-#define Y   getBigEndianWord(YH, YL)
-#define SP  getBigEndianWord(SPH, SPL)
+#include "ErrorObject.h"
 
 uint8_t offSet1, offSet2;
 
 void setUp(void)
 {
   instantiateCPU();
-  ramBlock = createMemoryBlock(RAM_START_ADDR, RAM_SIZE);
   
-  setMemoryTable( ramMemory , 0 , 0xFFFF); // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose (FFFF / 100 = FF)
+  // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose (FFFF / 100 = FF)
+  ramBlock = createMemoryBlock(0, 0xFFFF);
+  setMemoryTable( ramMemory , 0 , 0xFFFF); 
 
   A = 0x01;
   SET_X(0X0040);
   SET_Y(0x1170);
   SET_SP(0x2290);
  
-  /**Now the ramBlock is occupy from memory 0000 to 9999,
-     but there is an unseeken bug, which is (ramBlock->data[]) only can write in data from 0x0000 to 0x42C9, 
-     supected 0x42C9 is the range of this arr, missing a correct instantiate way
-  */
   MEM_WRITE_BYTE( X  ,  0x07);
   MEM_WRITE_BYTE( Y  ,  0x08);
   MEM_WRITE_BYTE( SP ,  0x09);
@@ -242,7 +221,7 @@ void test_adc_a_shortptr_w_x_given_A_0x01_address_contain_0x05_should_get0x06_an
   
   int length = adc_a_shortptr_w_x(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x08, A);
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(3, length);
 }
 
@@ -278,8 +257,8 @@ void test_adc_a_shortptr_w_y_given_A_0x01_address_contain_0x05_should_get0x06_an
   
   MEM_WRITE_BYTE( addrHoldingData , 0x05);  
   
-  int length = adc_a_shortptr_w_x(instr);
+  int length = adc_a_shortptr_w_y(instr);
   
-  TEST_ASSERT_EQUAL_INT8(0x08, A);
+  TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(3, length);;
 }

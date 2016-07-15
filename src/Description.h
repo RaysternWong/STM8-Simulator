@@ -6,7 +6,8 @@
 #include <stdio.h>
 
 
-#define GET_BYTE(p)            ( *(++p) ) 
+#define GET_BYTE(p)            *(++p)
+#define GET_WORD(p)            getBigEndianWord(++p)     // GETWORD is same as GET_LONG_MEM
 #define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE( *( GET_BYTE(p) ) )  
 //  MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 

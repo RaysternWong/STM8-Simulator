@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include <malloc.h>
 
 
@@ -68,7 +69,7 @@ void test_add_a_longmem_given_A_0x01_address_contain_0x05_should_get_0x06_and_re
   TEST_ASSERT_EQUAL(3, length);
 }
 
-/**
+
 //Assembly : (X) | ADD A,(X)
 void test_add_a_x_given_A_0x01_address_contain_0x07_should_get0x08_and_return_1(void)
 {
@@ -83,6 +84,7 @@ void test_add_a_x_given_A_0x01_address_contain_0x07_should_get0x08_and_return_1(
   TEST_ASSERT_EQUAL_INT8(0x08, A);
   TEST_ASSERT_EQUAL(1, length);
 }
+
 
 //Assembly : (shortoff,X) | ADD A,($10,X)
 void test_add_a_shortoff_x_given_A_0x01_address_contain_0x02_should_get0x03_and_return_2(void)
@@ -277,5 +279,3 @@ void test_add_a_shortptr_w_y_given_A_0x01_address_contain_0x05_should_get0x06_an
   TEST_ASSERT_EQUAL_INT8(0x06, A);
   TEST_ASSERT_EQUAL(3, length);
 }
-
-*/

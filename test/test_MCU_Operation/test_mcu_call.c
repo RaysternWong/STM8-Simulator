@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "CPUConfig.h"
 #include "Memory.h"
+#include "ErrorObject.h"
 #include <malloc.h>
 
 uint16_t inputSP, sp_minus1, sp_minus2;
@@ -58,7 +59,7 @@ void test_mcu_call(void)
   TEST_ASSERT_EQUAL_INT8( sp_minus2, SP ); 
 }
 
-void test_mcu_call_1(void)
+void test_mcu_call_given_call_max_address(void)
 {
   uint16_t currentPC = 0x12FF;
   uint16_t address   = 0xFFFF;
