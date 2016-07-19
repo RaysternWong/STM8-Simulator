@@ -2,7 +2,7 @@
 #define ADD_H
 #include <stdint.h>
 
-uint8_t add_a_byte     (uint8_t *opcode);
+uint8_t add_a_byte        (uint8_t *opcode);
 uint8_t add_a_shortmem    (uint8_t *opcode);
 uint8_t add_a_longmem     (uint8_t *opcode);
 uint8_t add_a_x           (uint8_t *opcode);

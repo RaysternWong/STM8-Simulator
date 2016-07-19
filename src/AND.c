@@ -1,85 +1,87 @@
 #include "AND.h"
+#include "MCU_Operation.h"
+#include "Description.h"
 #include <stdio.h>
 #include <stdint.h>
+#include "CPUConfig.h"
+#include "Memory.h"
 
-/**
-*  Please refer the folowing instruction in the page 77 of programming manual
-*
-*   'a'  means accumulator
-*   'ht' means hast tag , #
-*/
 
-uint8_t and_a_ht_byte(uint8_t *opcode){
-  opcode++;
+uint8_t and_a_byte(uint8_t *opcode){
+  A &= GET_BYTE(opcode);
+  SET_ARITHMETIC_FLAG(A);
   return 2;
 }
 
 uint8_t and_a_shortmem(uint8_t *opcode){
-  opcode++;
+  A &=getShortMemSrc(opcode);
   return 2;
 }
 
 uint8_t and_a_longmem(uint8_t *opcode){
-  opcode++;
+  A &= getLongMemSrc(opcode);
   return 3;
 }
 
+
 uint8_t and_a_x(uint8_t *opcode){
-  opcode++;
+  A &= X_SRC;
   return 1;
 }
 
 uint8_t and_a_shortoff_x(uint8_t *opcode){
-  opcode++;
+  A &= getShortOffXSrc(opcode);
   return 2;
 }
 
 uint8_t and_a_longoff_x(uint8_t *opcode){
-  opcode++;
+  A &= getLongOffXSrc(opcode);
   return 3;
 }
 
+
 uint8_t and_a_y(uint8_t *opcode){
-  opcode++;
+  A &= Y_SRC;
   return 2;
 }
 
 uint8_t and_a_shortoff_y(uint8_t *opcode){
-  opcode++;
+  A &= getShortOffYSrc(opcode);
   return 3;
 }
 
 uint8_t and_a_longoff_y(uint8_t *opcode){
-  opcode++;
+  A &= getLongOffYSrc(opcode);
   return 4;
 }
 
 uint8_t and_a_shortoff_sp(uint8_t *opcode){
-  opcode++;
+  A &= getShortOffSPSrc(opcode);
   return 2;
 }
 
 uint8_t and_a_shortptr_w(uint8_t *opcode){
-  opcode++;
+  A &= getShortPtrWSrc(opcode);
   return 3;
 }
 
 uint8_t and_a_longptr_w(uint8_t *opcode){
-  opcode++;
+  A &= getLongPtrWSrc(opcode);
   return 4;
 }
 
 uint8_t and_a_shortptr_w_x(uint8_t *opcode){
-  opcode++;
+  A &= getShortPtrWXSrc(opcode) ;
   return 3;
 }
 
 uint8_t and_a_longptr_w_x(uint8_t *opcode){
-  opcode++;
+  A &= getLongPtrWXSrc(opcode) ;
   return 4;
 }
 
 uint8_t and_a_shortptr_w_y(uint8_t *opcode){
-  opcode++;
+  A &= getShortPtrWYSrc(opcode) ; 
   return 3;
 }
+

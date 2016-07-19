@@ -27,6 +27,8 @@
 #define Z   ((cpu->ccr).bits.z)   //zero
 #define C   ((cpu->ccr).bits.c)   //carry
 
+#define SET_ARITHMETIC_FLAG(num) Z = num == 0 ? 1 : 0 ; N = (num & 0X80) >> 7;
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 #define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 #define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2, 0)

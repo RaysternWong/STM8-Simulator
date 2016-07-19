@@ -2,7 +2,7 @@
 #define AND_H
 #include <stdint.h>
 
-uint8_t and_a_ht_byte     (uint8_t *opcode);
+uint8_t and_a_byte     (uint8_t *opcode);
 uint8_t and_a_shortmem    (uint8_t *opcode);
 uint8_t and_a_longmem     (uint8_t *opcode);
 uint8_t and_a_x           (uint8_t *opcode);
