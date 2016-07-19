@@ -32,8 +32,8 @@ void setUp(void)
 
 void tearDown(void)
 {
-   free(cpu);
-   free(ramBlock);
+  free(cpu);
+  free(ramBlock);
 }
 
 
@@ -43,8 +43,6 @@ void test_and_a_byte(void){
   
   TEST_ASSERT_EQUAL_INT8(2, and_a_byte(instr));
   TEST_ASSERT_EQUAL_INT8(0x8C, A);
-  TEST_ASSERT_EQUAL_INT8(0, Z);
-  TEST_ASSERT_EQUAL_INT8(1, N); // is negative because bit 7 is 1 
 }
 
 void test_and_a_byte_given_result_is_0(void){
