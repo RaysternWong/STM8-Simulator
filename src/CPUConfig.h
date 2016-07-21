@@ -21,28 +21,18 @@ typedef union{
 }Flag;
 
 struct CPU_t{
-  uint8_t   a;     //Accumulator
-  
-  uint8_t   pce;    //Program counter
+  uint8_t   a;    // 0x7F00
+  uint8_t   pce;  
   uint8_t   pch;     
   uint8_t   pcl;   
-  
   uint8_t   xh;    
-  uint8_t   xl; 
-  
+  uint8_t   xl;  
   uint8_t   yh;  
   uint8_t   yl;   
-  
   uint8_t  sph; 
   uint8_t  spl; 
-   
-  Flag      ccr ;     //Condition Code Register
+  Flag     ccr;   // 0x7F0A 
 };
 
-
-
-
 extern CPU_t *cpu;
-
-
 #endif // CPUConfig_H

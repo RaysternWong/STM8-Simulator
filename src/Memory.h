@@ -73,6 +73,7 @@ void ramInit(uint32_t address, uint32_t size);
 void gpioInit(uint32_t address, uint32_t size);
 void eepromInit(uint32_t address, uint32_t size);
 void flashInit(uint32_t address, uint32_t size);
+void cpuInit(uint32_t address, uint32_t size);
 
 void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
 

@@ -88,6 +88,15 @@ void mcu_call(uint16_t address, uint8_t length){
   SET_PC_WORD(address);
 }
 
+void mcu_callf(uint32_t address, uint8_t length){
+  uint32_t pc_ext = PC + length;
+  SET_PC(pc_ext);
+  mcu_push(PCL);
+  mcu_push(PCH);
+  mcu_push(PCE);
+  SET_PC(address);
+}
+
 void mcu_add(uint8_t value){
   uint8_t a       = cpu->a;
   uint8_t result  = a + value;

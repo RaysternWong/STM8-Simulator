@@ -39,6 +39,7 @@ void memoryFree(void){
 
 void instantiateCPU(void){
   cpu = malloc( sizeof(CPU_t) );
+  //cpu->a = 0x7F00;
 }
 
 void ramInit(uint32_t address, uint32_t size){
@@ -59,6 +60,11 @@ void eepromInit(uint32_t address, uint32_t size){
 void flashInit(uint32_t address, uint32_t size){
    flashBlock = createMemoryBlock(address, size);
    setMemoryTable( flashMemory , address , size );
+}
+
+void cpuInit(uint32_t address, uint32_t size){
+  ramBlock = createMemoryBlock(address, size);
+  setMemoryTable( ramMemory , address , size );
 }
 
 uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){

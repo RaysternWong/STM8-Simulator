@@ -178,11 +178,11 @@ uint32_t getBigEndianExtFromAddress(uint32_t address);
 void setBigEndianWord(uint8_t *bytes, uint16_t word);
 void setBigEndianExt(uint8_t *bytes, uint32_t extend);
 
-
 void sp_decrement(void);
 void sp_increment(void);
 void mcu_push(uint8_t value);
 void mcu_call(uint16_t address, uint8_t length);
+void mcu_callf(uint32_t address, uint8_t length);
 void mcu_add(uint8_t value);
 void mcu_adc(uint8_t value);
 void mcu_addw(uint8_t *reg, uint16_t value);
