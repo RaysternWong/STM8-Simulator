@@ -119,6 +119,15 @@
 #define A14 ((a & 0X4000) >> 14)
 #define A15 ((a & 0X8000) >> 15)
 
+#define _A0  (A0 == 0 ? 1 : 0)
+#define _A1  (A1 == 0 ? 1 : 0)
+#define _A2  (A2 == 0 ? 1 : 0)
+#define _A3  (A3 == 0 ? 1 : 0)
+#define _A4  (A4 == 0 ? 1 : 0)
+#define _A5  (A5 == 0 ? 1 : 0)
+#define _A6  (A6 == 0 ? 1 : 0)
+#define _A7  (A7 == 0 ? 1 : 0)
+
 // Result
 #define R0  (result & 0X01)
 #define R1  ((result & 0X02) >> 1)
@@ -177,6 +186,7 @@ void mcu_call(uint16_t address, uint8_t length);
 void mcu_add(uint8_t value);
 void mcu_adc(uint8_t value);
 void mcu_addw(uint8_t *reg, uint16_t value);
+void mcu_sub(uint8_t value);
 void mcu_div(uint8_t *reg);
 
 uint8_t mcu_pop(void);
