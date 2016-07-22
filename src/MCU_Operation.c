@@ -8,7 +8,7 @@
 
 uint16_t getBigEndianWord(uint8_t *bytes){
   uint8_t msb = *bytes;
-  uint8_t lsb = INC_THIS(bytes);
+  uint8_t lsb = GET_NEXT_BYTE_OF(bytes);
   
   // printf("%x\n",msb);
   // printf("%x\n",lsb);
@@ -27,7 +27,6 @@ uint16_t getBigEndianWordFromAddress(uint32_t address){
   uint8_t msb = MEM_READ_BYTE(address);
   address++;
   uint8_t lsb = MEM_READ_BYTE(address);
-  
   return ( (msb<<8) + lsb);
 }
 
