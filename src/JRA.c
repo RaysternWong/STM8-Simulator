@@ -7,7 +7,7 @@
 #include "Memory.h"
 
 uint8_t jra_shortoff(uint8_t *opcode){
-  uint32_t newPC = PC+ 2 + GET_BYTE(opcode);
+  uint32_t newPC = PC+ 2 + GET_NEXT_BYTE_OF(opcode);
   
   if(newPC > 0xFFFFFF ) //PC is 3 byte, if sum are larger than its maximum exist
     return 2;

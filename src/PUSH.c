@@ -26,7 +26,7 @@ uint8_t push_cc(uint8_t *opcode){
 }
 
 uint8_t push_byte(uint8_t *opcode){
-  mcu_push( GET_BYTE(opcode) );
+  mcu_push( GET_NEXT_BYTE_OF(opcode) );
   return 2;
 }
 

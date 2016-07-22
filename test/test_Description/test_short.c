@@ -27,14 +27,14 @@ void tearDown(void)
   free(ramBlock);  
 }
 
-void test_GET_BYTE(void){
+void test_GET_NEXT_BYTE_OF(void){
 
   uint8_t shortMem = 0xAD;
 
   uint8_t instr[] = {0XBB, shortMem};
   uint8_t *opcode = instr;
  
-  TEST_ASSERT_EQUAL_INT8(shortMem, GET_BYTE(opcode));
+  TEST_ASSERT_EQUAL_INT8(shortMem, GET_NEXT_BYTE_OF(opcode));
 }
 
 void test_getShortMemSrc(void){
@@ -44,7 +44,7 @@ void test_getShortMemSrc(void){
   uint8_t instr[]  = {0XBB, shortMem};
   uint8_t *opcode = instr;
   
-  TEST_ASSERT_EQUAL_INT8(value, getShortMemSrc( opcode));
+  TEST_ASSERT_EQUAL_INT8(value, GET_SHORT_MEM_SRC( opcode));
 }
 
 void test_GET_SHORT_OFF_X(void){

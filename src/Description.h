@@ -5,16 +5,16 @@
 #include "Memory.h"
 #include <stdio.h>
 
-
-#define GET_BYTE(p)            *(++p)
+#define INC_THIS(p)            *(++p)
+#define GET_NEXT_BYTE_OF(p)    (*(1+p))
 #define GET_WORD(p)            getBigEndianWord(++p)     // GETWORD is same as GET_LONG_MEM
-#define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE( *( GET_BYTE(p) ) )  
-//  MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 
-#define GET_SHORT_OFF_X(p)   (X + GET_BYTE(p) )
-#define GET_SHORT_OFF_Y(p)   (Y + GET_BYTE(p) )
-#define GET_SHORT_OFF_SP(p)  (SP + GET_BYTE(p) )
-#define GET_SHORT_PTR_W(p)   ( getBigEndianWordFromAddress(GET_BYTE(p)) )
+
+
+#define GET_SHORT_OFF_X(p)   (X + GET_NEXT_BYTE_OF(p) )
+#define GET_SHORT_OFF_Y(p)   (Y + GET_NEXT_BYTE_OF(p) )
+#define GET_SHORT_OFF_SP(p)  (SP + GET_NEXT_BYTE_OF(p) )
+#define GET_SHORT_PTR_W(p)   ( getBigEndianWordFromAddress(GET_NEXT_BYTE_OF(p)) )
 #define GET_SHORT_PTR_W_X(p)  ( X + GET_SHORT_PTR_W(p) )
 #define GET_SHORT_PTR_W_Y(p)  ( Y + GET_SHORT_PTR_W(p) )
 
@@ -30,6 +30,8 @@
 #define GET_EXT_MEM(p)     getBigEndianExt(++p)
 
 //Short
+#define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE(GET_NEXT_BYTE_OF(p))  
+
 uint8_t   getShortMemSrc(uint8_t *opcode);
 
 uint8_t   getShortOffXSrc(uint8_t *opcode);

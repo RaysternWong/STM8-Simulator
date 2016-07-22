@@ -4,7 +4,7 @@
 #include "CPUConfig.h"
 #include "ErrorObject.h"
 
-uint8_t div_x_y(void)
+uint8_t div_x_y(uint8_t *opcode)
 {
   uint16_t x = X, y = Y;
   

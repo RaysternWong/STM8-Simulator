@@ -7,9 +7,11 @@
 
 //Short
 uint8_t  getShortMemSrc(uint8_t *opcode){
-  uint8_t shortMem = GET_BYTE(opcode);
+  uint8_t shortMem = GET_NEXT_BYTE_OF(opcode);
   return MEM_READ_BYTE(shortMem);
 }
+
+//#define GET_SHORT_MEM_SRC(p)   MEM_READ_BYTE( *( GET_BYTE(p) ) )  
 
 uint8_t getShortOffXSrc(uint8_t *opcode){
   uint16_t x = GET_SHORT_OFF_X(opcode) ;
@@ -78,8 +80,6 @@ void setValueHoldByLongmem(uint8_t *opcode, uint8_t value){
 
 
 uint32_t getExtmem(uint8_t *opcode){
-
-
   uint32_t extmem  = getBigEndianExt( opcode );
   return extmem;
 }

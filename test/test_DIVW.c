@@ -37,8 +37,11 @@ void test_div_x_y(void)
   
   YH = 0X11;
   YL = 0X11;
+  
+  
+  uint8_t instr[] = {0XAB};
     
-  int length = div_x_y();
+  int length = div_x_y(instr);
   TEST_ASSERT_EQUAL_INT16(0x00, XH);
   TEST_ASSERT_EQUAL_INT16(0x03, XL);
   TEST_ASSERT_EQUAL_INT8(0x00, YH);
@@ -71,8 +74,10 @@ void test_div_x_y_with_remaidner(void)
   
   YH = 0X22;
   YL = 0X22;
+  
+  uint8_t instr[] = {0XAB};
     
-  int length = div_x_y();
+  int length = div_x_y(instr);
   TEST_ASSERT_EQUAL_INT16(0x00, XH);
   TEST_ASSERT_EQUAL_INT16(0x01, XL);
   TEST_ASSERT_EQUAL_INT8(0x11, YH);
@@ -95,8 +100,10 @@ void test_div_x_y_with_x_equal_0(void)
   
   YH = 0X22;
   YL = 0X22;
+  
+  uint8_t instr[] = {0XAB};
     
-  int length = div_x_y();
+  int length = div_x_y(instr);
   TEST_ASSERT_EQUAL_INT16(0x00, XH);
   TEST_ASSERT_EQUAL_INT16(0x00, XL);
   TEST_ASSERT_EQUAL_INT8(0x00, YH);
@@ -121,8 +128,10 @@ void test_div_x_y_with_y_equal_0_should_set_C_and_get_error(void)
   YH = 0X00;
   YL = 0X00;
   
+  uint8_t instr[] = {0XAB};
+  
   Try{
-    int length = div_x_y();
+    int length = div_x_y(instr);
     TEST_FAIL_MESSAGE("Expected ERR_DIVIDER_IS_0");
     
   TEST_ASSERT_EQUAL(1, length);

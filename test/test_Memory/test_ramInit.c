@@ -41,7 +41,7 @@ void test_ramInit_given_write_a_data_to_a_address_is_within_ram_address_range(vo
   free(ramBlock);
 }
 
-void xtest_ramInit_given_write_a_data_to_a_address_is_without_ram_address_range(void)
+void test_ramInit_given_write_a_data_to_a_address_is_without_ram_address_range(void)
 {
   ErrorObject* err;
   

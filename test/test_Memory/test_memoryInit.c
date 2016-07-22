@@ -12,7 +12,7 @@
 
 void setUp(void)
 {                          
-
+  setMemoryTable(noMemory, STM8_START_ADDR, STM8_END_ADDR );
 }
 
 void tearDown(void)

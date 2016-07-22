@@ -31,8 +31,9 @@ void test_div_x_a(void)
   XL = 0X22;
   
   A = 0X33;
+  uint8_t instr[] = {0XAB};
     
-  int length = div_x_a();
+  int length = div_x_a(instr);
   TEST_ASSERT_EQUAL_INT16(0x01, XH);
   TEST_ASSERT_EQUAL_INT16(0x00, XL);
   TEST_ASSERT_EQUAL_INT8(0x22, A);
@@ -45,8 +46,9 @@ void test_div_y_a(void)
   YL = 0X22;
   
   A = 0X33;
+  uint8_t instr[] = {0XAB};
     
-  int length = div_y_a();
+  int length = div_y_a(instr);
   TEST_ASSERT_EQUAL_INT16(0x01, YH);
   TEST_ASSERT_EQUAL_INT16(0x00, YL);
   TEST_ASSERT_EQUAL_INT8(0x22, A);

@@ -7,7 +7,7 @@
 #include "Memory.h"
 
 uint8_t adc_a_byte(uint8_t *opcode){
-  mcu_adc( GET_BYTE(opcode) );
+  mcu_adc( GET_NEXT_BYTE_OF(opcode) );
   return 2;
 }
 

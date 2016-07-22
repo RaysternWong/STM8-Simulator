@@ -7,7 +7,7 @@
 #include "Memory.h"
 
 uint8_t sub_a_byte(uint8_t *opcode){
-  mcu_sub( GET_BYTE(opcode) );
+  mcu_sub( GET_NEXT_BYTE_OF(opcode) );
   return 2;
 }
 
@@ -84,7 +84,7 @@ uint8_t sub_a_shortptr_w_y(uint8_t *opcode){
 uint8_t sub_sp_byte(uint8_t *opcode){
   
   uint16_t a      = SP;
-  uint8_t  value  = GET_BYTE(opcode) ;
+  uint8_t  value  = GET_NEXT_BYTE_OF(opcode) ;
   uint16_t result = a - value;
 
   SET_SP(result);

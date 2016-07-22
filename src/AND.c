@@ -8,7 +8,7 @@
 
 
 uint8_t and_a_byte(uint8_t *opcode){
-  A &= GET_BYTE(opcode);
+  A &= GET_NEXT_BYTE_OF(opcode);
   SET_ARITHMETIC_FLAG(A);
   return 2;
 }

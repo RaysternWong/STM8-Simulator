@@ -8,7 +8,7 @@
 
 
 uint8_t add_a_byte(uint8_t *opcode){
-  mcu_add( GET_BYTE(opcode) );
+  mcu_add( GET_NEXT_BYTE_OF(opcode) );
   return 2;
 }
 

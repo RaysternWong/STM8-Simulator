@@ -38,6 +38,6 @@ uint8_t addw_y_shortoff_sp(uint8_t *opcode){
 }
 
 uint8_t addw_sp_byte(uint8_t *opcode){
-  mcu_addw(&SPH, GET_BYTE(opcode));
+  mcu_addw(&SPH, GET_NEXT_BYTE_OF(opcode));
   return 2;
 }
