@@ -144,7 +144,7 @@ void test_GET_LONG_PTR_E_SRC(void){
   MEM_WRITE_BYTE( longMem   ,  0x01);
   MEM_WRITE_BYTE( longMem1  ,  0xee);
   MEM_WRITE_BYTE( longMem2  ,  0xaa);
- MEM_WRITE_BYTE( 0x01eeaa ,  value); 
+  MEM_WRITE_BYTE( 0x01eeaa ,  value); 
    
   TEST_ASSERT_EQUAL_INT8( value, GET_LONG_PTR_E_SRC(instr));
 }

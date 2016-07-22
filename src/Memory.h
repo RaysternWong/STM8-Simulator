@@ -40,7 +40,6 @@
 #define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
 #define GPIO_ARR(addr) ( gpioBlock->data[addr-RAM_START_ADDR]  )
 
-
 typedef enum{
   MEM_READ,
   MEM_WRITE,
@@ -54,11 +53,21 @@ typedef struct{
 
 typedef uint32_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size, uint8_t data);
 
-MemoryMap memoryTable[0x280] ;
+MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
+MemoryMap   memoryTable[0x280] ;
 
 extern MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 
-MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
+
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
+void clearConditionCodeRegister(Flag *ccR);
+void memoryInit(void);
+void memoryFree(void);
+void ramInit        (uint32_t address, uint32_t size);
+void gpioInit       (uint32_t address, uint32_t size);
+void eepromInit     (uint32_t address, uint32_t size);
+void flashInit      (uint32_t address, uint32_t size);
+void cpuInit        (uint32_t address, uint32_t size);
 
 uint32_t noMemory      (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
@@ -67,8 +76,11 @@ uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data)
 uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
 
-void memoryInit(void);
-void memoryFree(void);
+
+
+CPU_t *createCPU(void);
+
+
 
 
 void memoryBlockInit( MemoryBlock **block, 
@@ -76,17 +88,5 @@ void memoryBlockInit( MemoryBlock **block,
                       uint32_t    startAddr,
                       uint32_t    size
                     );
-
-void ramInit(uint32_t address, uint32_t size);
-void gpioInit(uint32_t address, uint32_t size);
-void eepromInit(uint32_t address, uint32_t size);
-void flashInit(uint32_t address, uint32_t size);
-void cpuInit(uint32_t address, uint32_t size);
-
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
-
-CPU_t *createCPU(void);
-void clearConditionCodeRegister(Flag *ccR);
-
 #endif // Memory_H
 

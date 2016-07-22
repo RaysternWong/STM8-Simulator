@@ -130,8 +130,7 @@ uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data)
   
 }
 
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end)
-{
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end){
   int i;
   start /= 0x100;
   end /= 0x100;
@@ -140,8 +139,7 @@ void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t 
     memoryTable[i] = memoryFunc;
 }
 
-void clearConditionCodeRegister(Flag *ccR)
-{
+void clearConditionCodeRegister(Flag *ccR){
   ccR->full = 0;
   (ccR->bits).v  = 0;
   (ccR->bits).l1 = 0;

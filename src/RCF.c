@@ -8,5 +8,12 @@
 
 
 uint8_t rcf(uint8_t *opcode){
-  clearConditionCodeRegister(&(cpu->ccr));
+  CC = 0;
+  V  = 0;
+  L1 = 0;
+  H  = 0;
+  L0 = 0;
+  N  = 0;
+  Z  = 0;
+  C  = 0;
 }
