@@ -30,6 +30,20 @@ void memoryInit(void){
   flashInit (OPTION_BYTE_START_ADDR, GPIO_START_ADDR - 1- OPTION_BYTE_START_ADDR); //0x4800 --> 0x4FFF
 }
 
+void memoryBlockInit( MemoryBlock **block, 
+                      uint32_t    (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), 
+                      uint32_t    startAddr,
+                      uint32_t    size
+                    ){
+  *block = malloc(sizeof(MemoryBlock));
+  (*block)->startAddr =& startAddr;
+  (*block)->size = size;
+  (*block)->data = malloc(size);  
+  setMemoryTable( memoryFunc , startAddr , size );
+}
+
+
+
 void memoryFree(void){
   free(ramBlock);
   free(gpioBlock);

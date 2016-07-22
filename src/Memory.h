@@ -69,6 +69,14 @@ uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data)
 
 void memoryInit(void);
 void memoryFree(void);
+
+
+void memoryBlockInit( MemoryBlock **block, 
+                      uint32_t    (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), 
+                      uint32_t    startAddr,
+                      uint32_t    size
+                    );
+
 void ramInit(uint32_t address, uint32_t size);
 void gpioInit(uint32_t address, uint32_t size);
 void eepromInit(uint32_t address, uint32_t size);
