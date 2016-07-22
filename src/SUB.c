@@ -12,14 +12,15 @@ uint8_t sub_a_byte(uint8_t *opcode){
 }
 
 uint8_t sub_a_shortmem(uint8_t *opcode){
-  mcu_sub(getShortMemSrc(opcode));
+  mcu_sub(GET_SHORT_MEM_SRC(opcode));
   return 2;
 }
 
 uint8_t sub_a_longmem(uint8_t *opcode){
-  mcu_sub( getLongMemSrc(opcode) );
+  mcu_sub( GET_LONG_MEM_SRC(opcode) );
   return 3;
 }
+
 
 uint8_t sub_a_x(uint8_t *opcode){
   mcu_sub( X_SRC);
@@ -27,14 +28,15 @@ uint8_t sub_a_x(uint8_t *opcode){
 }
 
 uint8_t sub_a_shortoff_x(uint8_t *opcode){
-  mcu_sub( getShortOffXSrc(opcode) );
+  mcu_sub( GET_SHORT_OFF_X_SRC(opcode) );
   return 2;
 }
 
 uint8_t sub_a_longoff_x(uint8_t *opcode){
-  mcu_sub( getLongOffXSrc(opcode) );
+  mcu_sub( GET_LONG_OFF_X_SRC(opcode) );
   return 3;
 }
+
 
 uint8_t sub_a_y(uint8_t *opcode){
   mcu_sub(  Y_SRC );
@@ -42,42 +44,42 @@ uint8_t sub_a_y(uint8_t *opcode){
 }
 
 uint8_t sub_a_shortoff_y(uint8_t *opcode){
-  mcu_sub( getShortOffYSrc(opcode) );
+  mcu_sub( GET_SHORT_OFF_Y_SRC(opcode) );
   return 3;
 }
 
 uint8_t sub_a_longoff_y(uint8_t *opcode){
-  mcu_sub( getLongOffYSrc(opcode) );
+  mcu_sub( GET_LONG_OFF_Y_SRC(opcode) );
   return 4;
 }
 
 uint8_t sub_a_shortoff_sp(uint8_t *opcode){
-  mcu_sub( getShortOffSPSrc(opcode) );
+  mcu_sub( GET_SHORT_OFF_SP_SRC(opcode) );
   return 2;
 }
 
 uint8_t sub_a_shortptr_w(uint8_t *opcode){
-  mcu_sub( getShortPtrWSrc(opcode) );
+  mcu_sub( GET_SHORT_PTR_W_SRC(opcode) );
   return 3;
 }
 
 uint8_t sub_a_longptr_w(uint8_t *opcode){
-  mcu_sub( getLongPtrWSrc(opcode) );
+  mcu_sub( GET_LONG_PTR_W_SRC(opcode) );
   return 4;
 }
 
 uint8_t sub_a_shortptr_w_x(uint8_t *opcode){
-  mcu_sub( getShortPtrWXSrc(opcode) );
+  mcu_sub( GET_SHORT_PTR_W_X_SRC(opcode) );
   return 3;
 }
 
 uint8_t sub_a_longptr_w_x(uint8_t *opcode){
-  mcu_sub( getLongPtrWXSrc(opcode) );
+  mcu_sub( GET_LONG_PTR_W_X_SRC(opcode) );
   return 4;
 }
 
 uint8_t sub_a_shortptr_w_y(uint8_t *opcode){
-  mcu_sub( getShortPtrWYSrc(opcode) ); 
+  mcu_sub( GET_SHORT_PTR_W_Y_SRC(opcode) ); 
   return 3;
 }
 

@@ -31,6 +31,6 @@ uint8_t push_byte(uint8_t *opcode){
 }
 
 uint8_t push_longmem(uint8_t *opcode){
-  mcu_push(getLongMemSrc(opcode));
+  mcu_push(GET_LONG_MEM_SRC(opcode));
   return 3;
 }

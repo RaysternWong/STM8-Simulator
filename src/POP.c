@@ -19,6 +19,6 @@ uint8_t pop_cc(uint8_t *opcode){
 
 uint8_t pop_longmem(uint8_t *opcode){
   uint8_t   value  = mcu_pop();
-  setValueHoldByLongmem(opcode, value);
+  SET_LONG_MEM_SRC(opcode, value);
   return 3;
 }
