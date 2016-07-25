@@ -7,7 +7,14 @@
 #include "ErrorObject.h"
 
 
+
+
+
+
+
 Instruction firstOpcode[256] = {
+  
+  [0X10] = subw_x_word   
   
   // ADD
   [0xAB] = add_a_byte,
@@ -25,6 +32,14 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  
+  
+  [0XB0] = subw_x_longmem    
+  [0XA0] = subw_x_shortoff_sp
+  [0XA2] = subw_y_word      
+  [0XB2] = subw_y_longmem    
+  [0XF2] = subw_y_shortoff_sp
+  
   
   // ADD
   [0xCB] = add_a_longptr_w,

@@ -142,17 +142,26 @@ void mcu_sub(uint8_t value)
 
 void mcu_subw(uint8_t *reg, uint16_t value){
   uint16_t a  = getBigEndianWord(reg);
-    // printf("%x\n", a);
-   // printf("%x\n", value);
   uint16_t result = a - value;
   setBigEndianWord( reg, result);
-  //printf("%x\n", result);
+
   N = R15;
   Z = (result == 0 ? 1 : 0);
   H = _A7 & M7 | _A7 & R7 | A7 & M7 & R7;
   C = _A15 & M15 | _A15 & R15 | A15 & M15 & R15;
   V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14);
 }
+
+void mcu_neg(uint16_t addr){
+  uint8_t result = 0 - MEM_READ_BYTE(addr);
+  MEM_WRITE_BYTE( addr, result);
+  
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  C = ~Z;
+  V = R7 & _R6 & _R5 & _R4 & _R3 & _R2 & _R1 & _R0;
+}
+
 
 void mcu_div(uint8_t *reg)
 {
