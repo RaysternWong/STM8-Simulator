@@ -99,6 +99,24 @@
 #define M14 ( (value & 0X4000) >> 14)
 #define M15 ( (value & 0X8000) >> 15)
 
+#define _M0  (M0 == 0 ? 1 : 0)
+#define _M1  (M1 == 0 ? 1 : 0)
+#define _M2  (M2 == 0 ? 1 : 0)
+#define _M3  (M3 == 0 ? 1 : 0)
+#define _M4  (M4 == 0 ? 1 : 0)
+#define _M5  (M5 == 0 ? 1 : 0)
+#define _M6  (M6 == 0 ? 1 : 0)
+#define _M7  (M7 == 0 ? 1 : 0)
+
+#define _M8  (M8 == 0 ? 1 : 0)
+#define _M9  (M9 == 0 ? 1 : 0)
+#define _M10 (M10 == 0 ? 1 : 0)
+#define _M11 (M11 == 0 ? 1 : 0)
+#define _M12 (M12 == 0 ? 1 : 0)
+#define _M13 (M13 == 0 ? 1 : 0)
+#define _M14 (M14 == 0 ? 1 : 0)
+#define _M15 (M15 == 0 ? 1 : 0)
+
 
 // Accumulator (or others register like index X,Y,SP)
 #define A0  (a & 0X01) 
@@ -127,6 +145,15 @@
 #define _A5  (A5 == 0 ? 1 : 0)
 #define _A6  (A6 == 0 ? 1 : 0)
 #define _A7  (A7 == 0 ? 1 : 0)
+
+#define _A8  (A8 == 0 ? 1 : 0)
+#define _A9  (A9 == 0 ? 1 : 0)
+#define _A10 (A10 == 0 ? 1 : 0)
+#define _A11 (A11 == 0 ? 1 : 0)
+#define _A12 (A12 == 0 ? 1 : 0)
+#define _A13 (A13 == 0 ? 1 : 0)
+#define _A14 (A14 == 0 ? 1 : 0)
+#define _A15 (A15 == 0 ? 1 : 0)
 
 // Result
 #define R0  (result & 0X01)
@@ -187,6 +214,7 @@ void mcu_add(uint8_t value);
 void mcu_adc(uint8_t value);
 void mcu_addw(uint8_t *reg, uint16_t value);
 void mcu_sub(uint8_t value);
+void mcu_subw(uint8_t *reg, uint16_t value);
 void mcu_div(uint8_t *reg);
 
 uint8_t mcu_pop(void);

@@ -68,7 +68,7 @@ void test_addw_x_word_with_carry_from_bit8_to_bit9(void)
 *       0x 13 69
 *---------------
 */
-void test_add_x_longmem(void)
+void test_addw_x_longmem(void)
 {
   XH = 0x13;
   XL = 0x67;
@@ -139,7 +139,7 @@ void test_addw_y_word_with_carry_from_bit8_to_bit9(void)
 *       0x 13 69
 *---------------
 */
-void test_add_y_longmem(void)
+void test_addw_y_longmem(void)
 {
   YH = 0x13;
   YL = 0x67;

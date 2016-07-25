@@ -9,10 +9,6 @@
 uint16_t getBigEndianWord(uint8_t *bytes){
   uint8_t msb = *bytes;
   uint8_t lsb = GET_NEXT_BYTE_OF(bytes);
-  
-  // printf("%x\n",msb);
-  // printf("%x\n",lsb);
-  
   return ( (msb<<8) + lsb);
 }
 
@@ -142,6 +138,20 @@ void mcu_sub(uint8_t value)
   Z = (result == 0 ? 1 : 0);
   C = _A7 & M7 | _A7 & R7 | A7 & M7 & A7;
   V = (A7 & M7 | A7 & R7 | A7 & M7 & R7) ^ (A6 & M6 | A6 & R6 | A6 & M6 & R6) ;
+}
+
+void mcu_subw(uint8_t *reg, uint16_t value){
+  uint16_t a  = getBigEndianWord(reg);
+    // printf("%x\n", a);
+   // printf("%x\n", value);
+  uint16_t result = a - value;
+  setBigEndianWord( reg, result);
+  //printf("%x\n", result);
+  N = R15;
+  Z = (result == 0 ? 1 : 0);
+  H = _A7 & M7 | _A7 & R7 | A7 & M7 & R7;
+  C = _A15 & M15 | _A15 & R15 | A15 & M15 & R15;
+  V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14);
 }
 
 void mcu_div(uint8_t *reg)
