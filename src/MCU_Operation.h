@@ -35,6 +35,7 @@
 #define MEM_READ_EXT(addr)   memoryTable[addr/0x100](MEM_READ, addr, 3, 0)
 #define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 0, data)
 
+
 #define SET_X(word)        setBigEndianWord(&XH, word)
 #define SET_Y(word)        setBigEndianWord(&YH, word)
 #define SET_SP(word)       setBigEndianWord(&SPH, word)
@@ -216,6 +217,7 @@ void mcu_addw(uint8_t *reg, uint16_t value);
 void mcu_sub(uint8_t value);
 void mcu_subw(uint8_t *reg, uint16_t value);
 void mcu_neg(uint16_t addr);
+void mcu_negw(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
 uint8_t mcu_pop(void);

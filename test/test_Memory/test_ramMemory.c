@@ -31,18 +31,6 @@ void test_ramMemory_write_in_0xBB_and_getBack_0xBB(void)
   TEST_ASSERT_EQUAL_INT8(0xBB, MEM_READ_BYTE(addr));
 }
 
-void test_ramMemory_write_in_0xBBCC_and_getBack_0xBBCC(void)
-{
-  uint16_t data = 0xBBCC;
-  
-  uint32_t addr = 0x03FF;
-
-  uint8_t size = 0x1;
-  
-  MEM_WRITE_BYTE(addr,data);
-  TEST_ASSERT_EQUAL_INT8(0xBBCC, RAM_ARR(addr));
-  TEST_ASSERT_EQUAL_INT8(0xBBCC, MEM_READ_BYTE(addr));
-}
 
 void test_ramMemory_write_in_AA_BB_then_MEM_READ_WORD_should_get_0xAABB(void)
 {

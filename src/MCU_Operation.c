@@ -162,6 +162,16 @@ void mcu_neg(uint16_t addr){
   V = R7 & _R6 & _R5 & _R4 & _R3 & _R2 & _R1 & _R0;
 }
 
+void mcu_negw(uint16_t addr){
+  uint16_t result = 0 - MEM_READ_WORD(addr);
+  MEM_WRITE_BYTE(addr  , result >> 8);
+  MEM_WRITE_BYTE(addr+1, result );
+  
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  C = ~Z;
+  V = R7 & _R6 & _R5 & _R4 & _R3 & _R2 & _R1 & _R0;
+}
 
 void mcu_div(uint8_t *reg)
 {
