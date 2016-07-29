@@ -9,6 +9,7 @@
 #include "SUBW.h"
 #include "SBC.h"
 #include "CPL.h"
+#include "CPLW.h"
 #include "ErrorObject.h"
 
 
@@ -19,6 +20,8 @@ Instruction firstOpcode[256] = {
   [0x73] = cpl_x           ,
   [0x63] = cpl_shortoff_x  ,
   [0x03] = cpl_shortoff_sp ,
+  
+  [0x53] = cplw_x,
   
   [0X00] = neg_shortoff_sp,
   [0X40] = neg_a          ,
@@ -90,6 +93,8 @@ Instruction opcode90[256] = {
   [0x73] = cpl_y           ,
   [0x63] = cpl_shortoff_y  ,
   [0x43] = cpl_longoff_y   ,
+  
+  [0x53] = cplw_y,
   
   [0XF2] = sbc_a_y           ,
   [0XE2] = sbc_a_shortoff_y  ,
