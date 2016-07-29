@@ -27,7 +27,8 @@
 #define Z   ((cpu->ccr).bits.z)   //zero
 #define C   ((cpu->ccr).bits.c)   //carry
 
-#define SET_Z_N_FLAG(num) Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
+#define SET_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
+#define SET_Z_N_FLAG_FOR_16_BIT(num) Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 #define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
@@ -219,6 +220,7 @@ void mcu_sbc(uint8_t value);
 void mcu_subw(uint8_t *reg, uint16_t value);
 void mcu_neg(uint16_t addr);
 void mcu_div(uint8_t *reg);
+void mcu_cpl(uint16_t addr);
 
 uint8_t mcu_pop(void);
 

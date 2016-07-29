@@ -166,8 +166,7 @@ void mcu_neg(uint16_t addr){
   uint8_t result = 0 - MEM_READ_BYTE(addr);
   MEM_WRITE_BYTE( addr, result);
   
-  N = R7;
-  Z = (result == 0 ? 1 : 0);
+  SET_Z_N_FLAG(result);
   C = ~Z;
   V = (result == 0x80 ? 1 : 0);
 }
@@ -190,4 +189,12 @@ void mcu_div(uint8_t *reg)
   
   A = remainder;
   setBigEndianWord(reg, quotient);
+}
+
+void mcu_cpl(uint16_t addr){
+  uint8_t result = 0xFF - MEM_READ_BYTE(addr);
+  MEM_WRITE_BYTE( addr, result);
+  
+  SET_Z_N_FLAG(result);
+  C = 1;
 }

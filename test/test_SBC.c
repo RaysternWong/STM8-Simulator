@@ -17,8 +17,7 @@ void setUp(void)
   setMemoryTable( ramMemory , 0 , 0xFFFF); 
 }
 
-void tearDown(void)
-{
+void tearDown(void){
    free(cpu);
    free(ramBlock);
 }
@@ -28,6 +27,7 @@ void tearDown(void)
 void test_sbc_a_byte(void)
 {
   A = 0x09;
+  C = 0;
   uint8_t instr[] = {0XAB, 0X05};
   
   TEST_ASSERT_EQUAL(2, sbc_a_byte(instr));

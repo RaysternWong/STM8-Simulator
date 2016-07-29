@@ -8,10 +8,17 @@
 #include "NEGW.h"
 #include "SUBW.h"
 #include "SBC.h"
+#include "CPL.h"
 #include "ErrorObject.h"
 
 
+
 Instruction firstOpcode[256] = {
+  [0x43] = cpl_a           ,
+  [0x33] = cpl_shortmem    ,
+  [0x73] = cpl_x           ,
+  [0x63] = cpl_shortoff_x  ,
+  [0x03] = cpl_shortoff_sp ,
   
   [0X00] = neg_shortoff_sp,
   [0X40] = neg_a          ,
@@ -22,7 +29,6 @@ Instruction firstOpcode[256] = {
   [0X60] = neg_shortoff_x ,
   
   [0X10] = subw_x_word,   
-  
   
   [0XA2] = sbc_a_byte        ,
   [0XB2] = sbc_a_shortmem    ,
@@ -48,6 +54,11 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  
+  [0x53] = cpl_longmem     ,
+  [0x43] = cpl_longoff_x   ,
+  [0x33] = cpl_longptr_w   ,
+  [0x63] = cpl_longptr_w_x ,
   
   [0X50] = neg_longmem    ,
   [0X40] = neg_longoff_x  ,
@@ -76,6 +87,10 @@ Instruction opcode72[256] = {
 
 Instruction opcode90[256] = {
   
+  [0x73] = cpl_y           ,
+  [0x63] = cpl_shortoff_y  ,
+  [0x43] = cpl_longoff_y   ,
+  
   [0XF2] = sbc_a_y           ,
   [0XE2] = sbc_a_shortoff_y  ,
   [0XD2] = sbc_a_longoff_y   ,
@@ -93,6 +108,8 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
+  [0x63] = cpl_shortptr_w_y,
+  
   // ADD
   [0xDB] = add_a_shortptr_w_y,
   
@@ -102,7 +119,11 @@ Instruction opcode91[256] = {
 
 Instruction opcode92[256] = {
   
+  [0x33] = cpl_shortptr_w  ,
+  [0x63] = cpl_shortptr_w_x,
+  
   [0X40] = neg_shortptr_w ,
+  
   
   [0XC2] = sbc_a_shortptr_w  ,
   [0XD2] = sbc_a_shortptr_w_x,

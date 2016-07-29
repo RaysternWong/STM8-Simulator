@@ -9,6 +9,7 @@
 #include "NEGW.h"
 #include "SUBW.h"
 #include "SBC.h"
+#include "CPL.h"
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"
