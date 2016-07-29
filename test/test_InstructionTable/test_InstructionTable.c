@@ -5,6 +5,7 @@
 #include "ADDW.h"
 #include "ADD.h"
 #include "ADC.h"
+#include "SUBW.h"
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"

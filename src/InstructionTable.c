@@ -4,7 +4,13 @@
 #include "ADDW.h"
 #include "ADD.h"
 #include "ADC.h"
+#include "SUBW.h"
 #include "ErrorObject.h"
+
+
+
+
+
 
 
 
@@ -14,7 +20,13 @@
 
 Instruction firstOpcode[256] = {
   
-  [0X10] = subw_x_word   
+  [0X00] = neg_shortoff_sp,
+  [0X40] = neg_a          ,
+  [0X30] = neg_shortmem   ,
+  [0X70] = neg_x          ,
+  [0X60] = neg_shortoff_x ,
+  
+  [0X10] = subw_x_word,   
   
   // ADD
   [0xAB] = add_a_byte,
@@ -33,12 +45,14 @@ Instruction firstOpcode[256] = {
 
 Instruction opcode72[256] = {
   
+  [0X50] = neg_longmem    ,
+  [0X40] = neg_longoff_x  ,
   
-  [0XB0] = subw_x_longmem    
-  [0XA0] = subw_x_shortoff_sp
-  [0XA2] = subw_y_word      
-  [0XB2] = subw_y_longmem    
-  [0XF2] = subw_y_shortoff_sp
+  [0XB0] = subw_x_longmem,    
+  [0XA0] = subw_x_shortoff_sp,
+  [0XA2] = subw_y_word,      
+  [0XB2] = subw_y_longmem,    
+  [0XF2] = subw_y_shortoff_sp,
   
   
   // ADD
@@ -55,6 +69,12 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  
+  [0X70] = neg_y          ,
+  [0X60] = neg_shortoff_y ,
+  [0X40] = neg_longoff_y  ,
+  
+  
   // ADD
   [0xFB] = add_a_y,
   [0xEB] = add_a_shortoff_y,
@@ -69,6 +89,9 @@ Instruction opcode91[256] = {
 };
 
 Instruction opcode92[256] = {
+  
+  [0X40] = neg_shortptr_w ,
+  
   // ADD
   [0xCB] = add_a_shortptr_w,
   [0xDB] = add_a_shortptr_w_x,

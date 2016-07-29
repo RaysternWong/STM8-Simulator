@@ -39,7 +39,7 @@ void test_mcu_neg_set_negative_flag_carry_flag(void){
   TEST_ASSERT_EQUAL(0, L0);
   TEST_ASSERT_EQUAL(1, N);  // bit 7 is 1
   TEST_ASSERT_EQUAL(0, Z);
-  TEST_ASSERT_EQUAL(1, C);  // result > 0
+  TEST_ASSERT_EQUAL(1, C);  // result != 0
 }
 
 void test_mcu_neg_set_zero_flag(void){
@@ -78,5 +78,5 @@ void test_mcu_neg_set_overflow_flag(void){
   TEST_ASSERT_EQUAL(0, L0);
   TEST_ASSERT_EQUAL(1, N);  // bit 7 is 1
   TEST_ASSERT_EQUAL(0, Z);
-  TEST_ASSERT_EQUAL(1, C);  // result > 0
+  TEST_ASSERT_EQUAL(1, C);  // result != 0
 }
