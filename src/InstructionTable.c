@@ -11,15 +11,10 @@
 #include "CPL.h"
 #include "CPLW.h"
 #include "INC.h"
+#include "INCW.h"
 #include "DEC.h"
+#include "DECW.h"
 #include "ErrorObject.h"
-
-
-
-
-
-
-
 
 
 Instruction firstOpcode[256] = {
@@ -29,13 +24,15 @@ Instruction firstOpcode[256] = {
   [0X6A] = dec_shortoff_x  ,
   [0X0A] = dec_shortoff_sp ,
   
+  [0X5A] = decw_x           ,
+  
   [0X4C] = inc_a           ,
   [0X3C] = inc_shortmem    ,
   [0X7C] = inc_x           ,
   [0X6C] = inc_shortoff_x  ,
   [0X0C] = inc_shortoff_sp ,
   
-  
+  [0X5C] = incw_x          ,
   
   [0x43] = cpl_a           ,
   [0x33] = cpl_shortmem    ,
@@ -127,11 +124,13 @@ Instruction opcode90[256] = {
   [0X6A] = dec_shortoff_y  ,
   [0X4A] = dec_longoff_y   ,
   
+  [0X5A] = decw_y           ,
   
   [0X7C] = inc_y           ,
   [0X6C] = inc_shortoff_y  ,
   [0X4C] = inc_longoff_y   ,
   
+  [0X5C] = incw_y          ,
   
   [0x73] = cpl_y           ,
   [0x63] = cpl_shortoff_y  ,
