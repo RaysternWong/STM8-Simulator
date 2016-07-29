@@ -7,8 +7,6 @@
 
 #define INC_THIS(p)            (*(++p))
 #define GET_NEXT_BYTE_OF(p)    (*(1+p))
-#define GET_WORD(p)            (getBigEndianWord(1+p) )     // GETWORD is same as GET_LONG_MEM
-
 
 //-------------------------------------------SHORT-------------------------------------------------------
 

@@ -7,7 +7,7 @@
 #include "Memory.h"
 
 uint8_t subw_x_word(uint8_t *opcode){
-  mcu_subw(&XH, GET_WORD(opcode));
+  mcu_subw(&XH, GET_LONG_MEM(opcode));
   return 3;
 }
 
@@ -23,7 +23,7 @@ uint8_t subw_x_shortoff_sp(uint8_t *opcode){
 }
 
 uint8_t subw_y_word(uint8_t *opcode){
-  mcu_subw(&YH, GET_WORD(opcode));
+  mcu_subw(&YH, GET_LONG_MEM(opcode));
   return 4;
 }
 

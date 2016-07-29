@@ -37,6 +37,9 @@
 #define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 0, data)
 
 
+#define GET_WORD(msb,lsb)      ( (msb<<8) + lsb )
+#define GET_EXT(extb,msb,lsb)  ( (extb<<16) + (msb<<8) + lsb ) 
+
 #define SET_X(word)        setBigEndianWord(&XH, word)
 #define SET_Y(word)        setBigEndianWord(&YH, word)
 #define SET_SP(word)       setBigEndianWord(&SPH, word)

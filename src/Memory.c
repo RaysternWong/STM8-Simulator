@@ -92,14 +92,11 @@ uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
 
 uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 {
-  if(mode == MEM_READ){
+  if(mode == MEM_READ){  
     return ( size == 1 ? RAM_ARR(address) : 
-             size == 2 ? getBigEndianWordFromAddress(address) : getBigEndianExtFromAddress(address) );             
-    // if(size == 1)  
-      // return ( RAM_ARR(address) );
-    // if(size == 2)  
-      // return ( getBigEndianWordFromAddress(address) );
-    // return ( getBigEndianExtFromAddress(address) );
+             size == 2 ? GET_WORD( RAM_ARR(address), RAM_ARR(address+1) )  
+                       : GET_EXT(  RAM_ARR(address), RAM_ARR(address+1), RAM_ARR(address+2) )
+           );
   }
  
   if(mode == MEM_WRITE){
@@ -109,11 +106,10 @@ uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
 
 uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
   if(mode == MEM_READ){
-    if(size == 1)  
-      return ( GPIO_ARR(address) );
-    if(size == 2)  
-      return ( getBigEndianWordFromAddress(address) );
-    return ( getBigEndianExtFromAddress(address) );
+    return ( size == 1 ? GPIO_ARR(address) : 
+             size == 2 ? GET_WORD( GPIO_ARR(address), GPIO_ARR(address+1) )  
+                       : GET_EXT(  GPIO_ARR(address), GPIO_ARR(address+1), GPIO_ARR(address+2) )
+           );
   }
   
   if(mode == MEM_WRITE)
