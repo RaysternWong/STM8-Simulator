@@ -14,10 +14,13 @@
 #include "INCW.h"
 #include "DEC.h"
 #include "DECW.h"
+#include "NOP.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
+  [0X9D] = nop,
+  
   [0X4A] = dec_a           ,
   [0X3A] = dec_shortmem    ,
   [0X7A] = dec_x           ,

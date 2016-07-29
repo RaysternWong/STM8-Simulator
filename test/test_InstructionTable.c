@@ -15,6 +15,7 @@
 #include "INCW.h"
 #include "DEC.h"
 #include "DECW.h"
+#include "NOP.h"
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"
