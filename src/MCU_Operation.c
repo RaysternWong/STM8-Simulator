@@ -128,8 +128,7 @@ void mcu_addw(uint8_t *reg, uint16_t value){
   V = C ^ ( A14 & M14 | M14 & _R14 | _R14 & A14 );
 }
 
-void mcu_sub(uint8_t value)
-{
+void mcu_sub(uint8_t value){
   uint8_t a       = cpu->a;
   uint8_t result  = a - value;
 
@@ -138,6 +137,17 @@ void mcu_sub(uint8_t value)
   Z = (result == 0 ? 1 : 0);
   C = _A7 & M7 | _A7 & R7 | A7 & M7 & A7;
   V = (A7 & M7 | A7 & R7 | A7 & M7 & R7) ^ (A6 & M6 | A6 & R6 | A6 & M6 & R6) ;
+}
+
+void mcu_sbc(uint8_t value){
+  uint8_t a       = cpu->a;
+  uint8_t result  = a - value - C;
+  
+  A = result;
+  N = R7;
+  Z = (result == 0 ? 1 : 0);
+  C = _A7 & M7 | _A7 & R7 | A7 & M7 & A7;
+  V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) ;
 }
 
 void mcu_subw(uint8_t *reg, uint16_t value){
