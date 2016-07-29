@@ -79,6 +79,8 @@ void flashInit(uint32_t address, uint32_t size){
 void cpuInit(uint32_t address, uint32_t size){
   cpuBlock = createMemoryBlock(address, size);
   setMemoryTable( cpuMemory , address , size );
+  
+  cpu = (CPU_t) cpuBlock;
 }
 
 uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
