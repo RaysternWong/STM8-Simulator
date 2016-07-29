@@ -222,8 +222,11 @@ void mcu_sub(uint8_t value);
 void mcu_sbc(uint8_t value);
 void mcu_subw(uint8_t *reg, uint16_t value);
 void mcu_neg(uint16_t addr);
-void mcu_div(uint8_t *reg);
+void mcu_inc(uint16_t addr);
+void mcu_dec(uint16_t addr);
 void mcu_cpl(uint16_t addr);
+void mcu_div(uint8_t *reg);
+
 
 uint8_t mcu_pop(void);
 

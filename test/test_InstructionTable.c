@@ -11,6 +11,8 @@
 #include "SBC.h"
 #include "CPL.h"
 #include "CPLW.h"
+#include "INC.h"
+#include "DEC.h"
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"

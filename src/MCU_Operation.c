@@ -171,6 +171,28 @@ void mcu_neg(uint16_t addr){
   V = (result == 0x80 ? 1 : 0);
 }
 
+void mcu_inc(uint16_t addr){
+  uint8_t a = MEM_READ_BYTE(addr);
+  uint8_t value = 1 ;
+  uint8_t result =  a + value;
+  
+  MEM_WRITE_BYTE( addr, result);
+  
+  SET_Z_N_FLAG(result);
+  V = (A7 & M7 | M7 & _R7 | _R7 & A7) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
+}
+
+void mcu_dec(uint16_t addr){
+  uint8_t a = MEM_READ_BYTE(addr);
+  uint8_t value = 1 ;
+  uint8_t result =  a - value;
+  
+  MEM_WRITE_BYTE( addr, result);
+  
+  SET_Z_N_FLAG(result);
+  V = (A7 & M7 | M7 & _R7 | _R7 & A7) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
+}
+
 void mcu_div(uint8_t *reg)
 {
   if( A == 0){

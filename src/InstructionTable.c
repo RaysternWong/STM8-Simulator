@@ -10,11 +10,33 @@
 #include "SBC.h"
 #include "CPL.h"
 #include "CPLW.h"
+#include "INC.h"
+#include "DEC.h"
 #include "ErrorObject.h"
 
 
 
+
+
+
+
+
+
 Instruction firstOpcode[256] = {
+  [0X4A] = dec_a           ,
+  [0X3A] = dec_shortmem    ,
+  [0X7A] = dec_x           ,
+  [0X6A] = dec_shortoff_x  ,
+  [0X0A] = dec_shortoff_sp ,
+  
+  [0X4C] = inc_a           ,
+  [0X3C] = inc_shortmem    ,
+  [0X7C] = inc_x           ,
+  [0X6C] = inc_shortoff_x  ,
+  [0X0C] = inc_shortoff_sp ,
+  
+  
+  
   [0x43] = cpl_a           ,
   [0x33] = cpl_shortmem    ,
   [0x73] = cpl_x           ,
@@ -57,6 +79,18 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0X5A] = dec_longmem     ,
+  [0X4A] = dec_longoff_x   ,
+  [0X3A] = dec_longptr_w   ,
+  [0X6A] = dec_longptr_w_x ,
+
+  
+  [0X5C] = inc_longmem     ,
+  [0X4C] = inc_longoff_x   ,
+  [0X3C] = inc_longptr_w   ,
+  [0X6C] = inc_longptr_w_x ,
+  
+  
   
   [0x53] = cpl_longmem     ,
   [0x43] = cpl_longoff_x   ,
@@ -89,6 +123,15 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  [0X7A] = dec_y           ,
+  [0X6A] = dec_shortoff_y  ,
+  [0X4A] = dec_longoff_y   ,
+  
+  
+  [0X7C] = inc_y           ,
+  [0X6C] = inc_shortoff_y  ,
+  [0X4C] = inc_longoff_y   ,
+  
   
   [0x73] = cpl_y           ,
   [0x63] = cpl_shortoff_y  ,
@@ -113,6 +156,10 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
+  [0X6A] = dec_shortptr_w_y,
+  
+  [0X6C] = inc_shortptr_w_y,
+  
   [0x63] = cpl_shortptr_w_y,
   
   // ADD
@@ -123,6 +170,14 @@ Instruction opcode91[256] = {
 };
 
 Instruction opcode92[256] = {
+  [0X3A] = dec_shortptr_w  ,
+[0X6A] = dec_shortptr_w_x,
+  
+  
+  [0X3C] = inc_shortptr_w  ,
+
+[0X6C] = inc_shortptr_w_x,
+  
   
   [0x33] = cpl_shortptr_w  ,
   [0x63] = cpl_shortptr_w_x,

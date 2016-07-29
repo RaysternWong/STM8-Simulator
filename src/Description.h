@@ -14,7 +14,7 @@
 #define GET_SHORT_OFF_X(p)    (X + GET_SHORT_MEM(p) )
 #define GET_SHORT_OFF_Y(p)    (Y + GET_SHORT_MEM(p) )
 #define GET_SHORT_OFF_SP(p)   (SP + GET_SHORT_MEM(p) )
-#define GET_SHORT_PTR_W(p)    (getBigEndianWordFromAddress(GET_SHORT_MEM(p)) )
+#define GET_SHORT_PTR_W(p)    (MEM_READ_WORD(GET_SHORT_MEM(p)) )
 #define GET_SHORT_PTR_W_X(p)  (X + GET_SHORT_PTR_W(p) )
 #define GET_SHORT_PTR_W_Y(p)  (Y + GET_SHORT_PTR_W(p) )
 
@@ -32,8 +32,8 @@
 #define GET_LONG_OFF_X(p)   (X + GET_LONG_MEM(p) ) 
 #define GET_LONG_OFF_Y(p)   (Y + GET_LONG_MEM(p) )
 #define GET_LONG_OFF_SP(p)  (SP + GET_LONG_MEM(p) ) 
-#define GET_LONG_PTR_W(p)   (getBigEndianWordFromAddress(GET_LONG_MEM(p)) )
-#define GET_LONG_PTR_E(p)   (getBigEndianExtFromAddress(GET_LONG_MEM(p)) )
+#define GET_LONG_PTR_W(p)   (MEM_READ_WORD(GET_LONG_MEM(p)) )
+#define GET_LONG_PTR_E(p)   (MEM_READ_EXT(GET_LONG_MEM(p)) )
 #define GET_LONG_PTR_W_X(p) (X + GET_LONG_PTR_W(p) )
 #define GET_LONG_PTR_W_Y(p) (Y + GET_LONG_PTR_W(p) ) 
 
@@ -43,7 +43,6 @@
 #define GET_LONG_OFF_SP_SRC(p)  MEM_READ_BYTE( GET_LONG_OFF_SP(p) )  
 #define GET_LONG_PTR_W_SRC(p)   MEM_READ_BYTE( GET_LONG_PTR_W(p)  ) 
 #define GET_LONG_PTR_E_SRC(p)   MEM_READ_BYTE( GET_LONG_PTR_E(p)  ) 
-//#define GET_LONG_PTR_W_X_SRC(p)  MEM_READ_BYTE( GET_LONG_PTR_W_X(p)) 
 #define GET_LONG_PTR_W_X_SRC(p)  MEM_READ_BYTE( GET_LONG_PTR_W_X(p)) 
 #define GET_LONG_PTR_W_Y_SRC(p)  MEM_READ_BYTE( GET_LONG_PTR_W_Y(p)) 
 

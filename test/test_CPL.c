@@ -26,14 +26,14 @@ CPL ([$1234.w],X)
 
               M(M(longmem).w +X) ← FF - M(M(longmem).w+X)
                                               or
-                                   M(M(longmem).w+X) XOR FF
+                                   M(M(longmem).w+X) cpl FF
 
 
 
 */
 
 
-//Assembly : #byte | xor A,#$55
+//Assembly : #byte | cpl A,#$55
 void test_cpl_a(void){
   A = 0xAE;
   MEM_WRITE_BYTE(A, src);
@@ -44,7 +44,7 @@ void test_cpl_a(void){
 }
 
 
-//Assembly : shortmem | xor A,$10
+//Assembly : shortmem | cpl A,$10
 void test_cpl_shortmem(void){
   uint8_t shortMEM    = 0xAD;
   MEM_WRITE_BYTE(shortMEM, src);
@@ -56,7 +56,7 @@ void test_cpl_shortmem(void){
 }
 
 
-//Assembly : longmem | xor A,$1000
+//Assembly : longmem | cpl A,$1000
 void test_cpl_longmem(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, src);
@@ -68,7 +68,7 @@ void test_cpl_longmem(void){
 }
 
 
-//Assembly : (X) | xor A,(X)
+//Assembly : (X) | cpl A,(X)
 void test_cpl_x(void){
   SET_X(0X102B);
   uint8_t instr[] = {0XFB};
@@ -79,7 +79,7 @@ void test_cpl_x(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X102B) );
 }
 
-//Assembly : (shortoff,X) | xor A,($10,X)
+//Assembly : (shortoff,X) | cpl A,($10,X)
 void test_cpl_shortoff_x(void){
   SET_X(0X2B11);
   uint8_t instr[] = {0XFB, 0X11};
@@ -90,7 +90,7 @@ void test_cpl_shortoff_x(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X2B22) );
 }
 
-//Assembly : (longoff,X) | xor A,($1000,X)
+//Assembly : (longoff,X) | cpl A,($1000,X)
 void test_cpl_longoff_x(void){
   SET_X(0X2B11);
   uint8_t instr[] = {0XFB, 0X11, 0x11};
@@ -101,7 +101,7 @@ void test_cpl_longoff_x(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X3c22) );
 }
 
-//Assembly : (Y) | xor A,(Y)
+//Assembly : (Y) | cpl A,(Y)
 void test_cpl_y(void){
   SET_Y(0X102B);
   uint8_t instr[] = {0XFB};
@@ -112,7 +112,7 @@ void test_cpl_y(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X102B) );
 }
 
-//Assembly : (shortoff,Y) | xor A,($10,Y)
+//Assembly : (shortoff,Y) | cpl A,($10,Y)
 void test_cpl_shortoff_y(void){
   SET_Y(0X2B11);
   uint8_t instr[] = {0XFB, 0X11};
@@ -123,7 +123,7 @@ void test_cpl_shortoff_y(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X2B22) );
 }
 
-//Assembly : (longoff,Y) | xor A,($1000,Y)
+//Assembly : (longoff,Y) | cpl A,($1000,Y)
 void test_cpl_longoff_y(void){
   SET_Y(0X2B11);
   uint8_t instr[] = {0XFB, 0X11, 0x11};
@@ -134,7 +134,7 @@ void test_cpl_longoff_y(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X3c22) );
 }
 
-//Assembly : A  | (shortoff,SP) xor A,($10,SP)
+//Assembly : A  | (shortoff,SP) cpl A,($10,SP)
 void test_cpl_shortoff_sp(void){
   SET_SP(0X2B11);
   uint8_t instr[] = {0XFB, 0X11};
@@ -145,7 +145,7 @@ void test_cpl_shortoff_sp(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0X2B22) );
 }
 
-//Assembly : [shortptr.w] | xor A,[$10.w]
+//Assembly : [shortptr.w] | cpl A,[$10.w]
 // Please refer this instruction in page 46 of stm8 programming manual
 void test_cpl_shortptr_w(void){
   uint8_t instr[] = {0XFB, 0X13};
@@ -158,7 +158,7 @@ void test_cpl_shortptr_w(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0xAABB) );
 }
 
-//Assembly : [longptr.w] | xor A,[$1000.w]
+//Assembly : [longptr.w] | cpl A,[$1000.w]
 // Please refer this instruction in page 47 of stm8 programming manual
 void test_cpl_longptr_w(void){
   uint8_t instr[] = {0XFB, 0X13, 0X15};
@@ -171,7 +171,7 @@ void test_cpl_longptr_w(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0xAABB) );
 }
 
-//Assembly : ([shortptr.w],X) | xor A,([$10.w],X)
+//Assembly : ([shortptr.w],X) | cpl A,([$10.w],X)
 // Please refer this instruction in page 50 of stm8 programming manual
 void test_cpl_shortptr_w_x(void){ 
   SET_X(0X0011);
@@ -185,7 +185,7 @@ void test_cpl_shortptr_w_x(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0x1122) );
 }
 
-// Assembly : ([longptr.w],X) | xor A,([$1000.w],X)
+// Assembly : ([longptr.w],X) | cpl A,([$1000.w],X)
 // Please refer this instruction in page 50 of stm8 programming manual
 void test_cpl_longptr_w_x(void){
   SET_X(0X0011);
@@ -199,7 +199,7 @@ void test_cpl_longptr_w_x(void){
   TEST_ASSERT_EQUAL_INT8(0x51, MEM_READ_BYTE(0xAACC) );
 }
 
-//Assembly : ([shortptr.w],Y) xor A,([$10.w],Y)
+//Assembly : ([shortptr.w],Y) cpl A,([$10.w],Y)
 // Please refer this instruction in page 50 of stm8 programming manual
 void test_cpl_shortptr_w_y(void){
   SET_Y(0X0011);
