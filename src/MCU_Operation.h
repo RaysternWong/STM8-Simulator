@@ -203,10 +203,6 @@
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
 
-uint16_t getBigEndianWordFromAddress(uint32_t address);
-uint32_t getBigEndianExtFromAddress(uint32_t address);
-
-
 void setBigEndianWord(uint8_t *bytes, uint16_t word);
 void setBigEndianExt(uint8_t *bytes, uint32_t extend);
 

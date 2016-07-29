@@ -19,23 +19,6 @@ uint32_t getBigEndianExt(uint8_t *bytes){
   return GET_EXT(extb,msb,lsb);
 }
 
-uint16_t getBigEndianWordFromAddress(uint32_t address){
-  uint8_t msb = MEM_READ_BYTE(address);
-  address++;
-  uint8_t lsb = MEM_READ_BYTE(address);
-  return ( (msb<<8) + lsb);
-}
-
-uint32_t getBigEndianExtFromAddress(uint32_t address){
-  uint8_t extb = MEM_READ_BYTE(address);
-  address++;
-  uint8_t msb = MEM_READ_BYTE(address);
-  address++;
-  uint8_t lsb = MEM_READ_BYTE(address);
-  return ( (extb<<16) + (msb<<8) + lsb );
-}
-
-
 void setBigEndianWord(uint8_t *bytes, uint16_t word){
   uint8_t *msb =  bytes;
   uint8_t *lsb =  ++bytes;
