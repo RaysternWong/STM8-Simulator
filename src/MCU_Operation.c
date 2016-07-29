@@ -203,3 +203,7 @@ void mcu_cpl(uint16_t addr){
   SET_Z_N_FLAG(result);
   C = 1;
 }
+
+void mcu_load(uint32_t dst, uint32_t src, uint8_t setFlag, uint8_t size){
+  
+}

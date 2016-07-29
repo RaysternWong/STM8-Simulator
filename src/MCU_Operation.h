@@ -57,10 +57,6 @@
 #define Y_SRC   MEM_READ_BYTE(Y)
 
 
-
-#define NEXT_OPCODE  *(++opcode) 
-
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -223,6 +219,13 @@ void mcu_dec(uint16_t addr);
 void mcu_cpl(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
+
+void mcu_load(uint32_t dst, uint32_t src, uint8_t setFlag, uint8_t size);
+
+#define LOAD_BYTE(dst,src)      mcu_load( dst,  src,  1, 1);
+#define LOAD_WORD(dst,src)      mcu_load( dst,  src,  1, 2);
+#define LOAD_REG_BYTE(dst,src)  mcu_load( dst,  src,  0, 1);
+#define LOAD_REG_WORD(dst,src)  mcu_load( dst,  src,  0, 2);
 
 uint8_t mcu_pop(void);
 
