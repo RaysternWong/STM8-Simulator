@@ -21,6 +21,15 @@ MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
   return mb;
 }
 
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t start, uint32_t end){
+  int i;
+  start /= 0x100;
+  end /= 0x100;
+  
+  for( i=start ; i<= end ; i++)
+    memoryTable[i] = memoryFunc;
+}
+
 void memoryInit(void){
                               // 0x00          0x027FFF
   setMemoryTable(noMemory, STM8_START_ADDR, STM8_END_ADDR );
@@ -29,19 +38,6 @@ void memoryInit(void){
   eepromInit(EEPROM_START_ADDR, EEPROM_SIZE); //0x4000----> 0x427F
   flashInit (OPTION_BYTE_START_ADDR, GPIO_START_ADDR - 1- OPTION_BYTE_START_ADDR); //0x4800 --> 0x4FFF
 }
-
-void memoryBlockInit( MemoryBlock **block, 
-                      uint32_t    (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), 
-                      uint32_t    startAddr,
-                      uint32_t    size
-                    ){
-  *block = malloc(sizeof(MemoryBlock));
-  (*block)->startAddr =& startAddr;
-  (*block)->size = size;
-  (*block)->data = malloc(size);  
-  setMemoryTable( memoryFunc , startAddr , size );
-}
-
 
 
 void memoryFree(void){
@@ -83,14 +79,14 @@ void cpuInit(uint32_t address, uint32_t size){
   cpu = (CPU_t*) cpuBlock->data;
 }
 
-uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
+uint32_t noMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data){
   
   if(mode == MEM_READ)
     ThrowError(ERR_UNINITIALIZED_ADDRESS, "Attempt to read %d byte start from address 0x%x\n"   , size, address);
   ThrowError(ERR_UNINITIALIZED_ADDRESS, "Attempt to write data 0x%x start from address 0x%x\n", data, address);
 }
 
-uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
+uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data)
 {
   if(mode == MEM_READ){  
     return ( size == 1 ? RAM_ARR(address) : 
@@ -100,11 +96,14 @@ uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data)
   }
  
   if(mode == MEM_WRITE){
-    RAM_ARR(address) = data;
+    size == 1 ? RAM_ARR(address) = data :
+    size == 2 ? setBigEndianWord(&RAM_ARR(address), data)
+              : setBigEndianExt(&RAM_ARR(address), data) ;
+    
   }
 }
 
-uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
+uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data){
   if(mode == MEM_READ){
     return ( size == 1 ? GPIO_ARR(address) : 
              size == 2 ? GET_WORD( GPIO_ARR(address), GPIO_ARR(address+1) )  
@@ -116,26 +115,9 @@ uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint8_t data){
     GPIO_ARR(address) = data;  
 }
 
-uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data){
-  
-}
-
-uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint8_t data){
-  
-}
-
-uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data){
-  
-}
-
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end){
-  int i;
-  start /= 0x100;
-  end /= 0x100;
-  
-  for( i=start ; i<= end ; i++)
-    memoryTable[i] = memoryFunc;
-}
+uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint32_t data){}
+uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint32_t data){}
+uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint32_t data){}
 
 void clearConditionCodeRegister(Flag *ccR){
   ccR->full = 0;

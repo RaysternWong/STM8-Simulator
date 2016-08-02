@@ -149,7 +149,7 @@ void mcu_neg(uint16_t addr){
   uint8_t result = 0 - MEM_READ_BYTE(addr);
   MEM_WRITE_BYTE( addr, result);
   
-  SET_Z_N_FLAG(result);
+  UPDATE_Z_N_FLAG(result);
   C = ~Z;
   V = (result == 0x80 ? 1 : 0);
 }
@@ -161,7 +161,7 @@ void mcu_inc(uint16_t addr){
   
   MEM_WRITE_BYTE( addr, result);
   
-  SET_Z_N_FLAG(result);
+  UPDATE_Z_N_FLAG(result);
   V = (A7 & M7 | M7 & _R7 | _R7 & A7) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
 }
 
@@ -172,7 +172,7 @@ void mcu_dec(uint16_t addr){
   
   MEM_WRITE_BYTE( addr, result);
   
-  SET_Z_N_FLAG(result);
+  UPDATE_Z_N_FLAG(result);
   V = (A7 & M7 | M7 & _R7 | _R7 & A7) ^ ( A6 & M6 | M6 & _R6 | _R6 & A6 );
 }
 
@@ -200,10 +200,7 @@ void mcu_cpl(uint16_t addr){
   uint8_t result = 0xFF - MEM_READ_BYTE(addr);
   MEM_WRITE_BYTE( addr, result);
   
-  SET_Z_N_FLAG(result);
+  UPDATE_Z_N_FLAG(result);
   C = 1;
 }
 
-void mcu_load(uint32_t dst, uint32_t src, uint8_t setFlag, uint8_t size){
-  
-}

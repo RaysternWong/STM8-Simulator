@@ -27,16 +27,19 @@
 #define Z   ((cpu->ccr).bits.z)   //zero
 #define C   ((cpu->ccr).bits.c)   //carry
 
-#define SET_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
+#define UPDATE_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
 #define SET_Z_N_FLAG_FOR_16_BIT(num) Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 #define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 #define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2, 0)
 #define MEM_READ_EXT(addr)   memoryTable[addr/0x100](MEM_READ, addr, 3, 0)
-#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 0, data)
+#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 1, data)
+#define MEM_WRITE_WORD(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 2, data)
+#define MEM_WRITE_EXT(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 3, data)
 
-
+#define TO_BYTE(ext) ( ext &= 0x0000FF)
+#define TO_WORD(ext) ( ext &= 0x00FFFF)
 #define GET_WORD(msb,lsb)      ( (msb<<8) + lsb )
 #define GET_EXT(extb,msb,lsb)  ( (extb<<16) + (msb<<8) + lsb ) 
 
@@ -220,12 +223,8 @@ void mcu_cpl(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
 
-void mcu_load(uint32_t dst, uint32_t src, uint8_t setFlag, uint8_t size);
+#define LOAD_BYTE_MEM_TO_REG( reg, value)  setBigEndianWord(&reg, value) ; UPDATE_Z_N_FLAG(value) 
 
-#define LOAD_BYTE(dst,src)      mcu_load( dst,  src,  1, 1);
-#define LOAD_WORD(dst,src)      mcu_load( dst,  src,  1, 2);
-#define LOAD_REG_BYTE(dst,src)  mcu_load( dst,  src,  0, 1);
-#define LOAD_REG_WORD(dst,src)  mcu_load( dst,  src,  0, 2);
 
 uint8_t mcu_pop(void);
 

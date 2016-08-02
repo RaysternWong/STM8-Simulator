@@ -51,7 +51,7 @@ typedef struct{
   uint8_t   *data; // array pointer, containing data
 }MemoryBlock;
 
-typedef uint32_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size, uint8_t data);
+typedef uint32_t (*MemoryMap)(Mode mode, uint32_t address, uint8_t size, uint32_t data);
 
 MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size);
 MemoryMap   memoryTable[0x280] ;
@@ -59,7 +59,8 @@ MemoryMap   memoryTable[0x280] ;
 extern MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 
 
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint8_t data), uint32_t start, uint32_t end);
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t start, uint32_t end);
+
 void clearConditionCodeRegister(Flag *ccR);
 void memoryInit(void);
 void memoryFree(void);
@@ -69,12 +70,12 @@ void eepromInit     (uint32_t address, uint32_t size);
 void flashInit      (uint32_t address, uint32_t size);
 void cpuInit        (uint32_t address, uint32_t size);
 
-uint32_t noMemory      (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t gpioMemory    (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint8_t data);
-uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint8_t data);
+uint32_t noMemory      (Mode mode, uint32_t address, uint8_t size, uint32_t data);
+uint32_t ramMemory     (Mode mode, uint32_t address, uint8_t size, uint32_t data);
+uint32_t gpioMemory    (Mode mode, uint32_t address, uint8_t size, uint32_t data);
+uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint32_t data);
+uint32_t flashMemory   (Mode mode, uint32_t address, uint8_t size, uint32_t data);
+uint32_t cpuMemory     (Mode mode, uint32_t address, uint8_t size, uint32_t data);
 
 
 
