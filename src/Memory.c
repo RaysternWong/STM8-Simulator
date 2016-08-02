@@ -111,8 +111,12 @@ uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data){
            );
   }
   
-  if(mode == MEM_WRITE)
-    GPIO_ARR(address) = data;  
+  if(mode == MEM_WRITE){
+    size == 1 ? GPIO_ARR(address) = data :
+    size == 2 ? setBigEndianWord(&GPIO_ARR(address), data)
+              : setBigEndianExt(&GPIO_ARR(address), data) ;
+    
+  }
 }
 
 uint32_t eepromMemory  (Mode mode, uint32_t address, uint8_t size, uint32_t data){}

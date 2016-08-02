@@ -28,7 +28,7 @@
 #define C   ((cpu->ccr).bits.c)   //carry
 
 #define UPDATE_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
-#define SET_Z_N_FLAG_FOR_16_BIT(num) Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
+#define UPDATE_Z_N_FLAG_FOR_WORD(num)   Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 #define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
@@ -36,7 +36,7 @@
 #define MEM_READ_EXT(addr)   memoryTable[addr/0x100](MEM_READ, addr, 3, 0)
 #define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 1, data)
 #define MEM_WRITE_WORD(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 2, data)
-#define MEM_WRITE_EXT(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 3, data)
+#define MEM_WRITE_EXT(addr,data)   memoryTable[addr/0x100](MEM_WRITE, addr, 3, data)
 
 #define TO_BYTE(ext) ( ext &= 0x0000FF)
 #define TO_WORD(ext) ( ext &= 0x00FFFF)
@@ -198,6 +198,12 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
+#define LOAD_BYTE_TO_REG( reg, byte)   reg = byte ; UPDATE_Z_N_FLAG(byte) 
+#define LOAD_WORD_TO_REG( reg, word)   setBigEndianWord(&reg, word); UPDATE_Z_N_FLAG(word) 
+
+#define LOAD_BYTE_TO_MEM( mem, byte)   MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte) 
+#define LOAD_WORD_TO_MEM( mem, word)   MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word) 
+
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
@@ -223,7 +229,6 @@ void mcu_cpl(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
 
-#define LOAD_BYTE_MEM_TO_REG( reg, value)  setBigEndianWord(&reg, value) ; UPDATE_Z_N_FLAG(value) 
 
 
 uint8_t mcu_pop(void);
