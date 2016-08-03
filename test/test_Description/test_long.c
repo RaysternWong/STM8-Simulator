@@ -65,18 +65,6 @@ void test_GET_LONG_PTR_W(void){
   TEST_ASSERT_EQUAL_INT16( 0xccee, GET_LONG_PTR_W(instr));
 }
 
-void test_GET_LONG_PTR_E(void){
-  uint8_t instr[] = {0XBB, msbMem, lsbMem};
-  uint16_t longMem1 = longMem + 1;
-  uint16_t longMem2 = longMem + 2;
-  
-  MEM_WRITE_BYTE( longMem   ,  0x01);
-  MEM_WRITE_BYTE( longMem1  ,  0xee);
-  MEM_WRITE_BYTE( longMem2  ,  0xaa);
-  
-  TEST_ASSERT_EQUAL_INT32( 0x01eeaa, GET_LONG_PTR_E(instr));
-}
-
 void test_GET_LONG_PTR_W_X(void){
   SET_X(0x2B11);
   uint8_t instr[] = {0XBB, msbMem, lsbMem};
@@ -134,19 +122,6 @@ void test_GET_LONG_PTR_W_SRC(void){
   MEM_WRITE_BYTE( 0xccee ,  value); 
   
   TEST_ASSERT_EQUAL_INT8( value, GET_LONG_PTR_W_SRC(instr));
-}
-
-void test_GET_LONG_PTR_E_SRC(void){
-  uint8_t instr[] = {0XBB, msbMem, lsbMem};
-  uint16_t longMem1 = longMem + 1;
-  uint16_t longMem2 = longMem + 2;
-  
-  MEM_WRITE_BYTE( longMem   ,  0x01);
-  MEM_WRITE_BYTE( longMem1  ,  0xee);
-  MEM_WRITE_BYTE( longMem2  ,  0xaa);
-  MEM_WRITE_BYTE( 0x01eeaa ,  value); 
-   
-  TEST_ASSERT_EQUAL_INT8( value, GET_LONG_PTR_E_SRC(instr));
 }
 
 void test_GET_LONG_PTR_W_X_SRC(void){
