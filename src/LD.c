@@ -86,7 +86,7 @@ uint8_t ld_a_shortptr_w_y(uint8_t *opcode){
 //-----------------------Load A to mem----------------------------------------
 
 uint8_t ld_a_to_shortmem(uint8_t *opcode){
-  LOAD_BYTE_TO_MEM(GET_SHORT_MEM(opcode), A);
+  LOAD_BYTE_TO_MEM(GET_NEXT_BYTE_OF(opcode), A);
   return 2;
 }
 

@@ -198,8 +198,8 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define LOAD_BYTE_TO_REG( reg, byte)   reg = byte ; UPDATE_Z_N_FLAG(byte) 
-#define LOAD_WORD_TO_REG( reg, word)   setBigEndianWord(&reg, word); UPDATE_Z_N_FLAG(word) 
+#define LOAD_BYTE_TO_REG( reg, byte)   reg = byte ; UPDATE_Z_N_FLAG(reg) 
+#define LOAD_WORD_TO_REG( reg, word)   setBigEndianWord(&reg, word); UPDATE_Z_N_FLAG(reg) 
 
 #define LOAD_BYTE_TO_MEM( mem, byte)   MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte) 
 #define LOAD_WORD_TO_MEM( mem, word)   MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word) 
