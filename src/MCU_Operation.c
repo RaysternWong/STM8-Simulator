@@ -204,3 +204,9 @@ void mcu_cpl(uint16_t addr){
   C = 1;
 }
 
+void mcu_cp(uint8_t dst, uint8_t src){
+  uint8_t a = dst;
+  uint8_t value = src;
+  uint8_t result = a-value;
+  SBC_FLAGS_UPDATE(result);
+}

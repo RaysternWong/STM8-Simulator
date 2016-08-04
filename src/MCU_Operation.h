@@ -30,6 +30,9 @@
 #define UPDATE_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
 #define UPDATE_Z_N_FLAG_FOR_WORD(num)   Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
+#define SBC_FLAGS_UPDATE(num)   UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) 
+
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 #define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
 #define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2, 0)
@@ -231,7 +234,7 @@ void mcu_dec(uint16_t addr);
 void mcu_cpl(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
-
+void mcu_cp(uint8_t dst, uint8_t src);
 
 
 uint8_t mcu_pop(void);
