@@ -15,10 +15,26 @@
 #include "DEC.h"
 #include "DECW.h"
 #include "NOP.h"
+#include "CLR.h"
+#include "CLRW.h"
+#include "EXG.h"
+#include "EXGW.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
+  [0X41] = exg_a_xl     ;
+  [0X61] = exg_a_yl     ;
+  [0X31] = exg_a_longmem;
+  [0X51] = exgw_x_y     ;
+  
+  [0X4F] = clr_a           ;
+  [0X3F] = clr_shortmem    ;
+  [0X7F] = clr_x           ;
+  [0X6F] = clr_shortoff_x  ;
+  [0X0F] = clr_shortoff_sp ;
+  
+  [0X5F] = clrw_x;
   [0X9D] = nop,
   
   [0X4A] = dec_a           ,
@@ -79,6 +95,11 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0X5F] = clr_longmem     ;
+  [0X4F] = clr_longoff_x   ;
+  [0X3F] = clr_longptr_w   ;
+  [0X6F] = clr_longptr_w_x ;
+  
   [0X5A] = dec_longmem     ,
   [0X4A] = dec_longoff_x   ,
   [0X3A] = dec_longptr_w   ,
@@ -89,8 +110,6 @@ Instruction opcode72[256] = {
   [0X4C] = inc_longoff_x   ,
   [0X3C] = inc_longptr_w   ,
   [0X6C] = inc_longptr_w_x ,
-  
-  
   
   [0x53] = cpl_longmem     ,
   [0x43] = cpl_longoff_x   ,
@@ -123,6 +142,12 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  [0X4F] = clr_longoff_y   ;
+  [0X7F] = clr_y           ;
+  [0X6F] = clr_shortoff_y  ;
+  
+  [0X5F] = clrw_y;
+  
   [0X7A] = dec_y           ,
   [0X6A] = dec_shortoff_y  ,
   [0X4A] = dec_longoff_y   ,
@@ -158,6 +183,8 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
+  [0X6F] = clr_shortptr_w_y;
+  
   [0X6A] = dec_shortptr_w_y,
   
   [0X6C] = inc_shortptr_w_y,
@@ -172,21 +199,20 @@ Instruction opcode91[256] = {
 };
 
 Instruction opcode92[256] = {
-  [0X3A] = dec_shortptr_w  ,
-[0X6A] = dec_shortptr_w_x,
   
+  [0X3F] = clr_shortptr_w  ;
+  [0X6F] = clr_shortptr_w_x;
+  
+  [0X3A] = dec_shortptr_w  ,
+  [0X6A] = dec_shortptr_w_x,
   
   [0X3C] = inc_shortptr_w  ,
-
-[0X6C] = inc_shortptr_w_x,
-  
-  
+  [0X6C] = inc_shortptr_w_x,
   [0x33] = cpl_shortptr_w  ,
   [0x63] = cpl_shortptr_w_x,
   
   [0X40] = neg_shortptr_w ,
-  
-  
+ 
   [0XC2] = sbc_a_shortptr_w  ,
   [0XD2] = sbc_a_shortptr_w_x,
   // ADD

@@ -6,9 +6,6 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-
-//-----------------------Load mem to A----------------------------------------
-
 uint8_t clr_a(uint8_t *opcode){
   A = 0;
   N = 0;
