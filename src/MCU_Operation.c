@@ -210,3 +210,11 @@ void mcu_cp(uint8_t dst, uint8_t src){
   uint8_t result = a-value;
   SBC_FLAGS_UPDATE(result);
 }
+
+
+void mcu_cpw(uint16_t dst, uint16_t src){
+  uint16_t a = dst;
+  uint16_t value = src;
+  uint16_t result = a-value;
+  SUBW_FLAGS_UPDATE(result);
+}

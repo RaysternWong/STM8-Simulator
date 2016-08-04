@@ -30,7 +30,8 @@
 #define UPDATE_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
 #define UPDATE_Z_N_FLAG_FOR_WORD(num)   Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
-#define SBC_FLAGS_UPDATE(num)   UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) 
+#define SBC_FLAGS_UPDATE(num)    UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) 
+#define SUBW_FLAGS_UPDATE(num)   UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14)
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -235,6 +236,7 @@ void mcu_cpl(uint16_t addr);
 void mcu_div(uint8_t *reg);
 
 void mcu_cp(uint8_t dst, uint8_t src);
+void mcu_cpw(uint16_t dst, uint16_t src);
 
 
 uint8_t mcu_pop(void);
