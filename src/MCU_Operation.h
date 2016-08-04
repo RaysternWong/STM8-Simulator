@@ -202,7 +202,10 @@
 #define LOAD_WORD_TO_REG( reg, word)   setBigEndianWord(&reg, word); UPDATE_Z_N_FLAG(reg) 
 
 #define LOAD_BYTE_TO_MEM( mem, byte)   MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte) 
-#define LOAD_WORD_TO_MEM( mem, word)   MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word) 
+#define LOAD_WORD_TO_MEM( mem, word)   MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word)
+ 
+#define CLEAR(dst)  MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1;
+
 
 
 uint16_t getBigEndianWord(uint8_t *bytes);
