@@ -20,10 +20,22 @@
 #include "EXG.h"
 #include "EXGW.h"
 #include "MOV.h"
+#include "RVF.h"
+#include "CCF.h"
+#include "RCF.h"
+#include "SCF.h"
+#include "SIM.h"
+#include "RIM.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
+  [0X8C] = ccf,
+  [0X98] = rcf,
+  [0X99] = scf,
+  [0X9A] = rim,
+  [0X9B] = sim,
+  [0X9C] = rvf,
   [0X35] = mov_longmem_byte     ,
   [0X45] = mov_shortmem_shortmem,
   [0X55] = mov_longmem_longmem  ,

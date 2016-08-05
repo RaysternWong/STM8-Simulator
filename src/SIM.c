@@ -1,13 +1,13 @@
-#include "RCF.h"
-#include "Description.h"
+#include "SIM.h"
 #include "MCU_Operation.h"
+#include "Description.h"
 #include <stdio.h>
 #include <stdint.h>
 #include "CPUConfig.h"
 #include "Memory.h"
 
-
-uint8_t rcf(uint8_t *opcode){
-  C  = 0;
-  return 1;
+uint8_t sim(uint8_t *opcode){
+  L1 = 1;
+  L0 = 1;
+  return 1; 
 }
