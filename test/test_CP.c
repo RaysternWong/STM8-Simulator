@@ -23,7 +23,6 @@ void tearDown(void){
 void test_cp_a_byte(void)
 {
   A = 0x09;
-  C = 0;
   uint8_t instr[] = {0XAB, 0X05};
   
   TEST_ASSERT_EQUAL(2, cp_a_byte(instr));
@@ -152,7 +151,10 @@ void test_cp_a_longoff_y(void)
   MEM_WRITE_BYTE( 0X3c22 ,  0x05);  //0x2B11 + 0X1111 = 0X3c22
   
   TEST_ASSERT_EQUAL(4, cp_a_longoff_y(instr));
-  
+  TEST_ASSERT_EQUAL(0, V); 
+  TEST_ASSERT_EQUAL(0, N); 
+  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL(0, C);
 }
 
 //Assembly : A  | (shortoff,SP) cp A,($10,SP)
@@ -164,7 +166,10 @@ void test_cp_a_shortoff_sp(void)
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
   TEST_ASSERT_EQUAL(2, cp_a_shortoff_sp(instr));
-  
+  TEST_ASSERT_EQUAL(0, V); 
+  TEST_ASSERT_EQUAL(0, N); 
+  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL(0, C);
 }
 
 //Assembly : [shortptr.w] | cp A,[$10.w]
@@ -225,7 +230,7 @@ void test_cp_a_shortptr_w_x(void)
 void test_cp_a_longptr_w_x(void)
 {
   A = 0x09;
-  SET_X(0x102B);
+  SET_X(0x11);
   uint8_t instr[] = {0XFB, 0X13, 0X00};
   MEM_WRITE_BYTE( 0X1300 , 0xAA);  
   MEM_WRITE_BYTE( 0X1301 , 0xBB);  

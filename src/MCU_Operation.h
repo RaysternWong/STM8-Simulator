@@ -27,7 +27,9 @@
 #define Z   ((cpu->ccr).bits.z)   //zero
 #define C   ((cpu->ccr).bits.c)   //carry
 
-#define UPDATE_Z_N_FLAG(num)            Z = (num == 0 ? 1 : 0); N = (num & 0X80) >> 7;
+#define CLEAR_ALL_FLAGS   CC = 0;
+
+#define UPDATE_Z_N_FLAG(num)            Z = ((num) == 0 ? 1 : 0); N = ((num) & 0X80) >> 7;
 #define UPDATE_Z_N_FLAG_FOR_WORD(num)   Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
 
 #define SBC_FLAGS_UPDATE(num)    UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) 
@@ -211,6 +213,8 @@
 #define CLEAR(dst)                     MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1;
 #define EXCHANGE(dst,src)              uint8_t temp = src ; src = dst ; dst = temp;
 #define MOV(dst,src)                   MEM_WRITE_BYTE(dst,src)
+
+
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);

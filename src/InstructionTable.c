@@ -26,10 +26,29 @@
 #include "SCF.h"
 #include "SIM.h"
 #include "RIM.h"
+#include "TNZ.h"
+#include "TNZW.h"
+#include "BCP.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
+  [0XA5] = bcp_a_byte        ,
+  [0XB5] = bcp_a_shortmem    ,
+  [0XC5] = bcp_a_longmem     ,
+  [0XF5] = bcp_a_x           ,
+  [0XE5] = bcp_a_shortoff_x  ,
+  [0XD5] = bcp_a_longoff_x   ,
+  [0X15] = bcp_a_shortoff_sp ,
+  
+  [0X4D] = tnz_a           ,
+  [0X3D] = tnz_shortmem    ,
+  [0X7D] = tnz_x           ,
+  [0X6D] = tnz_shortoff_x  ,
+  [0X0D] = tnz_shortoff_sp ,
+  
+  [0X5D] = tnzw_x,
+  
   [0X8C] = ccf,
   [0X98] = rcf,
   [0X99] = scf,
@@ -111,6 +130,15 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0XC5] = bcp_a_longptr_w   ,
+  [0XD5] = bcp_a_longptr_w_x ,
+
+  
+  [0X5D] = tnz_longmem     ,
+  [0X4D] = tnz_longoff_x   ,
+  [0X3D] = tnz_longptr_w   ,
+  [0X6D] = tnz_longptr_w_x ,
+  
   [0X5F] = clr_longmem     ,
   [0X4F] = clr_longoff_x   ,
   [0X3F] = clr_longptr_w   ,
@@ -158,6 +186,16 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  [0XF5] = bcp_a_y           ,
+  [0XE5] = bcp_a_shortoff_y  ,
+  [0XD5] = bcp_a_longoff_y   ,
+
+  [0X7D] = tnz_y           ,
+  [0X6D] = tnz_shortoff_y  ,
+  [0X4D] = tnz_longoff_y   ,
+  
+  [0X5D] = tnzw_y,
+    
   [0X4F] = clr_longoff_y   ,
   [0X7F] = clr_y           ,
   [0X6F] = clr_shortoff_y  ,
@@ -199,6 +237,10 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
+  [0XD5] = bcp_a_shortptr_w_y,
+  
+  [0X6D] = tnz_shortptr_w_y,
+  
   [0X6F] = clr_shortptr_w_y,
   
   [0X6A] = dec_shortptr_w_y,
@@ -215,6 +257,11 @@ Instruction opcode91[256] = {
 };
 
 Instruction opcode92[256] = {
+  [0XC5] = bcp_a_shortptr_w  ,
+  [0XD5] = bcp_a_shortptr_w_x, 
+  
+  [0X3D] = tnz_shortptr_w  ,
+  [0X6D] = tnz_shortptr_w_x,
   
   [0X3F] = clr_shortptr_w  ,
   [0X6F] = clr_shortptr_w_x,
