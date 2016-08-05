@@ -210,7 +210,7 @@
  
 #define CLEAR(dst)                     MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1;
 #define EXCHANGE(dst,src)              uint8_t temp = src ; src = dst ; dst = temp;
-
+#define MOV(dst,src)                   MEM_WRITE_BYTE(dst,src)
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);

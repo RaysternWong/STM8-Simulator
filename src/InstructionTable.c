@@ -19,22 +19,26 @@
 #include "CLRW.h"
 #include "EXG.h"
 #include "EXGW.h"
+#include "MOV.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
-  [0X41] = exg_a_xl     ;
-  [0X61] = exg_a_yl     ;
-  [0X31] = exg_a_longmem;
-  [0X51] = exgw_x_y     ;
+  [0X35] = mov_longmem_byte     ,
+  [0X45] = mov_shortmem_shortmem,
+  [0X55] = mov_longmem_longmem  ,
+  [0X41] = exg_a_xl     ,
+  [0X61] = exg_a_yl     ,
+  [0X31] = exg_a_longmem,
+  [0X51] = exgw_x_y     ,
   
-  [0X4F] = clr_a           ;
-  [0X3F] = clr_shortmem    ;
-  [0X7F] = clr_x           ;
-  [0X6F] = clr_shortoff_x  ;
-  [0X0F] = clr_shortoff_sp ;
+  [0X4F] = clr_a           ,
+  [0X3F] = clr_shortmem    ,
+  [0X7F] = clr_x           ,
+  [0X6F] = clr_shortoff_x  ,
+  [0X0F] = clr_shortoff_sp ,
   
-  [0X5F] = clrw_x;
+  [0X5F] = clrw_x,
   [0X9D] = nop,
   
   [0X4A] = dec_a           ,
@@ -95,10 +99,10 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
-  [0X5F] = clr_longmem     ;
-  [0X4F] = clr_longoff_x   ;
-  [0X3F] = clr_longptr_w   ;
-  [0X6F] = clr_longptr_w_x ;
+  [0X5F] = clr_longmem     ,
+  [0X4F] = clr_longoff_x   ,
+  [0X3F] = clr_longptr_w   ,
+  [0X6F] = clr_longptr_w_x ,
   
   [0X5A] = dec_longmem     ,
   [0X4A] = dec_longoff_x   ,
@@ -142,11 +146,11 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
-  [0X4F] = clr_longoff_y   ;
-  [0X7F] = clr_y           ;
-  [0X6F] = clr_shortoff_y  ;
+  [0X4F] = clr_longoff_y   ,
+  [0X7F] = clr_y           ,
+  [0X6F] = clr_shortoff_y  ,
   
-  [0X5F] = clrw_y;
+  [0X5F] = clrw_y,
   
   [0X7A] = dec_y           ,
   [0X6A] = dec_shortoff_y  ,
@@ -183,7 +187,7 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
-  [0X6F] = clr_shortptr_w_y;
+  [0X6F] = clr_shortptr_w_y,
   
   [0X6A] = dec_shortptr_w_y,
   
@@ -200,8 +204,8 @@ Instruction opcode91[256] = {
 
 Instruction opcode92[256] = {
   
-  [0X3F] = clr_shortptr_w  ;
-  [0X6F] = clr_shortptr_w_x;
+  [0X3F] = clr_shortptr_w  ,
+  [0X6F] = clr_shortptr_w_x,
   
   [0X3A] = dec_shortptr_w  ,
   [0X6A] = dec_shortptr_w_x,
