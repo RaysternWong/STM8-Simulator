@@ -29,11 +29,11 @@
 
 #define CLEAR_ALL_FLAGS   CC = 0;
 
-#define UPDATE_Z_N_FLAG(num)            Z = ((num) == 0 ? 1 : 0); N = ((num) & 0X80) >> 7;
-#define UPDATE_Z_N_FLAG_FOR_WORD(num)   Z = (num == 0 ? 1 : 0); N = (num & 0X8000) >> 15;
+#define UPDATE_Z_N_FLAG(num)            do { Z = ((num) == 0 ? 1 : 0); N = ((num) & 0X80) >> 7; }while(0)
+#define UPDATE_Z_N_FLAG_FOR_WORD(num)   do { Z = ((num)  == 0 ? 1 : 0); N = ((num)  & 0X8000) >> 15; }while(0)
 
-#define SBC_FLAGS_UPDATE(num)    UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6) 
-#define SUBW_FLAGS_UPDATE(num)   UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14)
+#define SBC_FLAGS_UPDATE(num)    do { UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6); }while(0)
+#define SUBW_FLAGS_UPDATE(num)   do { UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14); }while(0)
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -204,15 +204,15 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define LOAD_BYTE_TO_REG( reg, byte)   reg = byte ; UPDATE_Z_N_FLAG(reg) 
-#define LOAD_WORD_TO_REG( reg, word)   setBigEndianWord(&reg, word); UPDATE_Z_N_FLAG(reg) 
+#define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = byte ; UPDATE_Z_N_FLAG(reg); }while(0)
+#define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG(reg); }while(0)
 
-#define LOAD_BYTE_TO_MEM( mem, byte)   MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte) 
-#define LOAD_WORD_TO_MEM( mem, word)   MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word)
+#define LOAD_BYTE_TO_MEM( mem, byte)   do { MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte); }while(0)
+#define LOAD_WORD_TO_MEM( mem, word)   do { MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
  
-#define CLEAR(dst)                     MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1;
-#define EXCHANGE(dst,src)              uint8_t temp = src ; src = dst ; dst = temp;
-#define MOV(dst,src)                   MEM_WRITE_BYTE(dst,src)
+#define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
+#define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0)
+#define MOV(dst,src)                   do { MEM_WRITE_BYTE(dst,src) }while(0)
 
 
 

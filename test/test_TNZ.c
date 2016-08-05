@@ -22,6 +22,8 @@ void tearDown(void){
 void test_tnz_a(void)
 {
   A = 0x88;
+  N = 0;
+  Z = 1;
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL(1, tnz_a(instr));
@@ -33,6 +35,8 @@ void test_tnz_a(void)
 void test_tnz_shortmem(void)
 {
   uint8_t addr    = 0xAD;
+  N = 1;
+  Z = 0;
   uint8_t instr[] = {0XBB, addr};
   MEM_WRITE_BYTE( addr,  0);
   
@@ -45,6 +49,8 @@ void test_tnz_longmem(void)
 {
   uint8_t addrMSB = 0x11;
   uint8_t addrLSB = 0x01; 
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XBB, addrMSB, addrLSB};
   MEM_WRITE_BYTE( 0x1101,  0x05);
   
@@ -57,6 +63,8 @@ void test_tnz_x(void)
 {
   A = 0x09;
   SET_X(0x102B);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  0x05);
   
@@ -69,6 +77,8 @@ void test_tnz_shortoff_x(void)
 {
   A = 0x09;
   SET_X(0x2B11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
@@ -81,6 +91,8 @@ void test_tnz_longoff_x(void)
 {
   A = 0x09;
   SET_X(0x2B11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X11, 0x11}; 
   MEM_WRITE_BYTE( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
   
@@ -93,6 +105,8 @@ void test_tnz_y(void)
 {
   A = 0x09;
   SET_Y(0X102B);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  0x05);
   
@@ -105,6 +119,8 @@ void test_tnz_shortoff_y(void)
 {
   A = 0x09;
   SET_Y(0x2B11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
@@ -117,6 +133,8 @@ void test_tnz_longoff_y(void)
 {
   A = 0x09;
   SET_Y(0x2B11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   MEM_WRITE_BYTE( 0X3c22 ,  0x05);  //0x2B11 + 0X1111 = 0X3c22
   
@@ -130,6 +148,8 @@ void test_tnz_shortoff_sp(void)
 {
   A = 0x09;
   SET_SP(0x2B11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
@@ -141,6 +161,8 @@ void test_tnz_shortoff_sp(void)
 void test_tnz_shortptr_w(void)
 {
   A = 0x09;
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X13};
   
   MEM_WRITE_BYTE( 0X13 , 0xAA);  
@@ -155,6 +177,8 @@ void test_tnz_shortptr_w(void)
 void test_tnz_longptr_w(void)
 {
   A = 0x09;
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X13, 0X15};
   MEM_WRITE_BYTE( 0X1315 , 0xAA);  
   MEM_WRITE_BYTE( 0X1316 , 0xBB);  
@@ -169,6 +193,8 @@ void test_tnz_shortptr_w_x(void)
 {
   A = 0x09;
   SET_X(0X11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X13};
   MEM_WRITE_BYTE( 0X13 , 0x11);  
   MEM_WRITE_BYTE( 0X14 , 0x11);  
@@ -183,6 +209,8 @@ void test_tnz_longptr_w_x(void)
 {
   A = 0x09;
   SET_X(0x11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X13, 0X00};
   MEM_WRITE_BYTE( 0X1300 , 0xAA);  
   MEM_WRITE_BYTE( 0X1301 , 0xBB);  
@@ -197,6 +225,8 @@ void test_tnz_shortptr_w_y(void)
 {
   A = 0x09; 
   SET_Y(0x11);
+  N = 1;
+  Z = 1;
   uint8_t instr[] = {0XFB, 0X13};  
   MEM_WRITE_BYTE( 0X13 , 0x11);  
   MEM_WRITE_BYTE( 0X14 , 0x11);  
