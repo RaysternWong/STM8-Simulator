@@ -30,9 +30,9 @@ void test_mcu_addw_given_x_equal_0_than_add_1_should_get_x_equal_0x0001_and_all_
   TEST_ASSERT_EQUAL_INT8(0x01, XL);
 
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -50,9 +50,9 @@ void test_mcu_addw_given_a_equal_0_than_add_0_should_get_A_equal_0_and_zero_flag
   
   
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(1, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -71,9 +71,9 @@ void test_mcu_addw_given_X_equal_neg1_than_add_0_should_get_Xequal_neg1_and_neg_
   TEST_ASSERT_EQUAL_INT8(0xFF, XH);
   TEST_ASSERT_EQUAL_INT8(0xFF, XL);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(1, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -101,9 +101,9 @@ void test_mcu_addw_given_x_equal_FF80_than_add_0080_should_get_x_equal_00_and_ha
   TEST_ASSERT_EQUAL_INT8(0x00, XL);
 
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(1, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(1, Z);
   TEST_ASSERT_EQUAL(1, C);
@@ -142,9 +142,9 @@ void test_mcu_addw_given_x_equal_40_than_add_40_should_get_A_equal_E0_and_overfo
   TEST_ASSERT_EQUAL_INT8(0x00, XL);
 
   TEST_ASSERT_EQUAL(1, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(1, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);

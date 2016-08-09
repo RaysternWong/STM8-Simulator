@@ -41,9 +41,9 @@ void test_mcu_adc_given_a_equal_0_than_add_1_carry_is_0_should_get_1(void){
   
   TEST_ASSERT_EQUAL_INT8(0x01, A);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -58,9 +58,9 @@ void test_mcu_adc_given_a_equal_0_than_add_1_and_carry_is_1_should_get_2(void){
   
   TEST_ASSERT_EQUAL_INT8(0x02, A);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);

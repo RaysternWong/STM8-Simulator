@@ -24,6 +24,6 @@ void test_sim(void){
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL_INT8(1, sim(instr));
-  TEST_ASSERT_EQUAL_INT8(1, L0);
-  TEST_ASSERT_EQUAL_INT8(1, L1);
+  TEST_ASSERT_EQUAL_INT8(1, I0);
+  TEST_ASSERT_EQUAL_INT8(1, I1);
 }

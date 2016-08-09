@@ -24,6 +24,6 @@ void test_rim(void){
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL_INT8(1, rim(instr));
-  TEST_ASSERT_EQUAL_INT8(0, L0);
-  TEST_ASSERT_EQUAL_INT8(0, L1);
+  TEST_ASSERT_EQUAL_INT8(0, I0);
+  TEST_ASSERT_EQUAL_INT8(0, I1);
 }

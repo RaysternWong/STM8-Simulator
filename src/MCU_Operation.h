@@ -20,12 +20,14 @@
 #define CC   ((cpu->ccr).full)  //  Condition code register ( 1 byte)
 
 #define V   ((cpu->ccr).bits.v)   //overFlow
-#define L1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
+#define I1  ((cpu->ccr).bits.l1)  //interrupt mask level 1
 #define H   ((cpu->ccr).bits.h)   //half cary
-#define L0  ((cpu->ccr).bits.l0)  //interrupt mask level 0
+#define I0  ((cpu->ccr).bits.l0)  //interrupt mask level 0
 #define N   ((cpu->ccr).bits.n)   //negative
 #define Z   ((cpu->ccr).bits.z)   //zero
 #define C   ((cpu->ccr).bits.c)   //carry
+
+#define IM  ( I0 & I1 )           //Interrupt mask 
 
 #define CLEAR_ALL_FLAGS   CC = 0;
 
@@ -213,7 +215,7 @@
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
 #define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0)
 #define MOV(dst,src)                   do { MEM_WRITE_BYTE(dst,src) }while(0)
-
+#define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )            
 
 
 uint16_t getBigEndianWord(uint8_t *bytes);

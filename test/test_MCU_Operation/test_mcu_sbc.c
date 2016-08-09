@@ -26,9 +26,9 @@ void test_mcu_sbc_given_C_is_0(void){
 
   TEST_ASSERT_EQUAL_INT8(0x08, A);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -42,9 +42,9 @@ void test_mcu_sbc_given_C_is_1(void){
 
   TEST_ASSERT_EQUAL_INT8(0x07, A);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -57,9 +57,9 @@ void test_mcu_sbc_given_a_equal_9_than_sub_9_should_get_a_equal_0_and_zero_flag_
   
   TEST_ASSERT_EQUAL_INT8(0x00, A);
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(1, Z);
   TEST_ASSERT_EQUAL(0, C);
@@ -73,9 +73,9 @@ void test_mcu_sbc_given_a_equal_0_than_sub_1_should_get_A_equal_neg1_and_set_N_f
   TEST_ASSERT_EQUAL_INT8(-0x01, A);
 
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(1, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(1, C); // Set if a borrow request occurred from bit 7
@@ -99,9 +99,9 @@ void test_mcu_sbc_given_a_equal_40_than_sub_40_should_get_A_equal_E0_and_overfow
 
   TEST_ASSERT_EQUAL_INT8(0x7F, A);
   TEST_ASSERT_EQUAL(1, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(0, C);

@@ -34,9 +34,9 @@ void test_mcu_neg_set_negative_flag_carry_flag(void){
   TEST_ASSERT_EQUAL_INT8(0x8F, MEM_READ_BYTE(X));
 
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(1, N);  // bit 7 is 1
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(1, C);  // result != 0
@@ -50,9 +50,9 @@ void test_mcu_neg_set_zero_flag(void){
   TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(addr));
 
   TEST_ASSERT_EQUAL(0, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(0, N);  
   TEST_ASSERT_EQUAL(1, Z);
   TEST_ASSERT_EQUAL(0, C);  
@@ -73,9 +73,9 @@ void test_mcu_neg_set_overflow_flag(void){
   TEST_ASSERT_EQUAL_INT8(0x80, MEM_READ_BYTE(addr));
 
   TEST_ASSERT_EQUAL(1, V);
-  TEST_ASSERT_EQUAL(0, L1);
+  TEST_ASSERT_EQUAL(0, I1);
   TEST_ASSERT_EQUAL(0, H);
-  TEST_ASSERT_EQUAL(0, L0);
+  TEST_ASSERT_EQUAL(0, I0);
   TEST_ASSERT_EQUAL(1, N);  // bit 7 is 1
   TEST_ASSERT_EQUAL(0, Z);
   TEST_ASSERT_EQUAL(1, C);  // result != 0
