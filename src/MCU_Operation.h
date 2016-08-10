@@ -94,6 +94,7 @@
 
 #define GET_BIT_0(num) ((num) & 0X01)  
 #define GET_BIT_7(num) ((num & 0X80) >> 7)
+#define GET_BIT_15(num) ((num & 0X8000) >> 15)
 
 // Memory
 #define M0  (value & 0X01)      
@@ -228,7 +229,10 @@
 
 #define SHIFT_RIGHT_WITH_BIT7_FIX(byte)  ( (byte) & 0x80 | (byte)>>1 )
 #define REG_SHIFT_RIGHT_ARITHMETIC(reg)  do { C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, SHIFT_RIGHT_WITH_BIT7_FIX(reg)); }while(0) 
-#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)  do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, SHIFT_RIGHT_WITH_BIT7_FIX(byte)); }while(0)      
+#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)  do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, SHIFT_RIGHT_WITH_BIT7_FIX(byte)); }while(0)
+
+#define REG_WORD_SHIFT_LEFT(reg)          do { uint16_t word = getBigEndianWord(&reg); C = GET_BIT_15(word); LOAD_WORD_TO_REG(reg, word<<1); }while(0)    
+#define REG_WORD_SHIFT_RIGHT(reg)         do { uint16_t word = getBigEndianWord(&reg); C = GET_BIT_0(word);  LOAD_WORD_TO_REG(reg, word>>1); }while(0)  
  
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
