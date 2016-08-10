@@ -29,10 +29,40 @@
 #include "TNZ.h"
 #include "TNZW.h"
 #include "BCP.h"
+#include "TRAP.h"
+#include "JRXX.h"
+#include "WFI.h"
+#include "HALT.h"
+#include "IRET.h"
 #include "ErrorObject.h"
 
 
 Instruction firstOpcode[256] = {
+  [0X80] = iret  ,
+  
+  [0X8E] = wfi  ,
+  
+  [0X8F] = wfi  ,
+  
+  [0X25] = jrc  ,
+  [0X27] = jreq ,
+  [0X21] = jrf  ,
+  [0X2B] = jrmi ,
+  [0X24] = jrnc ,
+  [0X26] = jrne ,
+  [0X28] = jrnv ,
+  [0X2A] = jrpl ,
+  [0X2E] = jrsge,
+  [0X2C] = jrsgt,
+  [0X2D] = jrsle,
+  [0X2F] = jrslt,
+  [0X2D] = jrt  ,
+  [0X24] = jruge,
+  [0X23] = jrugt,
+  [0X29] = jrv  ,
+
+  [0x83] = trap,
+  
   [0XA5] = bcp_a_byte        ,
   [0XB5] = bcp_a_shortmem    ,
   [0XC5] = bcp_a_longmem     ,
@@ -186,6 +216,14 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  
+  [0X29] = jrh  ,
+  [0X2F] = jrih ,
+  [0X2E] = jril ,
+  [0X2D] = jrm  ,
+  [0X28] = jrnh ,
+  [0X2C] = jrnm ,
+  
   [0XF5] = bcp_a_y           ,
   [0XE5] = bcp_a_shortoff_y  ,
   [0XD5] = bcp_a_longoff_y   ,

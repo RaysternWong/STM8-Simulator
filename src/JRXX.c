@@ -24,22 +24,22 @@ uint8_t jrf(uint8_t *opcode){
 
 uint8_t jrh(uint8_t *opcode){
   JRXX( H == 1 );
-  return 2;
+  return 3;
 }
 
 uint8_t jrih(uint8_t *opcode){
  
-  return 2;
+  return 3;
 }
 
 uint8_t jril(uint8_t *opcode){ 
 
-  return 2;
+  return 3;
 }
 
 uint8_t jrm(uint8_t *opcode){ 
   JRXX( IM == 1 );
-  return 2;
+  return 3;
 }
 
 uint8_t jrmi(uint8_t *opcode){ 
@@ -59,12 +59,12 @@ uint8_t jrne(uint8_t *opcode){
 
 uint8_t jrnh(uint8_t *opcode){ 
   JRXX( H == 0 );
-  return 2;
+  return 3;
 }
 
 uint8_t jrnm(uint8_t *opcode){ 
   JRXX( IM == 0 );
-  return 2;
+  return 3;
 }
 
 uint8_t jrnv(uint8_t *opcode){ 

@@ -92,6 +92,9 @@
 
 */
 
+#define GET_BIT_0(num) ((num) & 0X01)  
+#define GET_BIT_7(num) ((num & 0X80) >> 7)
+
 // Memory
 #define M0  (value & 0X01)      
 #define M1  ( (value & 0X02) >> 1 )
@@ -206,7 +209,7 @@
 #define _R15 (R15 == 0 ? 1 : 0)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = byte ; UPDATE_Z_N_FLAG(reg); }while(0)
+#define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = (byte) ; UPDATE_Z_N_FLAG(reg); }while(0)
 #define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG(reg); }while(0)
 
 #define LOAD_BYTE_TO_MEM( mem, byte)   do { MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte); }while(0)
@@ -215,8 +218,16 @@
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
 #define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0)
 #define MOV(dst,src)                   do { MEM_WRITE_BYTE(dst,src) }while(0)
-#define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )            
+#define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )           
+ 
+#define MEM_SHIFT_LEFT(mem)            do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, (byte<<1) ); }while(0)            
+#define REG_SHIFT_LEFT(reg)            do { C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)            
 
+#define MEM_SHIFT_RIGHT(mem)            do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, (byte>>1) ); }while(0)            
+#define REG_SHIFT_RIGHT(reg)            do { C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, reg>>1); }while(0)   
+  
+#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)   do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, (byte<<1) ); }while(0)            
+#define REG_SHIFT_RIGHT_ARITHMETIC(reg)   do { C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)      
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);

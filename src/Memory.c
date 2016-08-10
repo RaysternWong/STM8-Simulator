@@ -104,6 +104,7 @@ uint32_t ramMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data)
 }
 
 uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data){
+
   if(mode == MEM_READ){
     return ( size == 1 ? GPIO_ARR(address) : 
              size == 2 ? GET_WORD( GPIO_ARR(address), GPIO_ARR(address+1) )  
@@ -114,8 +115,7 @@ uint32_t gpioMemory(Mode mode, uint32_t address, uint8_t size, uint32_t data){
   if(mode == MEM_WRITE){
     size == 1 ? GPIO_ARR(address) = data :
     size == 2 ? setBigEndianWord(&GPIO_ARR(address), data)
-              : setBigEndianExt(&GPIO_ARR(address), data) ;
-    
+              : setBigEndianExt(&GPIO_ARR(address), data) ; 
   }
 }
 

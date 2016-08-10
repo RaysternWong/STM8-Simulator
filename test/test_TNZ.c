@@ -26,10 +26,10 @@ void test_tnz_a(void)
   Z = 1;
   uint8_t instr[] = {0XAB};
   
-  TEST_ASSERT_EQUAL(1, tnz_a(instr));
+  TEST_ASSERT_EQUAL_INT8(1, tnz_a(instr));
 
-  TEST_ASSERT_EQUAL(1, N); // A is negative , because bit 7 is 1
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(1, N); // A is negative , because bit 7 is 1
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortmem(void)
@@ -40,9 +40,9 @@ void test_tnz_shortmem(void)
   uint8_t instr[] = {0XBB, addr};
   MEM_WRITE_BYTE( addr,  0);
   
-  TEST_ASSERT_EQUAL(2, tnz_shortmem(instr));
-  TEST_ASSERT_EQUAL(0, N); 
-  TEST_ASSERT_EQUAL(1, Z); //the byte store in addr is 0
+  TEST_ASSERT_EQUAL_INT8(2, tnz_shortmem(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N); 
+  TEST_ASSERT_EQUAL_INT8(1, Z); //the byte store in addr is 0
 }
 
 void test_tnz_longmem(void)
@@ -54,9 +54,9 @@ void test_tnz_longmem(void)
   uint8_t instr[] = {0XBB, addrMSB, addrLSB};
   MEM_WRITE_BYTE( 0x1101,  0x05);
   
-  TEST_ASSERT_EQUAL(4, tnz_longmem(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(4, tnz_longmem(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_x(void)
@@ -68,9 +68,9 @@ void test_tnz_x(void)
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  0x05);
   
-  TEST_ASSERT_EQUAL(1, tnz_x(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(1, tnz_x(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortoff_x(void)
@@ -82,9 +82,9 @@ void test_tnz_shortoff_x(void)
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
-  TEST_ASSERT_EQUAL(2, tnz_shortoff_x(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(2, tnz_shortoff_x(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_longoff_x(void)
@@ -96,9 +96,9 @@ void test_tnz_longoff_x(void)
   uint8_t instr[] = {0XFB, 0X11, 0x11}; 
   MEM_WRITE_BYTE( 0X3c22 ,  0x04);  //0x2B11 + 0X1111 = 0X3c22
   
-  TEST_ASSERT_EQUAL(4, tnz_longoff_x(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x4 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(4, tnz_longoff_x(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x4 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_y(void)
@@ -110,9 +110,9 @@ void test_tnz_y(void)
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  0x05);
   
-  TEST_ASSERT_EQUAL(2, tnz_y(instr)); 
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(2, tnz_y(instr)); 
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortoff_y(void)
@@ -124,9 +124,9 @@ void test_tnz_shortoff_y(void)
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
-  TEST_ASSERT_EQUAL(3, tnz_shortoff_y(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(3, tnz_shortoff_y(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_longoff_y(void)
@@ -138,9 +138,9 @@ void test_tnz_longoff_y(void)
   uint8_t instr[] = {0XFB, 0X11, 0x11};
   MEM_WRITE_BYTE( 0X3c22 ,  0x05);  //0x2B11 + 0X1111 = 0X3c22
   
-  TEST_ASSERT_EQUAL(4, tnz_longoff_y(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(4, tnz_longoff_y(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 //Assembly : A  | (shortoff,SP) cp A,($10,SP)
@@ -153,9 +153,9 @@ void test_tnz_shortoff_sp(void)
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 ,  0x05);  //0x2B11 + 0X11 = 0X2B22
   
-  TEST_ASSERT_EQUAL(2, tnz_shortoff_sp(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(2, tnz_shortoff_sp(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortptr_w(void)
@@ -169,9 +169,9 @@ void test_tnz_shortptr_w(void)
   MEM_WRITE_BYTE( 0X14 , 0xBB);  
   MEM_WRITE_BYTE( 0xAABB , 0x05);  
   
-  TEST_ASSERT_EQUAL(3, tnz_shortptr_w(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(3, tnz_shortptr_w(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_longptr_w(void)
@@ -184,9 +184,9 @@ void test_tnz_longptr_w(void)
   MEM_WRITE_BYTE( 0X1316 , 0xBB);  
   MEM_WRITE_BYTE( 0xAABB , 0x05);  
   
-  TEST_ASSERT_EQUAL(4, tnz_longptr_w(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(4, tnz_longptr_w(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortptr_w_x(void)
@@ -200,9 +200,9 @@ void test_tnz_shortptr_w_x(void)
   MEM_WRITE_BYTE( 0X14 , 0x11);  
   MEM_WRITE_BYTE( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
-  TEST_ASSERT_EQUAL(3, tnz_shortptr_w_x(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(3, tnz_shortptr_w_x(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_longptr_w_x(void)
@@ -216,9 +216,9 @@ void test_tnz_longptr_w_x(void)
   MEM_WRITE_BYTE( 0X1301 , 0xBB);  
   MEM_WRITE_BYTE( 0xAACC , 0x05);  // 0XAABB + 0X11 = 0XAACC
   
-  TEST_ASSERT_EQUAL(4, tnz_longptr_w_x(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(4, tnz_longptr_w_x(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }
 
 void test_tnz_shortptr_w_y(void)
@@ -232,7 +232,7 @@ void test_tnz_shortptr_w_y(void)
   MEM_WRITE_BYTE( 0X14 , 0x11);  
   MEM_WRITE_BYTE( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
-  TEST_ASSERT_EQUAL(3, tnz_shortptr_w_y(instr));
-  TEST_ASSERT_EQUAL(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL(0, Z); 
+  TEST_ASSERT_EQUAL_INT8_INT8(3, tnz_shortptr_w_y(instr));
+  TEST_ASSERT_EQUAL_INT8_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8_INT8(0, Z); 
 }

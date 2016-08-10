@@ -57,11 +57,11 @@ void test_jrh(void){
   uint8_t instr[] = {0XAB, 0x22}; 
   
 	H = 0;
-  TEST_ASSERT_EQUAL_INT8( 2, jrh(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrh(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x3 , PC);    // Condition false , PC = 1 + 2  =  3;
   
   H = 1;
-  TEST_ASSERT_EQUAL_INT8( 2, jrh(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrh(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x27 , PC); // Condition false , PC = 3 + 2 + 22 =  27;
 }
 
@@ -69,12 +69,12 @@ void test_jrm(void){
   uint8_t instr[] = {0XAB, 0x22}; 
   
 	I0 = 0;
-  TEST_ASSERT_EQUAL_INT8( 2, jrm(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrm(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x3 , PC);    // Condition false , PC = 1 + 2  =  3;
   
   I0 = 1;
   I1 = 1;
-  TEST_ASSERT_EQUAL_INT8( 2, jrm(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrm(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x27 , PC); // Condition false , PC = 3 + 2 + 22 =  27;
 }
 
@@ -118,11 +118,11 @@ void test_jrnh(void){
   uint8_t instr[] = {0XAB, 0x22}; 
   
 	H = 1;
-  TEST_ASSERT_EQUAL_INT8( 2, jrnh(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrnh(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x3 , PC);    // Condition false , PC = 1 + 2  =  3;
   
   H = 0;
-  TEST_ASSERT_EQUAL_INT8( 2, jrnh(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrnh(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x27 , PC); // Condition false , PC = 3 + 2 + 22 =  27;
 }
 
@@ -131,11 +131,11 @@ void test_jrnm(void){
   
 	I0 = 1;
 	I1 = 1;
-  TEST_ASSERT_EQUAL_INT8( 2, jrnm(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrnm(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x3 , PC);    // Condition false , PC = 1 + 2  =  3;
   
   I0 = 0;
-  TEST_ASSERT_EQUAL_INT8( 2, jrnm(instr));  
+  TEST_ASSERT_EQUAL_INT8( 3, jrnm(instr));  
   TEST_ASSERT_EQUAL_INT16( 0x27 , PC); // Condition false , PC = 3 + 2 + 22 =  27;
 }
 
