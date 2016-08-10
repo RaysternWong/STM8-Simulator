@@ -38,7 +38,7 @@ void test_sllw_x(void){
   C = 0;
   
   TEST_ASSERT_EQUAL_INT8(1, sllw_x(instr));
-  TEST_ASSERT_EQUAL_INT8(0x0ECA, X); 
+  TEST_ASSERT_EQUAL_INT16(0x0ECA, X); 
   TEST_ASSERT_EQUAL_INT8(0, N); 
   TEST_ASSERT_EQUAL_INT8(0, Z); 
   TEST_ASSERT_EQUAL_INT8(1, C); 
@@ -62,7 +62,7 @@ void test_sllw_x_make_N_to_1(void){
   C = 0;
   
   TEST_ASSERT_EQUAL_INT8(1, sllw_x(instr));
-  TEST_ASSERT_EQUAL_INT8(0x8ECA, X); 
+  TEST_ASSERT_EQUAL_INT16(0x8ECA, X); 
   TEST_ASSERT_EQUAL_INT8(1, N); 
   TEST_ASSERT_EQUAL_INT8(0, Z); 
   TEST_ASSERT_EQUAL_INT8(1, C); 
@@ -86,7 +86,7 @@ void test_sllw_y(void){
   C = 1;
   
   TEST_ASSERT_EQUAL_INT8(2, sllw_y(instr));
-  TEST_ASSERT_EQUAL_INT8(0x0ECA, Y); 
+  TEST_ASSERT_EQUAL_INT16(0x0ECA, Y); 
   TEST_ASSERT_EQUAL_INT8(0, N); 
   TEST_ASSERT_EQUAL_INT8(0, Z); 
   TEST_ASSERT_EQUAL_INT8(0, C); 
