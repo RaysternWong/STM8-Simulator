@@ -70,6 +70,7 @@ void test_sll_shortmem(void){
 void test_sll_longmem(void){
   N = 1;
   Z = 1;
+  C = 1;
   uint8_t instr[] = {0XBB, 0x11, 0x01};
   MEM_WRITE_BYTE( 0x1101,  0x66);
   
@@ -84,6 +85,7 @@ void test_sll_x(void){
   SET_X(0x102B);
   N = 1;
   Z = 1;
+  C = 0;
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  value);
   
@@ -98,6 +100,7 @@ void test_sll_shortoff_x(void){
   SET_X(0x2B11);
   N = 1;
   Z = 1;
+  C = 0;
   uint8_t instr[] = {0XFB, 0X11};
   MEM_WRITE_BYTE( 0X2B22 , value);  //0x2B11 + 0X11 = 0X2B22
   
@@ -112,6 +115,7 @@ void test_sll_longoff_x(void){
   SET_X(0x2B11);
   N = 1;
   Z = 1;
+  C = 0;
   uint8_t instr[] = {0XFB, 0X11, 0x11}; 
   MEM_WRITE_BYTE( 0X3C22 , value);  //0x2B11 + 0X1111 = 0X3c22
   
@@ -126,6 +130,7 @@ void test_sll_y(void){
   SET_Y(0X102B);
   N = 1;
   Z = 1;
+  C = 0;
   uint8_t instr[] = {0XFB};
   MEM_WRITE_BYTE( 0X102B ,  value);
   

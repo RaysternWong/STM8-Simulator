@@ -216,19 +216,20 @@
 #define LOAD_WORD_TO_MEM( mem, word)   do { MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
  
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
-#define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0)
+#define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0) 
 #define MOV(dst,src)                   do { MEM_WRITE_BYTE(dst,src) }while(0)
 #define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )           
  
+#define REG_SHIFT_LEFT(reg)            do { C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)    
 #define MEM_SHIFT_LEFT(mem)            do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, (byte<<1) ); }while(0)            
-#define REG_SHIFT_LEFT(reg)            do { C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)            
-
+        
+#define REG_SHIFT_RIGHT(reg)            do { C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, reg>>1); }while(0)  
 #define MEM_SHIFT_RIGHT(mem)            do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, (byte>>1) ); }while(0)            
-#define REG_SHIFT_RIGHT(reg)            do { C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, reg>>1); }while(0)   
-  
-#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)   do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, (byte<<1) ); }while(0)            
-#define REG_SHIFT_RIGHT_ARITHMETIC(reg)   do { C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)      
 
+#define SHIFT_RIGHT_WITH_BIT7_FIX(byte)  ( (byte) & 0x80 | (byte)>>1 )
+#define REG_SHIFT_RIGHT_ARITHMETIC(reg)  do { C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, SHIFT_RIGHT_WITH_BIT7_FIX(reg)); }while(0) 
+#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)  do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, SHIFT_RIGHT_WITH_BIT7_FIX(byte)); }while(0)      
+ 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
 
@@ -254,7 +255,6 @@ void mcu_div(uint8_t *reg);
 
 void mcu_cp(uint8_t dst, uint8_t src);
 void mcu_cpw(uint16_t dst, uint16_t src);
-
 
 uint8_t mcu_pop(void);
 
