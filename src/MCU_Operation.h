@@ -233,6 +233,9 @@
 
 #define REG_WORD_SHIFT_LEFT(reg)          do { uint16_t word = getBigEndianWord(&reg); C = GET_BIT_15(word); LOAD_WORD_TO_REG(reg, word<<1); }while(0)    
 #define REG_WORD_SHIFT_RIGHT(reg)         do { uint16_t word = getBigEndianWord(&reg); C = GET_BIT_0(word);  LOAD_WORD_TO_REG(reg, word>>1); }while(0)  
+  
+#define SHIFT_RIGHT_WITH_BIT15_FIX(byte)  ( (byte) & 0X8000 | (byte)>>1 )
+#define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)   do { uint16_t word = getBigEndianWord(&reg); C = GET_BIT_0(word); LOAD_WORD_TO_REG(reg, SHIFT_RIGHT_WITH_BIT15_FIX(word)); }while(0) 
  
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
