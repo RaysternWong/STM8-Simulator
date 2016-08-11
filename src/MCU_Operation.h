@@ -208,7 +208,16 @@
 #define _R13 (R13 == 0 ? 1 : 0)
 #define _R14 (R14 == 0 ? 1 : 0)
 #define _R15 (R15 == 0 ? 1 : 0)
+
+#define BIT0_TO_BIT3(byte)  ( byte & 0X0F     )
+#define BIT4_TO_BIT7(byte)  ( (byte & 0XF0)>>4)
+
+#define BIT0_TO_BIT7(word)  ( word & 0X00FF     )
+#define BIT8_TO_BIT15(word) ( (word & 0XFF00)>>8)
 //------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#define SWAP_BYTE(byte)  ( BIT4_TO_BIT7(byte) | BIT0_TO_BIT3(byte) <<4 )
+#define SWAP_WORD(byte)  ( BIT8_TO_BIT15(byte) | BIT0_TO_BIT7(byte)<<8 )
 
 #define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = (byte) ; UPDATE_Z_N_FLAG(reg); }while(0)
 #define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
@@ -230,7 +239,7 @@
 //Right rotate assign carry to bit7 for byte, bit15 for word
 #define rl(byte)   ( byte<<1 | C)                   //Rotate left
 #define rr(byte)   ( byte>>1 | C*0x80 )             //Rotate right
-#define rrw(byte)  ( byte>>1 | C*0x8000 )           //Rotate right  word
+#define rrw(word)  ( word>>1 | C*0x8000 )           //Rotate right  word
 
 
 //shift or rotate the contain, direction right or left
@@ -257,6 +266,7 @@
 #define MEM_SHIFT_RIGHT_ARITHMETIC(mem)       do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), sra(byte));}while(0)
 #define MEM_ROTATE_LEFT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), rl(byte)); }while(0)  
 #define MEM_ROTATE_RIGHT(mem)                 do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), rr(byte)); }while(0) 
+
 
 
 uint16_t getBigEndianWord(uint8_t *bytes);
@@ -286,5 +296,7 @@ void mcu_cp(uint8_t dst, uint8_t src);
 void mcu_cpw(uint16_t dst, uint16_t src);
 
 uint8_t mcu_pop(void);
+
+
 
 #endif // MCU_Operation_H
