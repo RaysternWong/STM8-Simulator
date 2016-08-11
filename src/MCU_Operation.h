@@ -226,8 +226,11 @@
 #define sra(byte)  ( (byte) & 0x80 | (byte)>>1 )    //Shift Right Arithmetic
 #define sraw(word) ( (word) & 0X8000 | (word)>>1 )  //Shift Right Arithmetic Word
 
+//Left rotate always assign carry to bit0, 
+//Right rotate assign carry to bit7 for byte, bit15 for word
 #define rl(byte)   ( byte<<1 | C)                   //Rotate left
-#define rr(byte)   ( byte>>1 | C*0x80 )                   //Rotate right
+#define rr(byte)   ( byte>>1 | C*0x80 )             //Rotate right
+#define rrw(byte)  ( byte>>1 | C*0x8000 )           //Rotate right  word
 
 
 //shift or rotate the contain, direction right or left
@@ -245,7 +248,7 @@
 #define REG_WORD_SHIFT_RIGHT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sr(word));  }while(0) 
 #define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)  do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sraw(word));}while(0)
 #define REG_WORD_ROTATE_LEFT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_15(word), rl(word));  }while(0)    
-#define REG_WORD_ROTATE_RIGHT(reg)            do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , rr(word));  }while(0) 
+#define REG_WORD_ROTATE_RIGHT(reg)            do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , rrw(word));  }while(0) 
 
   
 // Memory
