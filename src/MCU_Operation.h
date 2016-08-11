@@ -32,7 +32,7 @@
 #define CLEAR_ALL_FLAGS   CC = 0;
 
 #define UPDATE_Z_N_FLAG(num)            do { Z = ((num) == 0 ? 1 : 0); N = ((num) & 0X80) >> 7; }while(0)
-#define UPDATE_Z_N_FLAG_FOR_WORD(num)   do { Z = ((num)  == 0 ? 1 : 0); N = ((num)  & 0X8000) >> 15; }while(0)
+#define UPDATE_Z_N_FLAG_FOR_WORD(num)   do { Z = ((num)  == 0 ? 1 : 0); N = ((num) & 0X8000) >> 15; }while(0)
 
 #define SBC_FLAGS_UPDATE(num)    do { UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6); }while(0)
 #define SUBW_FLAGS_UPDATE(num)   do { UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14); }while(0)
@@ -211,14 +211,14 @@
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = (byte) ; UPDATE_Z_N_FLAG(reg); }while(0)
-#define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG(reg); }while(0)
+#define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
 
 #define LOAD_BYTE_TO_MEM( mem, byte)   do { MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte); }while(0)
 #define LOAD_WORD_TO_MEM( mem, word)   do { MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
  
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
 #define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0) 
-#define MOV(dst,src)                   do { MEM_WRITE_BYTE(dst,src) }while(0)
+#define MOV(dst,src)                   MEM_WRITE_BYTE(dst,src) 
 #define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )           
  
 #define sl(byte)   ( (byte) <<1 )                   //Shift Left
@@ -233,7 +233,7 @@
 //shift or rotate the contain, direction right or left
 #define REG_OPERATION(reg, carry, mode)        do{ C = carry; LOAD_BYTE_TO_REG(reg, mode); }while(0) 
 #define REG_WORD_OPERATION(reg, carry, mode)   do{ C = carry; LOAD_WORD_TO_REG(reg, mode); }while(0)  
-#define MEM_OPERATION(mem, carry, mode)        do{ C = carry; LOAD_BYTE_TO_MEM(mem, mode );}while(0)     
+#define MEM_OPERATION(mem, carry, mode)        do{ C = carry; LOAD_BYTE_TO_MEM(mem, mode); }while(0)     
      
  
 #define REG_SHIFT_LEFT(reg)                   REG_OPERATION(reg, GET_BIT_7(reg), sl(reg) ) 
@@ -244,6 +244,8 @@
 #define REG_WORD_SHIFT_LEFT(reg)              do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_15(word), sl(word));  }while(0)    
 #define REG_WORD_SHIFT_RIGHT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sr(word));  }while(0) 
 #define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)  do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sraw(word));}while(0)
+#define REG_WORD_ROTATE_LEFT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_15(word), rl(word));  }while(0)    
+#define REG_WORD_ROTATE_RIGHT(reg)            do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , rr(word));  }while(0) 
 
   
 // Memory
