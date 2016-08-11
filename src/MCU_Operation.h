@@ -227,50 +227,32 @@
 #define sraw(word) ( (word) & 0X8000 | (word)>>1 )  //Shift Right Arithmetic Word
 
 #define rl(byte)   ( byte<<1 | C)                   //Rotate left
-#define rr(byte)   ( byte>>1 | C)                   //Rotate right
+#define rr(byte)   ( byte>>1 | C*0x80 )                   //Rotate right
 
 
-//shift or rotate the register byte, direction right or left
-#define REG_OPERATION(reg, carry, mode)   do{ C = carry; LOAD_BYTE_TO_REG(reg, mode); }while(0)       
-#define MEM_OPERATION(mem, carry, mode)   do{ C = carry; LOAD_BYTE_TO_MEM(mem, mode ); }while(0)     
-
-#define REG_WORD_OPERATION(reg, carry, mode)   do{ C = carry; LOAD_WORD_TO_REG(reg, mode); }while(0)       
-  
-
-
+//shift or rotate the contain, direction right or left
+#define REG_OPERATION(reg, carry, mode)        do{ C = carry; LOAD_BYTE_TO_REG(reg, mode); }while(0) 
+#define REG_WORD_OPERATION(reg, carry, mode)   do{ C = carry; LOAD_WORD_TO_REG(reg, mode); }while(0)  
+#define MEM_OPERATION(mem, carry, mode)        do{ C = carry; LOAD_BYTE_TO_MEM(mem, mode );}while(0)     
+     
  
- // Shift instruction
 #define REG_SHIFT_LEFT(reg)                   REG_OPERATION(reg, GET_BIT_7(reg), sl(reg) ) 
-#define MEM_SHIFT_LEFT(mem)                   do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), sl(byte)); }while(0)  
-  
 #define REG_SHIFT_RIGHT(reg)                  REG_OPERATION(reg, GET_BIT_0(reg), sr(reg) ) 
+#define REG_SHIFT_RIGHT_ARITHMETIC(reg)       REG_OPERATION(reg, GET_BIT_0(reg), sra(reg)) 
+#define REG_ROTATE_LEFT(reg)                  REG_OPERATION(reg, GET_BIT_7(reg), rl(reg) )  
+#define REG_ROTATE_RIGHT(reg)                 REG_OPERATION(reg, GET_BIT_0(reg), rr(reg) )  
+#define REG_WORD_SHIFT_LEFT(reg)              do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_15(word), sl(word));  }while(0)    
+#define REG_WORD_SHIFT_RIGHT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sr(word));  }while(0) 
+#define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)  do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sraw(word));}while(0)
+
+  
+// Memory
+#define MEM_SHIFT_LEFT(mem)                   do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), sl(byte)); }while(0)  
 #define MEM_SHIFT_RIGHT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), sr(byte)); }while(0) 
-  
-#define REG_SHIFT_RIGHT_ARITHMETIC(reg)       REG_OPERATION(reg, GET_BIT_0(reg), sra(reg) ) 
-#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)       do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), sra(byte)); }while(0)
-  
-#define REG_WORD_SHIFT_LEFT(reg)              do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_15(word), sl(word)); }while(0)    
-#define REG_WORD_SHIFT_RIGHT(reg)             do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sr(word)); }while(0) 
-#define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)  do{ uint16_t word = getBigEndianWord(&reg); REG_WORD_OPERATION(reg, GET_BIT_0(word) , sraw(word)); }while(0)
+#define MEM_SHIFT_RIGHT_ARITHMETIC(mem)       do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), sra(byte));}while(0)
+#define MEM_ROTATE_LEFT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), rl(byte)); }while(0)  
+#define MEM_ROTATE_RIGHT(mem)                 do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), rr(byte)); }while(0) 
 
-//#define REG_SHIFT_LEFT(reg)                   do{ C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, reg<<1); }while(0)     
-//#define MEM_SHIFT_LEFT(mem)                   do{ uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, (byte<<1) ); }while(0) 
-
-// #define REG_SHIFT_RIGHT(reg)                  do{ C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, reg>>1); }while(0)  
-// #define MEM_SHIFT_RIGHT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, (byte>>1) ); }while(0)    
-  
-// #define REG_SHIFT_RIGHT_ARITHMETIC(reg)       do{ C = GET_BIT_0(reg); LOAD_BYTE_TO_REG(reg, sra(reg)); }while(0) 
-// #define MEM_SHIFT_RIGHT_ARITHMETIC(mem)       do{ uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_0(byte); LOAD_BYTE_TO_MEM(mem, sra(byte)); }while(0)
-// #define REG_WORD_SHIFT_LEFT(reg)              do{ uint16_t word = getBigEndianWord(&reg); C = GET_BIT_15(word); LOAD_WORD_TO_REG(reg, word<<1); }while(0)    
-// #define REG_WORD_SHIFT_RIGHT(reg)             do{ uint16_t word = getBigEndianWord(&reg); C = GET_BIT_0(word);  LOAD_WORD_TO_REG(reg, word>>1); }while(0)  
-// #define REG_WORD_SHIFT_RIGHT_ARITHMETIC(reg)  do{ uint16_t word = getBigEndianWord(&reg); C = GET_BIT_0(word); LOAD_WORD_TO_REG(reg, sraw(word)); }while(0) 
- 
-
-#define REG_SHIFT_OR_ROTATE(reg,mode) do{}
-
-//Rotate instruciton
-#define REG_ROTATE_LEFT(reg)            do{ C = GET_BIT_7(reg); LOAD_BYTE_TO_REG(reg, rl(byte) ); }while(0)    
-#define REG_ROTATE_RIGHT(mem)            do { uint8_t byte = MEM_READ_BYTE(mem); C = GET_BIT_7(byte); LOAD_BYTE_TO_MEM(mem, rl(byte)) ); }while(0) 
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);

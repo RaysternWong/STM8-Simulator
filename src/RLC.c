@@ -7,77 +7,77 @@
 #include "Memory.h"
 
 uint8_t rlc_a(uint8_t *opcode){
-  REG_SHIFT_LEFT(A);
+  REG_ROTATE_LEFT(A);
   return 1;
 }
 
 uint8_t rlc_shortmem(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_MEM(opcode));
+  MEM_ROTATE_LEFT( GET_SHORT_MEM(opcode));
   return 2;
 }
 
 uint8_t rlc_longmem(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_LONG_MEM(opcode) );
+  MEM_ROTATE_LEFT( GET_LONG_MEM(opcode) );
   return 4;
 }
 
 uint8_t rlc_x(uint8_t *opcode){
-  MEM_SHIFT_LEFT(X);
+  MEM_ROTATE_LEFT(X);
   return 1;
 }
 
 uint8_t rlc_shortoff_x(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_OFF_X(opcode) );
+  MEM_ROTATE_LEFT( GET_SHORT_OFF_X(opcode) );
   return 2;
 }
 
 uint8_t rlc_longoff_x(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_LONG_OFF_X(opcode) );
+  MEM_ROTATE_LEFT( GET_LONG_OFF_X(opcode) );
   return 4;
 }
 
 
 uint8_t rlc_y(uint8_t *opcode){
-  MEM_SHIFT_LEFT(Y);
+  MEM_ROTATE_LEFT(Y);
   return 2;
 }
 
 uint8_t rlc_shortoff_y(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_OFF_Y(opcode) );
+  MEM_ROTATE_LEFT( GET_SHORT_OFF_Y(opcode) );
   return 3;
 }
 
 uint8_t rlc_longoff_y(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_LONG_OFF_Y(opcode) );
+  MEM_ROTATE_LEFT( GET_LONG_OFF_Y(opcode) );
   return 4;
 }
 
 uint8_t rlc_shortoff_sp(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_OFF_SP(opcode) );
+  MEM_ROTATE_LEFT( GET_SHORT_OFF_SP(opcode) );
   return 2;
 }
 
 uint8_t rlc_shortptr_w(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_PTR_W(opcode) );
+  MEM_ROTATE_LEFT( GET_SHORT_PTR_W(opcode) );
   return 3;
 }
 
 uint8_t rlc_longptr_w(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_LONG_PTR_W(opcode) );
+  MEM_ROTATE_LEFT( GET_LONG_PTR_W(opcode) );
   return 4;
 }
 
 uint8_t rlc_shortptr_w_x(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_PTR_W_X(opcode) );
+  MEM_ROTATE_LEFT( GET_SHORT_PTR_W_X(opcode) );
   return 3;
 }
 
 uint8_t rlc_longptr_w_x(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_LONG_PTR_W_X(opcode) );
+  MEM_ROTATE_LEFT( GET_LONG_PTR_W_X(opcode) );
   return 4;
 }
 
 uint8_t rlc_shortptr_w_y(uint8_t *opcode){
-  MEM_SHIFT_LEFT( GET_SHORT_PTR_W_Y(opcode) ); 
+  MEM_ROTATE_LEFT( GET_SHORT_PTR_W_Y(opcode) ); 
   return 3;
 }
