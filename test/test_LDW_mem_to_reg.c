@@ -28,6 +28,7 @@ void test_ldw_x_word(void){
   TEST_ASSERT_EQUAL_INT16(0xAE11, X);
 }
 
+
 void test_ldw_x_shortmem(void){
   uint8_t shortMEM    = 0xAD;
   MEM_WRITE_WORD(shortMEM, 0xAE11);

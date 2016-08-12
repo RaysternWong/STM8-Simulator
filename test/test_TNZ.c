@@ -232,7 +232,7 @@ void test_tnz_shortptr_w_y(void)
   MEM_WRITE_BYTE( 0X14 , 0x11);  
   MEM_WRITE_BYTE( 0x1122 , 0x05);  // 0X1111 + 0X11 = 0X1122
   
-  TEST_ASSERT_EQUAL_INT8_INT8(3, tnz_shortptr_w_y(instr));
-  TEST_ASSERT_EQUAL_INT8_INT8(0, N);  //0x5 is not zero not negative
-  TEST_ASSERT_EQUAL_INT8_INT8(0, Z); 
+  TEST_ASSERT_EQUAL_INT8(3, tnz_shortptr_w_y(instr));
+  TEST_ASSERT_EQUAL_INT8(0, N);  //0x5 is not zero not negative
+  TEST_ASSERT_EQUAL_INT8(0, Z); 
 }

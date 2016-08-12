@@ -7,7 +7,7 @@
 #include "Memory.h"
 
 uint8_t sim(uint8_t *opcode){
-  L1 = 1;
-  L0 = 1;
+  I1 = 1;
+  I0 = 1;
   return 1; 
 }
