@@ -6,7 +6,7 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-//-----------------------Load mem to X----------------------------------------
+//-----------------------Load mem word to X----------------------------------------
 uint8_t ldw_x_word(uint8_t *opcode){
   LOAD_WORD_TO_REG( XH, GET_LONG_MEM(opcode));
   return 3;
@@ -108,7 +108,7 @@ uint8_t ldw_y_shortptr_w_y(uint8_t *opcode){
   return 3;
 }
 
-//-----------------------Load mem word to reg----------------------------------------
+//-----------------------Load reg to mem----------------------------------------
 // For X
 uint8_t ldw_x_to_shortmem(uint8_t *opcode){
   LOAD_WORD_TO_MEM(GET_SHORT_MEM(opcode), X);

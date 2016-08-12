@@ -4,7 +4,7 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------STM 8 Architecture---------------------------------------------------------------
 
 #define A     cpu->a            //Accumulator
 #define PCE   cpu->pce          //Program counter extended
@@ -29,44 +29,43 @@
 
 #define IM  ( I0 & I1 )           //Interrupt mask 
 
-#define CLEAR_ALL_FLAGS   CC = 0;
-
+//-----------------------------------Flag Setting-------------------------------------------------------------------
+#define CLEAR_ALL_FLAGS                 CC = 0;
 #define UPDATE_Z_N_FLAG(num)            do { Z = ((num) == 0 ? 1 : 0); N = ((num) & 0X80) >> 7; }while(0)
 #define UPDATE_Z_N_FLAG_FOR_WORD(num)   do { Z = ((num)  == 0 ? 1 : 0); N = ((num) & 0X8000) >> 15; }while(0)
+#define SBC_FLAGS_UPDATE(num)           do { UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6); }while(0)
+#define SUBW_FLAGS_UPDATE(num)          do { UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14); }while(0)
 
-#define SBC_FLAGS_UPDATE(num)    do { UPDATE_Z_N_FLAG(num) ; C = ( value > a ? 1 : 0) ; V = C ^ (_A6 & M6 | _A6 & R6 | A6 & M6 & R6); }while(0)
-#define SUBW_FLAGS_UPDATE(num)   do { UPDATE_Z_N_FLAG_FOR_WORD(num) ; C = ( value > a ? 1 : 0) ; V = C ^ ( _A14 & M14 | _A14 & R14 | A14 & M14 & R14); }while(0)
+//-------------------------------Memory Reading and Writing----------------------------------------------------------
+#define MEM_READ_BYTE(addr)             memoryTable[addr/0x100](MEM_READ , addr, 1, 0)
+#define MEM_READ_WORD(addr)             memoryTable[addr/0x100](MEM_READ , addr, 2, 0)
+#define MEM_READ_EXT(addr)              memoryTable[addr/0x100](MEM_READ , addr, 3, 0)
+#define MEM_WRITE_BYTE(addr,data)       memoryTable[addr/0x100](MEM_WRITE, addr, 1, data)
+#define MEM_WRITE_WORD(addr,data)       memoryTable[addr/0x100](MEM_WRITE, addr, 2, data)
+#define MEM_WRITE_EXT(addr,data)        memoryTable[addr/0x100](MEM_WRITE, addr, 3, data)
 
+//-------------------------------Value transferring----------------------------------------------------------
+#define TO_BYTE(ext)                    ( ext &= 0x0000FF)
+#define TO_WORD(ext)                    ( ext &= 0x00FFFF)
+#define GET_WORD(msb,lsb)               ( (msb<<8) + lsb )
+#define GET_EXT(extb,msb,lsb)           ( (extb<<16) + (msb<<8) + lsb ) 
 
-//------------------------------------------------------------------------------------------------------------------------------------------------------
-#define MEM_READ_BYTE(addr)  memoryTable[addr/0x100](MEM_READ, addr, 1, 0)
-#define MEM_READ_WORD(addr)  memoryTable[addr/0x100](MEM_READ, addr, 2, 0)
-#define MEM_READ_EXT(addr)   memoryTable[addr/0x100](MEM_READ, addr, 3, 0)
-#define MEM_WRITE_BYTE(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 1, data)
-#define MEM_WRITE_WORD(addr,data)  memoryTable[addr/0x100](MEM_WRITE, addr, 2, data)
-#define MEM_WRITE_EXT(addr,data)   memoryTable[addr/0x100](MEM_WRITE, addr, 3, data)
+//-------------------------------Register Setting----------------------------------------------------------
+#define SET_X(word)                     setBigEndianWord(&XH, word)
+#define SET_Y(word)                     setBigEndianWord(&YH, word)
+#define SET_SP(word)                    setBigEndianWord(&SPH, word)
+#define SET_PC_WORD(word)               setBigEndianWord(&PCH, word)
+#define SET_PC(extend)                  setBigEndianExt(&PCE, extend)
 
-#define TO_BYTE(ext) ( ext &= 0x0000FF)
-#define TO_WORD(ext) ( ext &= 0x00FFFF)
-#define GET_WORD(msb,lsb)      ( (msb<<8) + lsb )
-#define GET_EXT(extb,msb,lsb)  ( (extb<<16) + (msb<<8) + lsb ) 
+//-----------------------------Get the complete register ----------------------------------------------------------
+#define X                               getBigEndianWord(&XH)
+#define Y                               getBigEndianWord(&YH)
+#define SP                              getBigEndianWord(&SPH)
+#define PC_WORD                         getBigEndianWord(&PCH)
+#define PC                              getBigEndianExt(&PCE)
 
-#define SET_X(word)        setBigEndianWord(&XH, word)
-#define SET_Y(word)        setBigEndianWord(&YH, word)
-#define SET_SP(word)       setBigEndianWord(&SPH, word)
-#define SET_PC_WORD(word)  setBigEndianWord(&PCH, word)
-
-#define SET_PC(extend)       setBigEndianExt(&PCE, extend)
-
-#define X   getBigEndianWord(&XH)
-#define Y   getBigEndianWord(&YH)
-#define SP  getBigEndianWord(&SPH)
-#define PC_WORD  getBigEndianWord(&PCH)
-#define PC       getBigEndianExt(&PCE)
-
-#define X_SRC   MEM_READ_BYTE(X)
-#define Y_SRC   MEM_READ_BYTE(Y)
-
+#define X_SRC                           MEM_READ_BYTE(X)
+#define Y_SRC                           MEM_READ_BYTE(Y)
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -214,16 +213,16 @@
 
 #define BIT0_TO_BIT7(word)  ( word & 0X00FF     )
 #define BIT8_TO_BIT15(word) ( (word & 0XFF00)>>8)
-//------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#define SWAP_BYTE(byte)  ( BIT4_TO_BIT7(byte) | BIT0_TO_BIT3(byte) <<4 )
+//-------------------------------------Instruction-------------------------------------------------------------------
+#define SWAP_BYTE(byte)  ( BIT4_TO_BIT7(byte)  | BIT0_TO_BIT3(byte)<<4 )
 #define SWAP_WORD(byte)  ( BIT8_TO_BIT15(byte) | BIT0_TO_BIT7(byte)<<8 )
 
-#define LOAD_BYTE_TO_REG( reg, byte)   do { (reg) = (byte) ; UPDATE_Z_N_FLAG(reg); }while(0)
-#define LOAD_WORD_TO_REG( reg, word)   do { setBigEndianWord(&(reg), word); UPDATE_Z_N_FLAG_FOR_WORD(getBigEndianWord(&(reg))); }while(0)
+#define LOAD_BYTE_TO_REG( reg, byte)    do { (reg) = (byte) ; UPDATE_Z_N_FLAG(reg); }while(0)
+#define LOAD_WORD_TO_REG( regH, word)   do { uint16_t w = word ; setBigEndianWord(&(regH), w); UPDATE_Z_N_FLAG_FOR_WORD(w); }while(0)
 
 #define LOAD_BYTE_TO_MEM( mem, byte)   do { MEM_WRITE_BYTE(mem,byte) ; UPDATE_Z_N_FLAG(byte); }while(0)
-#define LOAD_WORD_TO_MEM( mem, word)   do { MEM_WRITE_WORD(mem, word); UPDATE_Z_N_FLAG_FOR_WORD(word); }while(0)
+#define LOAD_WORD_TO_MEM( mem, word)   do { uint16_t w = word ; MEM_WRITE_WORD(mem, w); UPDATE_Z_N_FLAG_FOR_WORD(w); }while(0)
  
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
 #define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0) 
@@ -266,8 +265,6 @@
 #define MEM_SHIFT_RIGHT_ARITHMETIC(mem)       do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), sra(byte));}while(0)
 #define MEM_ROTATE_LEFT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), rl(byte)); }while(0)  
 #define MEM_ROTATE_RIGHT(mem)                 do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), rr(byte)); }while(0) 
-
-
 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
