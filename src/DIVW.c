@@ -4,7 +4,7 @@
 #include "CPUConfig.h"
 #include "ErrorObject.h"
 
-uint8_t div_x_y(uint8_t *opcode)
+uint8_t divw_x_y(uint8_t *opcode)
 {
   uint16_t x = X, y = Y;
   
@@ -23,8 +23,7 @@ uint8_t div_x_y(uint8_t *opcode)
   
   SET_X(quotient);
   SET_Y(remainder);
-  // initMostLeastByte( &XH, &XL, quotient);
-  // initMostLeastByte( &YH, &YL, remainder);
+
   
   return 1;
 }

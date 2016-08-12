@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "HALT.h"
+#include "BREAK.h"
 #include "MCU_Operation.h"
 #include "Description.h"
 #include <stdint.h>
@@ -20,17 +20,17 @@ void tearDown(void){
   free(gpioBlock);
 }
 
-void test_halt(void){
+void test_instr_break(void){
   CEXCEPTION_T err;
   uint8_t instr[] = {0XAB};
   
   Try{
     
-  TEST_ASSERT_EQUAL_INT8(1, halt(instr));
-  TEST_FAIL_MESSAGE("Expected ERR_HALT");
+  TEST_ASSERT_EQUAL_INT8(1, instr_break(instr));
+  TEST_FAIL_MESSAGE("Expected ERR_BREAK");
     
 
   }Catch(err){
-    TEST_ASSERT_EQUAL_MESSAGE(ERR_HALT, err, "Expected ERR_HALT");
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_BREAK, err, "Expected ERR_BREAK");
   }
 }

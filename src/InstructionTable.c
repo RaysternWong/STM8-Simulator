@@ -322,7 +322,7 @@ Instruction opcode92[256] = {
 };
 
 
-uint8_t getInstructionLength(uint8_t *opcode)
+uint8_t executeInstructionThroughOpcode(uint8_t *opcode)
 {
   uint8_t length = 0;
   
