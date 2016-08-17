@@ -272,6 +272,7 @@
 #define MEM_ROTATE_LEFT(mem)                  do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_7(byte), rl(byte)); }while(0)  
 #define MEM_ROTATE_RIGHT(mem)                 do{ uint8_t byte = MEM_READ_BYTE(mem); MEM_OPERATION(mem, GET_BIT_0(byte), rr(byte)); }while(0) 
 
+ 
 uint16_t getBigEndianWord(uint8_t *bytes);
 uint32_t getBigEndianExt(uint8_t *bytes);
 

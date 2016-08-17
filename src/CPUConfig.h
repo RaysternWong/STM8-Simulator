@@ -2,7 +2,6 @@
 #define CPUConfig_H
 #include <stdint.h>
 
-
 typedef struct CPU_t CPU_t;
 
 typedef struct{
@@ -35,4 +34,6 @@ struct CPU_t{
 };
 
 extern CPU_t *cpu;
+extern uint32_t *pcToLoad;
+
 #endif // CPUConfig_H

@@ -8,6 +8,7 @@
 #include "ErrorObject.h"
 
 CPU_t *cpu;
+uint32_t *pcToLoad;
 
 MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 

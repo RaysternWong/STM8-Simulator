@@ -37,6 +37,9 @@
 #include "BSET.h"
 #include "BRES.h"
 #include "BCPL.h"
+#include "BCCM.h"
+#include "BTJF.h"
+#include "BTJT.h"
 #include "ErrorObject.h"
 
 
@@ -163,6 +166,24 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0x00] = btjt_longmem_pos_0,
+  [0x02] = btjt_longmem_pos_1,
+  [0x04] = btjt_longmem_pos_2,
+  [0x06] = btjt_longmem_pos_3,
+  [0x08] = btjt_longmem_pos_4,
+  [0x0A] = btjt_longmem_pos_5,
+  [0x0C] = btjt_longmem_pos_6,
+  [0x0E] = btjt_longmem_pos_7,
+ 
+  [0x01] = btjf_longmem_pos_0,
+  [0x03] = btjf_longmem_pos_1,
+  [0x05] = btjf_longmem_pos_2,
+  [0x07] = btjf_longmem_pos_3,
+  [0x09] = btjf_longmem_pos_4,
+  [0x0B] = btjf_longmem_pos_5,
+  [0x0D] = btjf_longmem_pos_6,
+  [0x0F] = btjf_longmem_pos_7,
+  
   [0X10] = bset_longmem_pos_0,
   [0X12] = bset_longmem_pos_1,
   [0X14] = bset_longmem_pos_2,
@@ -238,6 +259,15 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  [0X11] = bccm_longmem_pos_0,
+  [0X13] = bccm_longmem_pos_1,
+  [0X15] = bccm_longmem_pos_2,
+  [0X17] = bccm_longmem_pos_3,
+  [0X19] = bccm_longmem_pos_4,
+  [0X1B] = bccm_longmem_pos_5,
+  [0X1D] = bccm_longmem_pos_6,
+  [0X1F] = bccm_longmem_pos_7,
+  
   [0X10] = bcpl_longmem_pos_0,
   [0X12] = bcpl_longmem_pos_1,
   [0X14] = bcpl_longmem_pos_2,
