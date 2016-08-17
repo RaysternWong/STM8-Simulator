@@ -35,6 +35,8 @@
 #include "WFI.h"
 #include "HALT.h"
 #include "IRET.h"
+#include "BSET.h"
+#include "BRES.h"
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"

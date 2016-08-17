@@ -34,6 +34,8 @@
 #include "WFI.h"
 #include "HALT.h"
 #include "IRET.h"
+#include "BSET.h"
+#include "BRES.h"
 #include "ErrorObject.h"
 
 
@@ -160,6 +162,25 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0X10] = bset_longmem_pos_0,
+  [0X12] = bset_longmem_pos_1,
+  [0X14] = bset_longmem_pos_2,
+  [0X16] = bset_longmem_pos_3,
+  [0X18] = bset_longmem_pos_4,
+  [0X1A] = bset_longmem_pos_5,
+  [0X1C] = bset_longmem_pos_6,
+  [0X1E] = bset_longmem_pos_7,
+  
+  [0X11] = bres_longmem_pos_0,
+  [0X13] = bres_longmem_pos_1,
+  [0X15] = bres_longmem_pos_2,
+  [0X17] = bres_longmem_pos_3,
+  [0X19] = bres_longmem_pos_4,
+  [0X1B] = bres_longmem_pos_5,
+  [0X1D] = bres_longmem_pos_6,
+  [0X1F] = bres_longmem_pos_7,
+
+  
   [0XC5] = bcp_a_longptr_w   ,
   [0XD5] = bcp_a_longptr_w_x ,
 

@@ -19,7 +19,12 @@ void tearDown(void){
 }
 
 
-
+/*       0000
+     |   0001
+     --------
+         0001
+     --------
+*/
 void test_bset_longmem_pos_0_given_value_is_0(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0);
@@ -30,6 +35,12 @@ void test_bset_longmem_pos_0_given_value_is_0(void){
   TEST_ASSERT_EQUAL_INT8(0x1, MEM_READ_BYTE(longmem) );
 }
 
+/*       0001
+     |   0001
+     --------
+         0001
+     --------
+*/
 void test_bset_longmem_pos_0_given_value_is_also_1(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0x1);
@@ -40,6 +51,12 @@ void test_bset_longmem_pos_0_given_value_is_also_1(void){
   TEST_ASSERT_EQUAL_INT8(0x1, MEM_READ_BYTE(longmem) );
 }
 
+/*       0100
+     |   0001
+     --------
+         0101
+     --------
+*/
 void test_bset_longmem_pos_0_given_value_is_4(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0x4);
@@ -50,6 +67,12 @@ void test_bset_longmem_pos_0_given_value_is_4(void){
   TEST_ASSERT_EQUAL_INT8(0x5, MEM_READ_BYTE(longmem) );
 }
 
+/*       0000
+     |   0010
+     --------
+         0010
+     --------
+*/
 void test_bset_longmem_pos_1(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0);
@@ -60,6 +83,12 @@ void test_bset_longmem_pos_1(void){
   TEST_ASSERT_EQUAL_INT8(0x2, MEM_READ_BYTE(longmem) );
 }
 
+/*       0000
+     |   0100
+     --------
+         0100
+     --------
+*/
 void test_bset_longmem_pos_2(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0);
@@ -70,6 +99,13 @@ void test_bset_longmem_pos_2(void){
   TEST_ASSERT_EQUAL_INT8(0x4, MEM_READ_BYTE(longmem) );
 }
 
+
+/*       0000
+     |   1000
+     --------
+         1000
+     --------
+*/
 void test_bset_longmem_pos_3(void){
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0);
