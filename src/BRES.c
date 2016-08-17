@@ -19,8 +19,6 @@
     1101  1111    0xDF
     1011  1111    0xBF
     0111  1111    0x7F
-
-
 */
 
 uint8_t bres_longmem_pos_0(uint8_t *opcode){

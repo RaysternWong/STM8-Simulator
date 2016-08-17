@@ -36,6 +36,7 @@
 #include "IRET.h"
 #include "BSET.h"
 #include "BRES.h"
+#include "BCPL.h"
 #include "ErrorObject.h"
 
 
@@ -237,6 +238,14 @@ Instruction opcode72[256] = {
 };
 
 Instruction opcode90[256] = {
+  [0X10] = bcpl_longmem_pos_0,
+  [0X12] = bcpl_longmem_pos_1,
+  [0X14] = bcpl_longmem_pos_2,
+  [0X16] = bcpl_longmem_pos_3,
+  [0X18] = bcpl_longmem_pos_4,
+  [0X1A] = bcpl_longmem_pos_5,
+  [0X1C] = bcpl_longmem_pos_6,
+  [0X1E] = bcpl_longmem_pos_7,
   
   [0X29] = jrh  ,
   [0X2F] = jrih ,

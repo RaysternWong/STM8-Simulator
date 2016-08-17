@@ -91,8 +91,14 @@
 
 */
 
-#define GET_BIT_0(num) ((num) & 0X01)  
-#define GET_BIT_7(num) ((num & 0X80) >> 7)
+#define GET_BIT_0(num)  ((num)& 0X01)  
+#define GET_BIT_1(num)  ((num & 0X02) >> 1)  
+#define GET_BIT_2(num)  ((num & 0X04) >> 2)
+#define GET_BIT_3(num)  ((num & 0X08) >> 3)
+#define GET_BIT_4(num)  ((num & 0X10) >> 4)
+#define GET_BIT_5(num)  ((num & 0X20) >> 5) 
+#define GET_BIT_6(num)  ((num & 0X40) >> 6)  
+#define GET_BIT_7(num)  ((num & 0X80) >> 7)
 #define GET_BIT_15(num) ((num & 0X8000) >> 15)
 
 // Memory

@@ -18,7 +18,6 @@ void tearDown(void){
   free(gpioBlock);
 }
 
-
 /*       0000
      |   0001
      --------
@@ -26,6 +25,7 @@ void tearDown(void){
      --------
 */
 void test_bset_longmem_pos_0_given_value_is_0(void){
+  
   uint16_t longmem = 0x1101;
   MEM_WRITE_BYTE(longmem, 0);
   
