@@ -11,15 +11,15 @@
 void setUp(void){
   instantiateCPU();
   gpioInit(0x0, 0xFFFF);
-
+  SET_PC(0X0);
   pcToLoad = malloc(sizeof(uint32_t));
   *pcToLoad = 0;
   
   /*  result:
-      If true (pos_N is 1)  pcToLoad = pcToLoad + 5 + 0x1101
+      If true (pos_N is 1)  pcToLoad = PC + 5 + 0x1101
                                      = 0x1106
                         
-      If false (pos_N is 0)  pcToLoad = pcToLoad + 5 
+      If false (pos_N is 0)  pcToLoad = PC + 5 
                                       = 0x5
   */
 }

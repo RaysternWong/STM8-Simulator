@@ -382,8 +382,7 @@ Instruction opcode92[256] = {
 };
 
 
-uint8_t executeInstructionThroughOpcode(uint8_t *opcode)
-{
+uint8_t executeInstructionThroughOpcode(uint8_t *opcode){
   uint8_t length = 0;
   
   switch(*opcode)
@@ -405,7 +404,6 @@ uint8_t executeInstructionThroughOpcode(uint8_t *opcode)
                 break;
     
     default   : length = firstOpcode[*opcode](opcode); 
-                //Throw(ERR_INSTRUCTION_NOT_IN_TABLE);
                 break;
   }
   return length;

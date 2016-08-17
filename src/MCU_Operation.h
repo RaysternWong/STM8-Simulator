@@ -101,6 +101,11 @@
 #define GET_BIT_7(num)  ((num & 0X80) >> 7)
 #define GET_BIT_15(num) ((num & 0X8000) >> 15)
 
+
+#define GET_LEAST_BYTE(num)  ((num)& 0XFF)  
+#define GET_MID_BYTE(num)    ((num)& 0XFF00)  >> 8
+#define GET_MOST_BYTE(num)   ((num)& 0XFF0000) >> 16
+
 // Memory
 #define M0  (value & 0X01)      
 #define M1  ( (value & 0X02) >> 1 )

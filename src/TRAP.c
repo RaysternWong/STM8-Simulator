@@ -7,16 +7,16 @@
 #include "Memory.h"
 
 uint8_t trap(uint8_t *opcode){
-  uint32_t newPC = PC + 1;
-  SET_PC(newPC);
-  
-  mcu_push(PCL);
-  mcu_push(PCH);
-  mcu_push(PCE);
+  *pcToLoad += 1; 
+
+  mcu_push(GET_LEAST_BYTE(*pcToLoad));
+  mcu_push(GET_MID_BYTE(*pcToLoad));
+  mcu_push(GET_MOST_BYTE(*pcToLoad));
   mcu_push(YL);
   mcu_push(YH);
   mcu_push(XL);
   mcu_push(XH);
+  mcu_push(A);
   mcu_push(CC);
  
   I0 = 1;
