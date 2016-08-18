@@ -238,7 +238,7 @@
 #define CLEAR(dst)                     do { MEM_WRITE_BYTE(dst,0) ; N = 0 ; Z = 1; }while(0)
 #define EXCHANGE(dst,src)              do { uint8_t temp = src ; (src) = dst ; (dst) = temp; }while(0) 
 #define MOV(dst,src)                   MEM_WRITE_BYTE(dst,src) 
-#define JRXX(condition)                SET_PC( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2  )           
+        
  
 #define sl(byte)   ( (byte) <<1 )                   //Shift Left
 #define sr(byte)   ( (byte) >>1 )                   //Shift right

@@ -7,6 +7,8 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
+#define JRXX(condition)                *pcToLoad = ( (condition)  ?  PC + 2 + GET_NEXT_BYTE_OF(opcode) : PC + 2 )   
+
 uint8_t jrc(uint8_t *opcode){
   JRXX( C == 1 );
   return 2;
@@ -98,7 +100,7 @@ uint8_t jrslt(uint8_t *opcode){
 }
 
 uint8_t jrt(uint8_t *opcode){ 
-  SET_PC( PC + 2 + GET_NEXT_BYTE_OF(opcode) );
+  *pcToLoad = PC + 2 + GET_NEXT_BYTE_OF(opcode);
   return 2;
 }
 
@@ -122,7 +124,7 @@ uint8_t jrult(uint8_t *opcode){
   return 2;
 }
 
-uint8_t jrv  (uint8_t *opcode){
+uint8_t jrv(uint8_t *opcode){
   JRXX( V == 1 );
   return 2;
 }
