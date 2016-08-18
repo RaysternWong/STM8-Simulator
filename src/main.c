@@ -1,6 +1,7 @@
-#include "InstructionTable.h"
+#include "main.h"
 #include <stdio.h>
 #include <stdint.h>
+#include "InstructionTable.h"
 #include "ADDW.h"
 #include "ADD.h"
 #include "ADC.h"
@@ -30,10 +31,14 @@
 #include "TNZW.h"
 #include "BCP.h"
 #include "TRAP.h"
+#include "JP.h"
+#include "JRA.h"
+#include "JPF.h"
 #include "JRXX.h"
 #include "WFI.h"
 #include "WFE.h"
 #include "HALT.h"
+#include "BREAK.h"
 #include "IRET.h"
 #include "BSET.h"
 #include "BRES.h"
@@ -41,9 +46,37 @@
 #include "BCCM.h"
 #include "BTJF.h"
 #include "BTJT.h"
+#include "MCU_Operation.h"
+#include "CPUConfig.h"
+#include "Memory.h"
 #include "ErrorObject.h"
+#include "CException.h"
+#include <malloc.h>
+#include "Description.h"
 
 
-int main(void){
+// int main(void){
   
+// }
+
+void executeOneInstructon(uint8_t *opcode){
+  CEXCEPTION_T err;
+  int length;
+ 
+  Try{
+    length = executeInstructionThroughOpcode(opcode);
+    
+    if(*pcToLoad != 0xFFFFFF){
+  
+      SET_PC( *pcToLoad );
+      *pcToLoad = 0xFFFFFF;
+    }else{
+      printf("in\n");
+      SET_PC( PC+length );
+    }
+    
+  }Catch(err){
+    
+    
+  }
 }

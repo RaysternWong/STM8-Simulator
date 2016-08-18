@@ -30,6 +30,9 @@
 #include "TNZW.h"
 #include "BCP.h"
 #include "TRAP.h"
+#include "JP.h"
+#include "JRA.h"
+#include "JPF.h"
 #include "JRXX.h"
 #include "WFI.h"
 #include "WFE.h"
@@ -53,6 +56,12 @@ Instruction firstOpcode[256] = {
   
   [0X8F] = wfi  ,
   
+  [0x20] = jra_shortoff,
+  [0xCC] = jp_longmem   ,
+  [0xFC] = jp_x         ,
+  [0xEC] = jp_shortoff_x,
+  [0xDC] = jp_longoff_x ,
+  
   [0X25] = jrc  ,
   [0X27] = jreq ,
   [0X21] = jrf  ,
@@ -69,7 +78,9 @@ Instruction firstOpcode[256] = {
   [0X24] = jruge,
   [0X23] = jrugt,
   [0X29] = jrv  ,
-
+  
+  [0XAC] = jpf_extmem,
+ 
   [0x83] = trap,
   
   [0XA5] = bcp_a_byte        ,
@@ -171,6 +182,8 @@ Instruction firstOpcode[256] = {
 Instruction opcode72[256] = {
   [0x8F] = wfe,
   
+  [0xCC] = jp_longptr_w    ,
+  [0xDC] = jp_longptr_w_x  ,
   
   [0x00] = btjt_longmem_pos_0,
   [0x02] = btjt_longmem_pos_1,
@@ -283,6 +296,10 @@ Instruction opcode90[256] = {
   [0X1C] = bcpl_longmem_pos_6,
   [0X1E] = bcpl_longmem_pos_7,
   
+  [0xFC] = jp_y         ,
+  [0xEC] = jp_shortoff_y,
+  [0xDC] = jp_longoff_y ,
+  
   [0X29] = jrh  ,
   [0X2F] = jrih ,
   [0X2E] = jril ,
@@ -341,6 +358,8 @@ Instruction opcode90[256] = {
 };
 
 Instruction opcode91[256] = {
+  [0xDC] = jp_shortptr_w_y ,
+  
   [0XD5] = bcp_a_shortptr_w_y,
   
   [0X6D] = tnz_shortptr_w_y,
@@ -361,6 +380,12 @@ Instruction opcode91[256] = {
 };
 
 Instruction opcode92[256] = {
+  
+  [0xCC] = jp_shortptr_w   ,
+  [0xDC] = jp_shortptr_w_x ,
+  
+  [0xAC] = jpf_longptr_e ,
+  
   [0XC5] = bcp_a_shortptr_w  ,
   [0XD5] = bcp_a_shortptr_w_x, 
   
