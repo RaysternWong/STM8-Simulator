@@ -19,6 +19,7 @@ void setUp(void){
 void tearDown(void){
   free(cpu);
   free(gpioBlock);
+  free(pcToLoad);
 }
 
 
