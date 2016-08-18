@@ -33,7 +33,9 @@
 #include "TRAP.h"
 #include "JRXX.h"
 #include "WFI.h"
+#include "WFE.h"
 #include "HALT.h"
+#include "BREAK.h"
 #include "IRET.h"
 #include "BSET.h"
 #include "BRES.h"
@@ -162,18 +164,66 @@ void test_executeInstructionThroughOpcode_ADD_given_opcode_92_DB_should_return_3
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-// void xtest_executeInstructionThroughOpcode_given_instruction_is_not_in_table_should_throw_ERR_INSTRUCTION_NOT_IN_TABLE(void)
-// {
-  // CEXCEPTION_T err;
+void test_executeInstructionThroughOpcode_given_HALT_should_throw_ERR_HALT(void){
+  CEXCEPTION_T err;
+
+  uint8_t instsSets[] = {
+    0x8E
+  };
   
-  // uint8_t instsSets[] = {
-    // 0x00, 0x00, 0x00
-  // };
+  Try{
+    int ans = executeInstructionThroughOpcode(instsSets);
+
+    TEST_FAIL_MESSAGE("Expected ERR_HALT");
+  }Catch(err){
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_HALT, err, "Expected ERR_HALT");
+  }
+}
+
+void test_executeInstructionThroughOpcode_given_WFI_should_throw_ERR_WFI(void){
+  CEXCEPTION_T err;
+
+  uint8_t instsSets[] = {
+    0x8F
+  };
   
-  // Try{
-    // int ans = executeInstructionThroughOpcode(instsSets);
-    // TEST_FAIL_MESSAGE("Expected ERR_INSTRUCTION_NOT_IN_TABLE");
-  // }Catch(err){
-    // TEST_ASSERT_EQUAL_MESSAGE(ERR_INSTRUCTION_NOT_IN_TABLE, err, "Expected ERR_INSTRUCTION_NOT_IN_TABLE");
-  // }
-// }
+  Try{
+    int ans = executeInstructionThroughOpcode(instsSets);
+
+    TEST_FAIL_MESSAGE("Expected ERR_WFI");
+  }Catch(err){
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_WFI, err, "Expected ERR_WFI");
+  }
+}
+
+void test_executeInstructionThroughOpcode_given_WFE_should_throw_ERR_WFE(void){
+  CEXCEPTION_T err;
+
+  uint8_t instsSets[] = {
+    0X72, 0x8F
+  };
+  
+  Try{
+    int ans = executeInstructionThroughOpcode(instsSets);
+
+    TEST_FAIL_MESSAGE("Expected ERR_WFE");
+  }Catch(err){
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_WFE, err, "Expected ERR_WFE");
+  }
+}
+
+void test_executeInstructionThroughOpcode_given_BREAK_should_throw_ERR_BREAK(void){
+  CEXCEPTION_T err;
+
+  uint8_t instsSets[] = {
+    0x8B
+  };
+  
+  Try{
+    int ans = executeInstructionThroughOpcode(instsSets);
+
+    TEST_FAIL_MESSAGE("Expected ERR_BREAK");
+  }Catch(err){
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_BREAK, err, "Expected ERR_BREAK");
+  }
+}

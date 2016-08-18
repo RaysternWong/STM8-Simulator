@@ -32,7 +32,9 @@
 #include "TRAP.h"
 #include "JRXX.h"
 #include "WFI.h"
+#include "WFE.h"
 #include "HALT.h"
+#include "BREAK.h"
 #include "IRET.h"
 #include "BSET.h"
 #include "BRES.h"
@@ -44,9 +46,10 @@
 
 
 Instruction firstOpcode[256] = {
-  [0X80] = iret  ,
+  [0X80] = iret ,
+  [0X8B] = instr_break ,
   
-  [0X8E] = wfi  ,
+  [0X8E] = halt ,
   
   [0X8F] = wfi  ,
   
@@ -166,6 +169,9 @@ Instruction firstOpcode[256] = {
 
 
 Instruction opcode72[256] = {
+  [0x8F] = wfe,
+  
+  
   [0x00] = btjt_longmem_pos_0,
   [0x02] = btjt_longmem_pos_1,
   [0x04] = btjt_longmem_pos_2,
