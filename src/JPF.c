@@ -8,11 +8,11 @@
 
 
 uint8_t jpf_extmem(uint8_t *opcode){
-  SET_PC( GET_EXT_MEM(opcode) );
+  *pcToLoad = GET_EXT_MEM(opcode);
   return 4;
 }
 
 uint8_t jpf_longptr_e(uint8_t *opcode){
-  SET_PC( GET_LONG_PTR_E(opcode) );
+  *pcToLoad = GET_LONG_PTR_E(opcode);
   return 4;  
 }
