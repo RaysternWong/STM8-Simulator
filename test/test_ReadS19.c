@@ -1,6 +1,5 @@
 #include "unity.h"
 #include "ReadS19.h"
-#include "InstructionTable.h"
 #include <stdio.h>
 #include <stdint.h>
 #include "MCU_Operation.h"
@@ -20,7 +19,13 @@ void tearDown(void)
 {
 }
 
-void test_module_generator_needs_to_be_implemented(void)
-{
-	TEST_IGNORE_MESSAGE("Implement me!");
+void test_s19_record(void){
+
+
+  // Try to open the file.
+  //ifstream s_record_file("s_record.txt");
+  
+  
+  
+	// TEST_IGNORE_MESSAGE("Implement me!");
 }
