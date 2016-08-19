@@ -413,7 +413,7 @@ Instruction opcode92[256] = {
 };
 
 
-uint8_t executeInstructionThroughOpcode(uint8_t *opcode){
+uint8_t executeInstructionAndReturnLength(uint8_t *opcode){
   uint8_t length = 0;
   
   switch(*opcode)

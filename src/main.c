@@ -64,7 +64,7 @@ void executeOneInstructon(uint8_t *opcode){
   int length;
  
   Try{
-    length = executeInstructionThroughOpcode(opcode);
+    length = executeInstructionAndReturnLength(opcode);
     
     if(*pcToLoad != 0xFFFFFF){
   

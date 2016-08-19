@@ -90,84 +90,84 @@ void xtest1(void)
   pc+= firstOpcode[*pc](pc);
 }
 
-void test_executeInstructionThroughOpcode_ADDW_given_opcode_5B_should_return_2(void)
+void test_executeInstructionAndReturnLength_ADDW_given_opcode_5B_should_return_2(void)
 {
   uint8_t instsSets[] = {
     0x5b
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(2,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADDW_given_opcode_72_F9_should_return_3(void)
+void test_executeInstructionAndReturnLength_ADDW_given_opcode_72_F9_should_return_3(void)
 {
   uint8_t instsSets[] = {
     0x72, 0xF9
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADD_given_opcode_AB_should_return_2(void)
+void test_executeInstructionAndReturnLength_ADD_given_opcode_AB_should_return_2(void)
 {
   uint8_t instsSets[] = {
     0xAB
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(2,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADD_given_opcode_72_CB_MS_LS_should_return_4(void)
+void test_executeInstructionAndReturnLength_ADD_given_opcode_72_CB_MS_LS_should_return_4(void)
 {
   uint8_t instsSets[] = {
     0x72, 0xCB, 0x10, 0x00
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(4,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADD_given_opcode_90_EB_should_return_3(void)
+void test_executeInstructionAndReturnLength_ADD_given_opcode_90_EB_should_return_3(void)
 {
   uint8_t instsSets[] = {
     0x90, 0xEB
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADD_given_opcode_91_DB_should_return_3(void)
+void test_executeInstructionAndReturnLength_ADD_given_opcode_91_DB_should_return_3(void)
 {
   uint8_t instsSets[] = {
     0x91, 0xDB
   };
   
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-void test_executeInstructionThroughOpcode_ADD_given_opcode_92_DB_should_return_3(void)
+void test_executeInstructionAndReturnLength_ADD_given_opcode_92_DB_should_return_3(void)
 {
   uint8_t instsSets[] = {
     0x92, 0xDB
   };
 
-  int ans = executeInstructionThroughOpcode(instsSets);
+  int ans = executeInstructionAndReturnLength(instsSets);
   
   TEST_ASSERT_EQUAL(3,ans);
 }
 
-void test_executeInstructionThroughOpcode_given_HALT_should_throw_ERR_HALT(void){
+void test_executeInstructionAndReturnLength_given_HALT_should_throw_ERR_HALT(void){
   CEXCEPTION_T err;
 
   uint8_t instsSets[] = {
@@ -175,7 +175,7 @@ void test_executeInstructionThroughOpcode_given_HALT_should_throw_ERR_HALT(void)
   };
   
   Try{
-    int ans = executeInstructionThroughOpcode(instsSets);
+    int ans = executeInstructionAndReturnLength(instsSets);
 
     TEST_FAIL_MESSAGE("Expected ERR_HALT");
   }Catch(err){
@@ -183,7 +183,7 @@ void test_executeInstructionThroughOpcode_given_HALT_should_throw_ERR_HALT(void)
   }
 }
 
-void test_executeInstructionThroughOpcode_given_WFI_should_throw_ERR_WFI(void){
+void test_executeInstructionAndReturnLength_given_WFI_should_throw_ERR_WFI(void){
   CEXCEPTION_T err;
 
   uint8_t instsSets[] = {
@@ -191,7 +191,7 @@ void test_executeInstructionThroughOpcode_given_WFI_should_throw_ERR_WFI(void){
   };
   
   Try{
-    int ans = executeInstructionThroughOpcode(instsSets);
+    int ans = executeInstructionAndReturnLength(instsSets);
 
     TEST_FAIL_MESSAGE("Expected ERR_WFI");
   }Catch(err){
@@ -199,7 +199,7 @@ void test_executeInstructionThroughOpcode_given_WFI_should_throw_ERR_WFI(void){
   }
 }
 
-void test_executeInstructionThroughOpcode_given_WFE_should_throw_ERR_WFE(void){
+void test_executeInstructionAndReturnLength_given_WFE_should_throw_ERR_WFE(void){
   CEXCEPTION_T err;
 
   uint8_t instsSets[] = {
@@ -207,7 +207,7 @@ void test_executeInstructionThroughOpcode_given_WFE_should_throw_ERR_WFE(void){
   };
   
   Try{
-    int ans = executeInstructionThroughOpcode(instsSets);
+    int ans = executeInstructionAndReturnLength(instsSets);
 
     TEST_FAIL_MESSAGE("Expected ERR_WFE");
   }Catch(err){
@@ -215,7 +215,7 @@ void test_executeInstructionThroughOpcode_given_WFE_should_throw_ERR_WFE(void){
   }
 }
 
-void test_executeInstructionThroughOpcode_given_BREAK_should_throw_ERR_BREAK(void){
+void test_executeInstructionAndReturnLength_given_BREAK_should_throw_ERR_BREAK(void){
   CEXCEPTION_T err;
 
   uint8_t instsSets[] = {
@@ -223,7 +223,7 @@ void test_executeInstructionThroughOpcode_given_BREAK_should_throw_ERR_BREAK(voi
   };
   
   Try{
-    int ans = executeInstructionThroughOpcode(instsSets);
+    int ans = executeInstructionAndReturnLength(instsSets);
 
     TEST_FAIL_MESSAGE("Expected ERR_BREAK");
   }Catch(err){
