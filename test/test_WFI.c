@@ -21,6 +21,8 @@ void tearDown(void){
 
 void test_wfi(void){
   CEXCEPTION_T err;
+  I0 = 1;
+  I1 = 0;
   uint8_t instr[] = {0XAB};
   
   Try{
@@ -32,4 +34,7 @@ void test_wfi(void){
   }Catch(err){
     TEST_ASSERT_EQUAL_MESSAGE(ERR_WFI, err, "Expected ERR_WFI");
   }
+  
+  TEST_ASSERT_EQUAL_INT8(0, I0);
+  TEST_ASSERT_EQUAL_INT8(1, I1);
 }

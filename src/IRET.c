@@ -13,8 +13,10 @@ uint8_t iret(uint8_t *opcode){
   XL  = mcu_pop();
   YH  = mcu_pop();
   YL  = mcu_pop();
-  PCE = mcu_pop();
-  PCH = mcu_pop();
-  PCL = mcu_pop();
+  *pcToLoad = 0;
+  *pcToLoad += mcu_pop() <<16;
+  *pcToLoad += mcu_pop() << 8;
+  *pcToLoad += mcu_pop();
+  
   return 1;
 }
