@@ -11,6 +11,13 @@
 #include <malloc.h>
 #include "Description.h"
 
+/**
+   Library    char *fgets(char *str, int n, FILE *stream)
+                return the string of line
+
+
+*/
+
 
 void readS19(char *fileName){
   char line[512];
@@ -26,6 +33,6 @@ void readS19(char *fileName){
 }
 
 void S19Interpret(char *line){
-   printf("%s\n",line);
+   char *mark = 
 }
 
