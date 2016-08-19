@@ -1,0 +1,11 @@
+#include "ReadS19.h"
+#include <stdio.h>
+#include <stdint.h>
+#include "InstructionTable.h"
+#include "MCU_Operation.h"
+#include "CPUConfig.h"
+#include "Memory.h"
+#include "ErrorObject.h"
+#include "CException.h"
+#include <malloc.h>
+#include "Description.h"
