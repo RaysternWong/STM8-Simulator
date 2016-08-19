@@ -34,28 +34,31 @@ void readS19(char *fileName){
 }
 
 void S19Interpret(char *line){
-  char mark[2] = "";
-  mark[0] = line[0];
+  char buffer[3] = {0,0,0};
+  sscanf(line, "%2s", buffer);
+  
+  sscanf(&line[2], "%2s", buffer);
+  //mark[0] = line[0];
   //mark[1] = line[1];
   
  // printf("%s\n",line[0]);
  // printf("%s\n",line[1]);
-  printf("%s\n",mark);
+  printf("%s\n",buffer);
    //strncpy(mark, line, 2);
 
   // printf("%s\n",line);
   // line += 2;
-  // printf("%s\n",line);
+ //  printf("%s\n",line);
   
 
-  if( mark == "S0"){
-    printf("enter S0\n");
-  }
-  else if( mark == "S1"){
-     printf("enter S1\n");
-  }
-  else if( mark == "S9"){
-     printf("enter S0\n");
-  }
+  // if( mark == "S0"){
+    // printf("enter S0\n");
+  // }
+  // else if( mark == "S1"){
+     // printf("enter S1\n");
+  // }
+  // else if( mark == "S9"){
+     // printf("enter S0\n");
+  // }
 }
 
