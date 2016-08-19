@@ -30,14 +30,10 @@ void test_initInStreamshould_malloc_correctly(void){
   freeInStream(&in);
 }
 
-void test_openInStream(void){
-  openFile();
+void test_readS19(void){
+  readS19("C:\\Users\\D203C-01\\Desktop\\STM8-Simulator\\test\\support\\acia.s19");
 
-  // InStream *in = initInStream();
-    
-  // in = openInStream("C:\\Users\\D203C-01\\Desktop\\STM8-Simulator\\test\\support\\acia.s19", "r" , in);
-  
-  // TEST_ASSERT_EQUAL_STRING("acia.s19", in->fileName);
+
 }
 
 void xtest_openInStream_given_open_a_not_exist_file(void){
