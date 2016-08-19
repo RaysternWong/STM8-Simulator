@@ -33,6 +33,16 @@ void readS19(char *fileName){
 }
 
 void S19Interpret(char *line){
-   char *mark = 
+  char mark[2];
+   
+  if( mark == "S0"){
+    
+  }
+  else if( mark == "S1"){
+    
+  }
+  else if( mark == "S9"){
+    
+  }
 }
 
