@@ -13,18 +13,20 @@ typedef struct InStream InStream;
 typedef struct OutStream OutStream;
 
 struct InStream{
-  char *filename;
+  char *fileName;
   FILE *file;
   uint8_t byteToRead;
   uint8_t bitIndex;
 };
 
 struct OutStream{
-  char *filename;
+  char *fileName;
   FILE *file;
   uint8_t byteToWrite;
   uint8_t bitIndex;
 };
+
+void openFile();
 
 InStream *initInStream();
 OutStream *initOutStream();
@@ -35,8 +37,8 @@ void freeOutStream(OutStream **outStream);
 void closeInStream(InStream *inStream);
 void *closeOutStream(OutStream *outStream);
 
-InStream *openInStream(char *filename, char *mode, InStream *inStream);
-OutStream *openOutStream(char *filename, char *mode, OutStream *outStream);
+InStream *openInStream(char *fileName, char *mode, InStream *inStream);
+OutStream *openOutStream(char *fileName, char *mode, OutStream *outStream);
 
 uint8_t  streamReadBit(InStream *inStream);
 uint64_t streamReadBits(InStream *inStream, uint8_t bitSize);

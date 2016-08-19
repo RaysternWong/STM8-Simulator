@@ -1,13 +1,33 @@
 #include "ReadS19.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <CException.h>
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
 #include "Memory.h"
 #include "ErrorObject.h"
-#include "CException.h"
 #include <malloc.h>
 #include "Description.h"
+
+
+void openFile(){
+  FILE *file;
+  
+  // file = fopen("test.txt", "r");
+  
+  // if(!file){
+    // printf("error open\n");
+  // }
+  
+  file = fopen("C:\\Users\\D203C-01\\Desktop\\STM8-Simulator\\test\\support\\acia.s19", "r");
+  
+  if(!file){
+    printf("error open\n");
+  }
+ 
+}
 
 /** 
  *   brief  : Initialise InStream and allocate memory for it
@@ -43,6 +63,8 @@ OutStream *initOutStream()
 }
 
 
+
+
 /** 
  *   brief  :  Free the allocted memory for InStream and set it to NULL
  *  
@@ -71,7 +93,7 @@ void freeOutStream(OutStream **outStream)
 /** 
  *   brief  : Open the selected files in selected  mode for InStream
  *  
- *   Input  : filename        is the name of the file to be opened
+ *   Input  : fileName        is the name of the file to be opened
  *   Input  : mode            is the file operation mode 
  *            Possible value
  *            "r"             open file for reading. File must exist !
@@ -81,14 +103,14 @@ void freeOutStream(OutStream **outStream)
  *   Return : return          the InStream with opened file
  *  
  */ 
-InStream *openInStream(char *filename, char *mode, InStream *inStream)
+InStream *openInStream(char *fileName, char *mode, InStream *inStream)
 {
-  inStream->file = fopen(filename, mode);
+  inStream->file = fopen(fileName, mode);
   
   if(inStream->file == NULL)
     Throw(ERR_FAILED_TO_OPEN);
   else
-    inStream->filename = filename;
+    inStream->fileName = fileName;
 
   return inStream;
 }
@@ -96,7 +118,7 @@ InStream *openInStream(char *filename, char *mode, InStream *inStream)
 /** 
  *   brief  : Open the selected files in selected mode for OutStream
  *  
- *   Input  : filename        is the name of the file to be opened
+ *   Input  : fileName        is the name of the file to be opened
  *   Input  : mode            is the file operation mode 
  *            Possible value
  *            "w"             write mode. Create an empty file if the file initially does not exist or discard the contents if the file initially exist 
@@ -108,11 +130,11 @@ InStream *openInStream(char *filename, char *mode, InStream *inStream)
  *  
  *  
  */ 
-OutStream *openOutStream(char *filename, char *mode, OutStream *outStream)
+OutStream *openOutStream(char *fileName, char *mode, OutStream *outStream)
 {
-  outStream->file = fopen( filename, mode);
+  outStream->file = fopen( fileName, mode);
  
-  outStream->filename = filename;
+  outStream->fileName = fileName;
 
   return outStream;
 }
