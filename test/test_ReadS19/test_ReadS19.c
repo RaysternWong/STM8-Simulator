@@ -25,21 +25,21 @@ void tearDown(void){
   free(gpioBlock);
 }
 
+
+
 /** 
-      record type  : S1
+      record type  : S9
       byteCount    : 03 , which are FF,FF,FE (unit is two hex digits, indicating the number of bytes)
       address      : 0xFFFF
-      data         : 0x01
+      data         :  Not Exist
       checkSum     : 0xFE ,which ~(FF+FF)
 */
-void test_getRecords_given_string_is_S903FFFFFE_should_get_the_3_records(void){
-  uint8_t byteCount = 0, checkSum = 0;
-  uint16_t address = 0;
+void test_S19Interpret_given_string_is_S903FFFFFE__shouldnot_record_because_data_is_not_exist(void){
   char *line = "S903FFFFFE";
-  getRecords(&byteCount, &address, &checkSum, line);
-  TEST_ASSERT_EQUAL_INT8(0x03, byteCount);
-  TEST_ASSERT_EQUAL_INT8(0xFE, checkSum);
-  TEST_ASSERT_EQUAL_INT16(0xFFFF, address);
+  S19Interpret(line);
+  
+  uint16_t address = 0x2345;
+  TEST_ASSERT_EQUAL_INT8(0x00, MEM_READ_BYTE(0xFFFF));
 }
 
 /** 
@@ -49,31 +49,14 @@ void test_getRecords_given_string_is_S903FFFFFE_should_get_the_3_records(void){
       data         : 0x01
       checkSum     : 0x54 ,which ~(0x55 + 0x55 + 0x01)
 */
-void test_getRecords_given_string_is_S10855550154_should_get_the_3_records(void){
-  uint8_t byteCount = 0, checkSum = 0;
-  uint16_t address = 0;
-  char *line = "S10455550154";
-  getRecords(&byteCount, &address, &checkSum, line);
-  TEST_ASSERT_EQUAL_INT8(0x04, byteCount);
-  TEST_ASSERT_EQUAL_INT8(0x54, checkSum);
-  TEST_ASSERT_EQUAL_INT16(0x5555, address);
-}
-
-/** 
-      record type  : S1
-      byteCount    : 04 , which are 55,55,01,A9 (unit is two hex digits, indicating the number of bytes)
-      address      : 0x5555
-      data         : 0x01
-      checkSum     : 0x54 ,which ~(0x55 + 0x55 + 0x01)
-*/
-void xtest_recordS1_given_string_is_S10455550154_and_record_01_to_address(void){
+void test_S19Interpret_given_string_is_S10455550154_and_record_01_to_address(void){
 
   char *line = "S10455550154";
-  recordS1(line);
+  S19Interpret(line);
   
   TEST_ASSERT_EQUAL_INT8(0x01, MEM_READ_BYTE(0x5555));// test is 01 wrote into the address
-  TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(0x5556)); // test the address empty
-  TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(0x5554)); // test the address empty
+  TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(0x5556)); // test is the address empty
+  TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(0x5554)); // test is the address empty
 }
 
  // uint8_t checkSum = (0x55 + 0x55 + 0xA1 + 0xB2 + 0xC3) & 0xFF;
@@ -82,21 +65,47 @@ void xtest_recordS1_given_string_is_S10455550154_and_record_01_to_address(void){
 
 /** 
       record type  : S1
-      byteCount    : 0C ,which are 55,55,A1,B2,C3,3F
+      byteCount    : 06 ,which are 55,55,A1,B2,C3,3F
       address      : 0x5555
       data         : 0xA1, 0XB2 , 0XC3
       checkSum     : 0x3F ,which ~(0x55 + 0x55 + 0xA1 + 0xB2 + 0xC3)
 */
-void xtest_recordS1_given_string_is_S1_0C_5555_A1_B2_C3_3F_and_record_A1_B2_C3_to_address(void){
+void test_S19Interpret_given_string_is_S1_06_5555_A1_B2_C3_3F_and_record_A1_B2_C3_to_address(void){
 
-  char *line = "S10C5555A1B2C33F";
+  char *line = "S1065555A1B2C33F";
  
-  recordS1(line);
+  S19Interpret(line);
   
   TEST_ASSERT_EQUAL_INT8(0xA1, MEM_READ_BYTE(0x5555));
   TEST_ASSERT_EQUAL_INT8(0xB2, MEM_READ_BYTE(0x5556));
   TEST_ASSERT_EQUAL_INT8(0XC3, MEM_READ_BYTE(0x5557));
   TEST_ASSERT_EQUAL_INT8(0, MEM_READ_BYTE(0x5558));
+}
+
+void test_S19Interpret_given_string_is_S11480E04A34352C4A359A8D0080948D0080AD20F622(void){
+
+  char *line = "S11480E04A34352C4A359A8D0080948D0080AD20F622";
+ 
+  S19Interpret(line);
+  
+  TEST_ASSERT_EQUAL_INT8(0x4A, MEM_READ_BYTE(0x80E0));
+  TEST_ASSERT_EQUAL_INT8(0x34, MEM_READ_BYTE(0x80E1));
+  TEST_ASSERT_EQUAL_INT8(0x35, MEM_READ_BYTE(0x80E2));
+  TEST_ASSERT_EQUAL_INT8(0x2C, MEM_READ_BYTE(0x80E3));
+  TEST_ASSERT_EQUAL_INT8(0x4A, MEM_READ_BYTE(0x80E4));
+  TEST_ASSERT_EQUAL_INT8(0x35, MEM_READ_BYTE(0x80E5));
+  TEST_ASSERT_EQUAL_INT8(0x9A, MEM_READ_BYTE(0x80E6));
+  TEST_ASSERT_EQUAL_INT8(0x8D, MEM_READ_BYTE(0x80E7));
+  TEST_ASSERT_EQUAL_INT8(0x00, MEM_READ_BYTE(0x80E8));
+  TEST_ASSERT_EQUAL_INT8(0x80, MEM_READ_BYTE(0x80E9));
+  TEST_ASSERT_EQUAL_INT8(0x94, MEM_READ_BYTE(0x80EA));
+  TEST_ASSERT_EQUAL_INT8(0x8D, MEM_READ_BYTE(0x80EB));
+  TEST_ASSERT_EQUAL_INT8(0x00, MEM_READ_BYTE(0x80EC));
+  TEST_ASSERT_EQUAL_INT8(0x80, MEM_READ_BYTE(0x80ED));
+  TEST_ASSERT_EQUAL_INT8(0xAD, MEM_READ_BYTE(0x80EE));
+  TEST_ASSERT_EQUAL_INT8(0x20, MEM_READ_BYTE(0x80EF));
+  TEST_ASSERT_EQUAL_INT8(0xF6, MEM_READ_BYTE(0x80F0));
+  TEST_ASSERT_EQUAL_INT8(0, MEM_READ_BYTE(0x80F1));
 }
 
 

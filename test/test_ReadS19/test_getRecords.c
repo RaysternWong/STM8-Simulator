@@ -29,7 +29,7 @@ void tearDown(void){
       record type  : S1
       byteCount    : 03 , which are FF,FF,FE (unit is two hex digits, indicating the number of bytes)
       address      : 0xFFFF
-      data         : 0x01
+      data         :  Not Exist
       checkSum     : 0xFE ,which ~(FF+FF)
 */
 void test_getRecords_given_string_is_S903FFFFFE_should_get_the_3_records(void){
