@@ -25,46 +25,11 @@ void readS19(char *fileName){
   if(!fp) 
     Throw(ERR_FAILED_TO_OPEN);
   
-  fgets(line, sizeof(line), fp);
-  fgets(line, sizeof(line), fp);
-  S19Interpret(line);
+  while(fgets(line, sizeof(line), fp))
+    S19Interpret(line);
   
-  // while(fgets(line, sizeof(line), fp))
-    // S19Interpret(line);
-  
- 
   fclose(fp);
 }
-
-/*
-void S19Interpret(char *line){
-  char buffer[3] = {0,0,0};
-  sscanf(line, "%2s", buffer);
-  
-  //sscanf(&line[2], "%2s", buffer);
-  //mark[0] = line[0];
-  //mark[1] = line[1];
-  
- // printf("%s\n",line[0]);
- // printf("%s\n",line[1]);
-  //printf("%s\n",buffer);
-   //strncpy(mark, line, 2);
-
-  // printf("%s\n",line);
-  // line += 2;
-  printf("%s\n",line);
-  
-
-  if( strcmp(buffer, "S0") == 0){
-    //printf("enter S0\n");
-  }
-  else if( strcmp(buffer, "S1") == 0){
-     recordS1(line);
-  }
-  else if( strcmp(buffer, "S9") == 0){
-    // printf("enter S9\n");
-  }
-}*/ 
 
 void S19Interpret(char *line){
   int i,j = 8; 
@@ -73,7 +38,6 @@ void S19Interpret(char *line){
   uint8_t byteCount, data, sum, checkSum = 0;
   
   getRecords(&byteCount, &address, &checkSum, line);
-  sum = (address&0xFF) + ((address&0xFF00) >> 8);
 
   for(i=0; i<byteCount-3; i++){
     sscanf(&line[j], "%2s", buffer);

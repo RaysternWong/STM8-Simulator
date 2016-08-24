@@ -108,7 +108,7 @@ void test_S19Interpret_given_string_is_S11480E04A34352C4A359A8D0080948D0080AD20F
   TEST_ASSERT_EQUAL_INT8(0, MEM_READ_BYTE(0x80F1));
 }
 
-
+// Please pass in a valid path of S19 file
 void xtest_readS19(void){
   readS19("C:\\Users\\D203C-01\\Desktop\\STM8-Simulator\\test\\support\\acia.s19");
 }
