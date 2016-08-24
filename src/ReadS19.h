@@ -14,4 +14,8 @@ void readS19(char *fileName);
 void S19Interpret(char *line);
 void recordS1(char *line);
 
+void getRecords(uint8_t *byteCount, uint16_t *address, uint8_t *checkSum, char *line);
+
+ 
+
 #endif // ReadS19_H

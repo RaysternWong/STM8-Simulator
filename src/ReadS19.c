@@ -11,13 +11,16 @@
 #include <malloc.h>
 #include "Description.h"
 
+
+
+
+
 /**
    Library    char *fgets(char *str, int n, FILE *stream)
                 return the string of line
 
 
 */
-
 
 void readS19(char *fileName){
   char line[512];
@@ -75,34 +78,36 @@ void recordS1(char *line){
   
   sscanf(&line[2], "%2s", buffer);
   byteCount = strtol(buffer, NULL, 16);
-  printf("%x\n",byteCount);
+ // printf("%x\n",byteCount);
   
   sscanf(&line[4], "%4s", buffer);
   address = strtol(buffer, NULL, 16);
   
   int loop = (byteCount-0x6)/2;
-   printf("%x\n",loop);
+  // printf("%x\n",loop);
   for(i = 0; i <loop; i++){
     sscanf(&line[j], "%2s", buffer);
     data = strtol(buffer, NULL, 16);
-    printf("%x\n",data);
+   // printf("%x\n",data);
 
    // printf("%x\n",i);
-    printf("%x\n",address);
+   // printf("%x\n",address);
     MEM_WRITE_BYTE(address, data);
     address+=1;
     j+=2;
   }
+}
+
+void getRecords(uint8_t *byteCount, uint16_t *address, uint8_t *checkSum, char *line){
+  char buffer[5] = {0,0,0,0,0};
   
-  // for(i = 0; i <(byteCount + 0x02); i+=2){
-    // sscanf(&line[i], "%2s", buffer);
-    // data = strtol(buffer, NULL, 16);
-    // printf("%x\n",data);
-    // printf("%x\n",address);
-    // MEM_WRITE_BYTE(address, data);
-    
-    // printf("%x\n",address);
-    // address+=1;
-  // }
+  sscanf(&line[2], "%2s", buffer);
+  *byteCount = strtol(buffer, NULL, 16);
+
+  sscanf(&line[4], "%4s", buffer);
+  *address = strtol(buffer, NULL, 16);
+  
+  sscanf(&line[(*byteCount+1)*2], "%2s", buffer);
+  *checkSum = strtol(buffer, NULL, 16);
 }
 
