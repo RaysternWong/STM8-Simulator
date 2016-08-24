@@ -12,6 +12,6 @@ typedef enum {ERR_FAILED_TO_OPEN} ERR;
 
 void readS19(char *fileName);
 void S19Interpret(char *line);
-
+void recordS1(char *line);
 
 #endif // ReadS19_H

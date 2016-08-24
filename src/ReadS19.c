@@ -26,8 +26,12 @@ void readS19(char *fileName){
   if(!fp) 
     Throw(ERR_FAILED_TO_OPEN);
   
-  while(fgets(line, sizeof(line), fp))
-    S19Interpret(line);
+  fgets(line, sizeof(line), fp);
+  fgets(line, sizeof(line), fp);
+  S19Interpret(line);
+  
+  // while(fgets(line, sizeof(line), fp))
+    // S19Interpret(line);
   
  
   fclose(fp);
@@ -37,28 +41,68 @@ void S19Interpret(char *line){
   char buffer[3] = {0,0,0};
   sscanf(line, "%2s", buffer);
   
-  sscanf(&line[2], "%2s", buffer);
+  //sscanf(&line[2], "%2s", buffer);
   //mark[0] = line[0];
   //mark[1] = line[1];
   
  // printf("%s\n",line[0]);
  // printf("%s\n",line[1]);
-  printf("%s\n",buffer);
+  //printf("%s\n",buffer);
    //strncpy(mark, line, 2);
 
   // printf("%s\n",line);
   // line += 2;
- //  printf("%s\n",line);
+  printf("%s\n",line);
   
 
-  // if( mark == "S0"){
-    // printf("enter S0\n");
-  // }
-  // else if( mark == "S1"){
-     // printf("enter S1\n");
-  // }
-  // else if( mark == "S9"){
-     // printf("enter S0\n");
+  if( strcmp(buffer, "S0") == 0){
+    //printf("enter S0\n");
+  }
+  else if( strcmp(buffer, "S1") == 0){
+     recordS1(line);
+  }
+  else if( strcmp(buffer, "S9") == 0){
+    // printf("enter S9\n");
+  }
+}
+
+void recordS1(char *line){
+  int i,j = 8; 
+  char buffer[3] = {0,0,0};
+  uint16_t address;
+  uint8_t byteCount, data, checkSum = 0;
+  
+  
+  sscanf(&line[2], "%2s", buffer);
+  byteCount = strtol(buffer, NULL, 16);
+  printf("%x\n",byteCount);
+  
+  sscanf(&line[4], "%4s", buffer);
+  address = strtol(buffer, NULL, 16);
+  
+  int loop = (byteCount-0x6)/2;
+   printf("%x\n",loop);
+  for(i = 0; i <loop; i++){
+    sscanf(&line[j], "%2s", buffer);
+    data = strtol(buffer, NULL, 16);
+    printf("%x\n",data);
+
+   // printf("%x\n",i);
+    printf("%x\n",address);
+    MEM_WRITE_BYTE(address, data);
+    address+=1;
+    j+=2;
+  }
+  
+  // for(i = 0; i <(byteCount + 0x02); i+=2){
+    // sscanf(&line[i], "%2s", buffer);
+    // data = strtol(buffer, NULL, 16);
+    // printf("%x\n",data);
+    // printf("%x\n",address);
+    // MEM_WRITE_BYTE(address, data);
+    
+    // printf("%x\n",address);
+    // address+=1;
   // }
 }
 
