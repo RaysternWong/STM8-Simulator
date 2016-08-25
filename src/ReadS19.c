@@ -22,9 +22,6 @@ void readS19(char *fileName){
   char line[512];
   FILE *fp = fopen(fileName, "r");
   
-  if(!fp) 
-    Throw(ERR_FAILED_TO_OPEN);
-  
   while(fgets(line, sizeof(line), fp)) // Get the nextLine while it is exist
     S19Interpret(line);// record the data cointained in a line 
   
