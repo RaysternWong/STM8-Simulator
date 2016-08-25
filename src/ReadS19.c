@@ -31,6 +31,11 @@ void readS19(char *fileName){
   fclose(fp);
 }
 
+/**
+*
+*
+*
+*/
 void S19Interpret(char *line){
   int i,j = 8; 
   char buffer[3] = {0,0,0};
@@ -38,7 +43,8 @@ void S19Interpret(char *line){
   uint8_t byteCount, data, sum, checkSum = 0;
   
   getRecords(&byteCount, &address, &checkSum, line);
-
+  sum = byteCount + (address & 0xFF) + ( (address & 0xFF00) >> 8);
+  
   for(i=0; i<byteCount-3; i++){
     sscanf(&line[j], "%2s", buffer);
     data = strtol(buffer, NULL, 16);
@@ -48,6 +54,10 @@ void S19Interpret(char *line){
     address+=1;
     j+=2;
   }
+  
+  printf("%x  ",sum);
+  printf("%x\n ",(~sum)&0xFF);
+  printf("%x\n",checkSum);
 }
 
 void getRecords(uint8_t *byteCount, uint16_t *address, uint8_t *checkSum, char *line){
