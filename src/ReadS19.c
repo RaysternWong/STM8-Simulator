@@ -23,8 +23,8 @@ void readS19(char *fileName){
   char line[512];
   FILE *fp = fopen(fileName, "r");
   
-  // if(!fp) 
-    // Throw(ERR_FAILED_TO_OPEN);
+  if(!fp) 
+    Throw(ERR_FAILED_TO_OPEN);
   
   while(fgets(line, sizeof(line), fp))
     S19Interpret(line);

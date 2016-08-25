@@ -28,7 +28,6 @@ void tearDown(void){
 
 
 /** Example inside acia.s19  (test/support)
-
       record type  : S9
       byteCount    : 03 , which are FF,FF,FE (unit is two hex digits, indicating the number of bytes)
       address      : 0xFFFF
@@ -41,6 +40,19 @@ void test_S19Interpret_given_string_is_S903FFFFFE__shouldnot_record_because_data
   
   uint16_t address = 0x2345;
   TEST_ASSERT_EQUAL_INT8(0x00, MEM_READ_BYTE(0xFFFF)); // test is FFFF has no write in data
+}
+
+void test_S19Interpret_given_string_has_wrong_checkSum_should_throw_exception(void){
+  CEXCEPTION_T err;
+  char *line = "S903FFFF88";  //FE change to 88
+  
+  Try{
+  S19Interpret(line);
+  TEST_FAIL_MESSAGE("Expected ERR_CHECKSUM_WRONG");
+  
+  }Catch(err){
+    TEST_ASSERT_EQUAL_MESSAGE(ERR_CHECKSUM_WRONG, err, "Expected ERR_CHECKSUM_WRONG");
+  }
 }
 
 /** 
@@ -84,7 +96,6 @@ void test_S19Interpret_given_string_is_S1_06_5555_A1_B2_C3_39_and_record_A1_B2_C
 }
 
 /** Example inside acia.s19  (test/support)
-
       record type  : S1
       byteCount    : 14, from 80 -> 22
       address      : 0x80E0
