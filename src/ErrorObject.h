@@ -10,7 +10,9 @@ typedef enum{
   ERR_WFI,
   ERR_HALT,
   ERR_BREAK,
-  ERR_TRAP
+  ERR_TRAP,
+  ERR_FAILED_TO_OPEN, 
+  ERR_CHECKSUM_WRONG
 } ErrorCode;
 
 

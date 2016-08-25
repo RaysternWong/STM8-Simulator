@@ -1,8 +1,4 @@
 #include "ReadS19.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <CException.h>
 #include "MCU_Operation.h"
 #include "CPUConfig.h"
@@ -10,6 +6,11 @@
 #include "ErrorObject.h"
 #include <malloc.h>
 #include "Description.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+
 
 /**
    Library    char *fgets(char *str, int n, FILE *stream)
@@ -22,8 +23,8 @@ void readS19(char *fileName){
   char line[512];
   FILE *fp = fopen(fileName, "r");
   
-  if(!fp) 
-    Throw(ERR_FAILED_TO_OPEN);
+  // if(!fp) 
+    // Throw(ERR_FAILED_TO_OPEN);
   
   while(fgets(line, sizeof(line), fp))
     S19Interpret(line);
@@ -55,9 +56,8 @@ void S19Interpret(char *line){
     j+=2;
   }
   
-  printf("%x  ",sum);
-  printf("%x\n ",(~sum)&0xFF);
-  printf("%x\n",checkSum);
+  if(((~sum) & 0xFF) != checkSum)
+    Throw(ERR_CHECKSUM_WRONG);
 }
 
 void getRecords(uint8_t *byteCount, uint16_t *address, uint8_t *checkSum, char *line){

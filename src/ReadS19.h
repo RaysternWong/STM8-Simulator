@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <CException.h>
 
-typedef enum {ERR_FAILED_TO_OPEN} ERR;
+//typedef enum {} ERR;
 
 
 void readS19(char *fileName);
