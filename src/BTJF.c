@@ -6,7 +6,7 @@
 #include "CPUConfig.h"
 #include "Memory.h"
 
-#define BTJF(GET_BIT_N) uint16_t longmem = GET_LONG_MEM(opcode); C = GET_BIT_N(MEM_READ_BYTE(longmem)); *pcToLoad += (C ==0 ? PC+5+longmem : PC+5 )  
+#define BTJF(GET_BIT_N) uint16_t longmem = GET_LONG_MEM(opcode); C = GET_BIT_N(MEM_READ_BYTE(longmem)); int8_t rel = *(3+opcode) ;*pcToLoad += (C ==0 ? PC+0x05+rel : PC+0x05 )  
 
 uint8_t btjf_longmem_pos_0(uint8_t *opcode){ 
   BTJF(GET_BIT_0);
