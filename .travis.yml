@@ -5,4 +5,4 @@ compiler:
 notifications:
   email: false
 
-script: rake test:ReadS19
+script: rake test:all
