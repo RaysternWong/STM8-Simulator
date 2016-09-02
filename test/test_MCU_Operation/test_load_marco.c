@@ -20,18 +20,7 @@ void tearDown(void){
   free(gpioBlock);
 }
 
-
 /*
-
-    LD A,($12,SP)     | A ← M(SP+shortoff)
-
-    LD ($12,SP),A     |M(SP+shortoff) ← A
-
-    LD A, XH          |A ← XH
-
-*/
-
-
 void test_LOAD_BYTE_TO_REG_given_load_0xBB_to_A(void){
   
   LOAD_BYTE_TO_REG(A, 0xBB);
@@ -109,4 +98,4 @@ void test_LOAD_WORD_TO_MEM_given_load_0x5588_to_extendAddress(void){
   TEST_ASSERT_EQUAL_INT8(0x5588, MEM_READ_WORD(extendAddr) );
   TEST_ASSERT_EQUAL_INT8(0, Z);
   TEST_ASSERT_EQUAL_INT8(0, N); 
-}
+}*/
