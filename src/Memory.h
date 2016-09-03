@@ -59,7 +59,7 @@ MemoryMap   memoryTable[0x280] ;
 extern MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 
 
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t start, uint32_t end);
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t startAddr, uint32_t memSize);
 
 void clearConditionCodeRegister(Flag *ccR);
 void memoryInit(void);

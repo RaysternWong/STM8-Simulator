@@ -22,12 +22,12 @@ MemoryBlock *createMemoryBlock( uint32_t startAddr, uint32_t size){
   return mb;
 }
 
-void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t start, uint32_t end){
+void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t startAddr, uint32_t memSize){
   int i;
-  start /= 0x100;
-  end /= 0x100;
+  startAddr /= 0x100;
+  memSize /= 0x100;
   
-  for( i=start ; i<= end ; i++)
+  for( i=startAddr ; i<= memSize ; i++)
     memoryTable[i] = memoryFunc;
 }
 
