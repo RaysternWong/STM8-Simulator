@@ -19,9 +19,8 @@ void tearDown(void)
 {
   
 }
-/*
 
-void test_ramInit_given_write_a_data_to_a_address_is_within_ram_address_range(void)
+void  test_ramInit_given_write_a_data_to_a_address_is_within_ram_address_range(void)
 { 
   ramInit(RAM_START_ADDR, RAM_SIZE);
   MEM_WRITE_BYTE(0x222, 0xAA );
@@ -83,4 +82,3 @@ void test_ramInit_given_read_2_byte_from_a_address_is_without_ram_address_range(
   freeError(err);
 }
 
-*/

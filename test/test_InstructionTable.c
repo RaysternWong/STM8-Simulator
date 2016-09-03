@@ -90,7 +90,7 @@ void xtest1(void)
   pc+= firstOpcode[*pc](pc);
 }
 
-/*
+
 void test_executeInstructionAndReturnLength_ADDW_given_opcode_5B_should_return_2(void)
 {
   uint8_t instsSets[] = {
@@ -230,4 +230,4 @@ void test_executeInstructionAndReturnLength_given_BREAK_should_throw_ERR_BREAK(v
   }Catch(err){
     TEST_ASSERT_EQUAL_MESSAGE(ERR_BREAK, err, "Expected ERR_BREAK");
   }
-}*/
+}
