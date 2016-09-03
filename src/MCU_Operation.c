@@ -54,7 +54,7 @@ void mcu_push(uint8_t value){
 
 uint8_t mcu_pop(void){
   sp_increment();
-  uint16_t value = MEM_READ_BYTE(SP);
+  uint8_t value = MEM_READ_BYTE(SP);
   return value;
 }
 

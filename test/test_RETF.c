@@ -14,7 +14,9 @@
       PCH = (++SP)
       PCL = (++SP)
 
-
+      The PC wont change while execute this instruction,
+      but store the value into pcToLoad,
+      then only assign the value from pcToLoad to PC in executeOneInstructon()
 */
 
 
@@ -25,7 +27,8 @@ void setUp(void)
   // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose (FFFF / 100 = FF)
   ramBlock = createMemoryBlock(0x0000 , 0xFFFF);
   setMemoryTable( ramMemory , 0 , 0xFFFF); 
-  
+  pcToLoad = malloc(sizeof(uint32_t));
+  *pcToLoad = 0;
 }
 
 void tearDown(void)
@@ -49,7 +52,7 @@ void test_retf(void)
   uint8_t instr[] = {0XAB}; 
   
   uint8_t length = retf(instr);
-  TEST_ASSERT_EQUAL_INT32( 0x778899 , PC );   //PCE = 0x77, PCH = 0X88, PCL = 0X99
+  TEST_ASSERT_EQUAL_INT32( 0x778899 , *pcToLoad );   //PCE = 0x77, PCH = 0X88, PCL = 0X99
   TEST_ASSERT_EQUAL_INT16( sp_plus3, SP );  // is SP increment  2 time 
   TEST_ASSERT_EQUAL_INT8( 1, length );  
 }

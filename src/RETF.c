@@ -7,8 +7,6 @@
 #include "Memory.h"
 
 uint8_t retf(uint8_t *opcode){
-  PCE = mcu_pop();
-  PCH = mcu_pop();
-  PCL = mcu_pop();
+  *pcToLoad = GET_EXT(mcu_pop(),mcu_pop(),mcu_pop());
   return 1;
-}
+} 
