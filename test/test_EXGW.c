@@ -25,8 +25,8 @@ void test_exgw_x_y(void){
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL_INT8(1, exgw_x_y(instr));
-  TEST_ASSERT_EQUAL_INT8(0X5555, X);
-  TEST_ASSERT_EQUAL_INT8(0X2222, Y);
+  TEST_ASSERT_EQUAL_INT16(0X5555, X);
+  TEST_ASSERT_EQUAL_INT16(0X2222, Y);
 }
 
 

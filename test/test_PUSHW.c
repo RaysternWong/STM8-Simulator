@@ -57,7 +57,7 @@ void test_pushw_x(void)
   uint8_t length = pushw_x(instr);
   TEST_ASSERT_EQUAL_INT8(0xBB, MEM_READ_BYTE(inputSP) ); 
   TEST_ASSERT_EQUAL_INT8(0xAA, MEM_READ_BYTE(inputSP_DEC) ); 
-  TEST_ASSERT_EQUAL_INT8( inputSP-2 , SP ); // test is SP decreament 2 time
+  TEST_ASSERT_EQUAL_INT16( inputSP-2 , SP ); // test is SP decreament 2 time
   TEST_ASSERT_EQUAL_INT8( 1, length ); 
 }
 
@@ -72,6 +72,6 @@ void test_pushw_y(void)
   uint8_t length = pushw_y(instr);
   TEST_ASSERT_EQUAL_INT8(0xBB, MEM_READ_BYTE(inputSP) ); 
   TEST_ASSERT_EQUAL_INT8(0xAA, MEM_READ_BYTE(inputSP_DEC) ); 
-  TEST_ASSERT_EQUAL_INT8( inputSP-2 , SP ); // test is SP decreament 2 time
+  TEST_ASSERT_EQUAL_INT16( inputSP-2 , SP ); // test is SP decreament 2 time
   TEST_ASSERT_EQUAL_INT8( 2, length ); 
 }

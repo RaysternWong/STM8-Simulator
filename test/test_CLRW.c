@@ -25,7 +25,7 @@ void test_clrw_x(void){
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL_INT8(1, clrw_x(instr));
-  TEST_ASSERT_EQUAL_INT8(0, X);
+  TEST_ASSERT_EQUAL_INT16(0, X);
   TEST_ASSERT_EQUAL_INT8(0, N);
   TEST_ASSERT_EQUAL_INT8(1, Z);
 }
@@ -35,7 +35,7 @@ void test_clrw_y(void){
   uint8_t instr[] = {0XAB};
   
   TEST_ASSERT_EQUAL_INT8(2, clrw_y(instr));
-  TEST_ASSERT_EQUAL_INT8(0, X);
+  TEST_ASSERT_EQUAL_INT16(0, Y);
   TEST_ASSERT_EQUAL_INT8(0, N);
   TEST_ASSERT_EQUAL_INT8(1, Z);
 }

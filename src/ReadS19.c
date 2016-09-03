@@ -36,11 +36,11 @@ void readS19(char *fileName){
 /** 
  *   brief  :  Get the address and data from line, write the datas to stm8 virtual memory  (according the address)
  *              
- *   Example :  char *line = S00F000068656C6C6F202020202000003       
+ *   Example :  char *line = S11480E04A34352C4A359A8D0080948D0080AD20F622       
  *             
- *      S type   ByteCount    Address     Data                       checkSum
- *      S0        0F          0000        68656C6C6F202020202000     03
- *     (1 byte)   (1 byte)    (2 byte)         (? byte)             (1 byte)  
+ *      S type   ByteCount    Address     Data                                   checkSum
+ *      S1        14          80E0        4A34352C4A359A8D0080948D0080AD20F6     22 
+ *     (1 byte)   (1 byte)    (2 byte)    (? byte)                               (1 byte)  
  *        
  *  ByteCount : number of byte ( address + data + checkSum)
  *          

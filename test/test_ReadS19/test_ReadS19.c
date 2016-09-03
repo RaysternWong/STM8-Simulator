@@ -72,10 +72,6 @@ void test_S19Interpret_given_string_is_S10455550150_and_record_01_to_address(voi
   TEST_ASSERT_EQUAL_INT8(0x0, MEM_READ_BYTE(0x5554)); // test is the address empty
 }
 
- // uint8_t checkSum = (0x55 + 0x55 + 0xA1 + 0xB2 + 0xC3) & 0xFF;
-  // printf("%x\n", checkSum);
-  // printf("%x\n", ~checkSum);
-
 /** 
       record type  : S1
       byteCount    : 06 ,which are 55,55,A1,B2,C3,3F
@@ -129,7 +125,7 @@ void test_S19Interpret_given_string_is_S11480E04A34352C4A359A8D0080948D0080AD20F
 }
 
 // Please pass in a valid path of S19 file
-void test_readS19(void){
+void xtest_readS19(void){
   readS19("C:\\Users\\Raydivine\\Desktop\\STM8-Simulator\\test\\support\\acia.s19");
  // readS19("C:\\Users\\D203C-01\\Desktop\\STM8-Simulator\\test\\support\\acia.s19");
 }
