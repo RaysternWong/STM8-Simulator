@@ -19,12 +19,17 @@
 */
 
 void readS19(char *fileName){
-  char line[512];
+  char line[512], S_type[4] = {0,0,0,0};
   FILE *fp = fopen(fileName, "r");
   
-  while(fgets(line, sizeof(line), fp)) // Get the nextLine while it is exist
-    S19Interpret(line);// record the data cointained in a line 
-  
+  while(fgets(line, sizeof(line), fp)){     // Get the nextLine while it is exist
+    sscanf(&line[0], "%2s", S_type);        // Get S type (S type is 2 char locate at line(0) )
+    
+    if (strcmp(S_type,"S1") == 0){          // if S type is S1
+      S19Interpret(line);                   // record the data cointained in a line 
+      //printf("%s\n",line);
+    }
+  }
   fclose(fp);
 }
 
@@ -38,9 +43,10 @@ void readS19(char *fileName){
  *     (1 byte)   (1 byte)    (2 byte)         (? byte)             (1 byte)  
  *        
  *  ByteCount : number of byte ( address + data + checkSum)
- *              address is always 2 byte , checkSum is 1 byte
- *              number of data = byteCount - 2 - 1
- *                             = byteCount-3  (for loop))
+ *          
+ *  address is always 2 byte , checkSum is 1 byte
+ *  number of data = byteCount - 2 - 1
+ *                 = byteCount - 3  (for loop))
  *
  *  The data range is always start from line[8] to line[?], so j = 8, then line[j] 
  *  Inside the for loop, every loop write in 2 char of data to the address, which is byte of data
