@@ -18,6 +18,10 @@ CALLF $123456
                   M(SP--) ← PCH
                   M(SP--) ← PCE
                   PC ← extmem
+                  
+  The PC wont change while execute this instruction,
+  but store the value into pcToLoad,
+  then only assign the value from pcToLoad to PC in executeOneInstructon()
 */
 
 uint8_t value;
@@ -42,12 +46,16 @@ void setUp(void)
   PCL = 0x44;
   
   value = 0xEE;
+  
+  pcToLoad = malloc(sizeof(uint32_t));
+  *pcToLoad = 0;
 }
 
 void tearDown(void)
 {
   free(cpu);
   free(ramBlock);  
+  free(pcToLoad);  
 }
 
 void test_mcu_callf(void){
@@ -56,7 +64,7 @@ void test_mcu_callf(void){
   uint8_t length = 4;
   mcu_callf( address,  length);
   
-  TEST_ASSERT_EQUAL_INT32(address, PC);
+  TEST_ASSERT_EQUAL_INT32(address, *pcToLoad);
   TEST_ASSERT_EQUAL_INT8(sp_minus3, SP);
 }
 
@@ -68,7 +76,7 @@ void test_callf_extmem(void){
   uint8_t instr[] = {0XAB, memEXT, memMSB, memLSB}; 
   
   uint8_t length = callf_extmem(instr);
-  TEST_ASSERT_EQUAL_INT32( extmem , PC );   
+  TEST_ASSERT_EQUAL_INT32( extmem , *pcToLoad );   
   TEST_ASSERT_EQUAL_INT8( 4, length );  
 }
 
@@ -87,6 +95,6 @@ void test_callf_longptr_e(void){
   uint8_t instr[] = {0XAB, memMSB, memLSB}; 
   
   uint8_t length = callf_longptr_e(instr);
-  TEST_ASSERT_EQUAL_INT32( 0x114477 , PC );   
+  TEST_ASSERT_EQUAL_INT32( 0x114477 , *pcToLoad );   
   TEST_ASSERT_EQUAL_INT8( 4, length );  
 }

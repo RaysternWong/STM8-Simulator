@@ -42,12 +42,16 @@ void setUp(void)
   PCL = 0x44;
   
   value = 0xEE;
+  
+  pcToLoad = malloc(sizeof(uint32_t));
+  *pcToLoad = 0;
 }
 
 void tearDown(void)
 {
   free(cpu);
   free(ramBlock);  
+  free(pcToLoad); 
 }
 
 
@@ -61,10 +65,10 @@ void test_callr_shortmem(void){
   
   uint8_t instr[] = {0XAB, shortmem}; 
 
-  length = callr_shortmem(instr);
-  TEST_ASSERT_EQUAL_INT8(0x46, MEM_READ_BYTE(inputSP) );   // test is pcl store in the address , 44 + length
+  TEST_ASSERT_EQUAL_INT8( 2, callr_shortmem(instr) );       //0x3344 + 2 = 0x3346
+  TEST_ASSERT_EQUAL_INT8(0x46, MEM_READ_BYTE(inputSP) );    // test is pcl store in the address , 44 + length
   TEST_ASSERT_EQUAL_INT8(0x33, MEM_READ_BYTE(sp_minus1) );  // test is pch store in the address ( sp decrement)
-  TEST_ASSERT_EQUAL_INT8( sp_minus2, SP ); 
-  TEST_ASSERT_EQUAL_INT16( outputPC , PC_WORD );   
-  TEST_ASSERT_EQUAL_INT8( 2, length );  
+  TEST_ASSERT_EQUAL_INT8( sp_minus2, SP );                  // test is SP decrement 2 time 
+  TEST_ASSERT_EQUAL_INT16( 0x3344 + value + length , *pcToLoad );   
+  
 }

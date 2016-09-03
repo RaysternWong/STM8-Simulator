@@ -8,17 +8,10 @@
 
 
 uint8_t callr_shortmem(uint8_t *opcode){
-  opcode++;
-  uint8_t address = MEM_READ_BYTE(*opcode);
+  *pcToLoad = PC + 2;
 
-  uint16_t newPC = PC_WORD + 2;
-  SET_PC_WORD(newPC);
-  mcu_push(PCL);
-  mcu_push(PCH);
-
-  newPC = PC_WORD + address;
-
-  SET_PC_WORD(newPC);
-
+  mcu_push( *pcToLoad &0xFF );
+  mcu_push((*pcToLoad &0xFF00)>>8 );
+  *pcToLoad += GET_SHORT_MEM_SRC(opcode);
   return 2;  
 }

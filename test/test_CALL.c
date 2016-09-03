@@ -17,6 +17,10 @@
 CALL [$1234.w]    M(SP--) ← PCH
                   PCH← M(longmem)
                   PCL← M(longmem + 1)
+                  
+  The PC wont change while execute this instruction,
+  but store the value into pcToLoad,
+  then only assign the value from pcToLoad to PC in executeOneInstructon()
 */
 
 void setUp(void)
@@ -26,19 +30,23 @@ void setUp(void)
   // Set the ramMemory occupy the memoryTable from 0000 to FFFF, for testing purpose 
   ramBlock = createMemoryBlock(0x0000 , 0xFFFF);
   setMemoryTable( ramMemory , 0 , 0xFFFF); 
+  
+  pcToLoad = malloc(sizeof(uint32_t));
+  *pcToLoad = 0;
 }
 
 void tearDown(void)
 {
   free(cpu);
   free(ramBlock);  
+  free(pcToLoad);  
 }
 
 void test_call_longmem(void){ 
   uint8_t instr[] = {0XAB, 0x33, 0x77}; 
  
   TEST_ASSERT_EQUAL_INT8( 3, call_longmem(instr) );  
-  TEST_ASSERT_EQUAL_INT16( 0x3377 , PC_WORD );   
+  TEST_ASSERT_EQUAL_INT16( 0x3377 , *pcToLoad );   
 }
 
 void test_call_x(void){
@@ -46,7 +54,7 @@ void test_call_x(void){
   SET_X(0xdd33);
 
   TEST_ASSERT_EQUAL_INT8( 1, call_x(instr) ); 
-  TEST_ASSERT_EQUAL_INT16( 0xdd33 , PC_WORD );   
+  TEST_ASSERT_EQUAL_INT16( 0xdd33 , *pcToLoad );   
 }
 
 void test_call_shortoff_x(void){
@@ -54,7 +62,7 @@ void test_call_shortoff_x(void){
   SET_X(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 2, call_shortoff_x(instr) );
-  TEST_ASSERT_EQUAL_INT16( X + 0x22 , PC_WORD );   
+  TEST_ASSERT_EQUAL_INT16( X + 0x22 , *pcToLoad );   
 }
 
 void test_call_longoff_x(void){ 
@@ -62,7 +70,7 @@ void test_call_longoff_x(void){
   SET_X(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 3, call_longoff_x(instr) );
-  TEST_ASSERT_EQUAL_INT16( X + 0x2255 , PC_WORD );  
+  TEST_ASSERT_EQUAL_INT16( X + 0x2255 , *pcToLoad );  
 }
 
 void test_call_y(void){
@@ -70,7 +78,7 @@ void test_call_y(void){
   SET_Y(0xdd33);
 
   TEST_ASSERT_EQUAL_INT8( 2, call_y(instr) ); 
-  TEST_ASSERT_EQUAL_INT16( 0xdd33 , PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( 0xdd33 , *pcToLoad ); 
 }
   
 void test_call_shortoff_y(void){
@@ -78,7 +86,7 @@ void test_call_shortoff_y(void){
   SET_Y(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 3, call_shortoff_y(instr) );
-  TEST_ASSERT_EQUAL_INT16( Y + 0x22 , PC_WORD );   
+  TEST_ASSERT_EQUAL_INT16( Y + 0x22 , *pcToLoad );   
 }
 
 void test_call_longoff_y(void){ 
@@ -86,7 +94,7 @@ void test_call_longoff_y(void){
   SET_Y(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 4, call_longoff_y(instr) );
-  TEST_ASSERT_EQUAL_INT16( Y + 0x2255 , PC_WORD );  
+  TEST_ASSERT_EQUAL_INT16( Y + 0x2255 , *pcToLoad );  
 }
 
 void test_call_shortptr_w(void){
@@ -95,7 +103,7 @@ void test_call_shortptr_w(void){
   MEM_WRITE_BYTE( 0x23, 0x99);
   
   TEST_ASSERT_EQUAL_INT8( 3, call_shortptr_w(instr) );
-  TEST_ASSERT_EQUAL_INT16( 0x6699, PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( 0x6699, *pcToLoad ); 
 }
   
 void test_call_longptr_w(void){ 
@@ -104,7 +112,7 @@ void test_call_longptr_w(void){
   MEM_WRITE_BYTE( 0x2278, 0x99);
   
   TEST_ASSERT_EQUAL_INT8( 4, call_longptr_w(instr) );
-  TEST_ASSERT_EQUAL_INT16( 0x6699, PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( 0x6699, *pcToLoad ); 
 }
 
 void test_call_shortptr_w_x(void){ 
@@ -114,7 +122,7 @@ void test_call_shortptr_w_x(void){
   SET_X(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 3, call_shortptr_w_x(instr) );
-  TEST_ASSERT_EQUAL_INT16( X + 0x6699, PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( X + 0x6699, *pcToLoad ); 
 }
 
 void test_call_longptr_w_x(void){ 
@@ -124,7 +132,7 @@ void test_call_longptr_w_x(void){
   SET_X(0x2B11);
     
   TEST_ASSERT_EQUAL_INT8( 4, call_longptr_w_x(instr) );
-  TEST_ASSERT_EQUAL_INT16( X + 0x6699, PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( X + 0x6699, *pcToLoad ); 
 }
 
 void test_call_shortptr_w_y(void){ 
@@ -134,5 +142,5 @@ void test_call_shortptr_w_y(void){
   SET_Y(0x2B11);
   
   TEST_ASSERT_EQUAL_INT8( 3, call_shortptr_w_y(instr) );
-  TEST_ASSERT_EQUAL_INT16( Y + 0x6699, PC_WORD ); 
+  TEST_ASSERT_EQUAL_INT16( Y + 0x6699, *pcToLoad ); 
 }
