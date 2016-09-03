@@ -35,6 +35,7 @@ void tearDown(void)
 {
   free(cpu);
   free(ramBlock);  
+  free(pcToLoad);
 }
 
 void test_retf(void)

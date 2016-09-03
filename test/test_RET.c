@@ -36,6 +36,7 @@ void tearDown(void)
 {
   free(cpu);
   free(ramBlock);  
+  free(pcToLoad);
 }
 
 void test_ret(void)

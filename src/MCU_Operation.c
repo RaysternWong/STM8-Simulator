@@ -59,20 +59,20 @@ uint8_t mcu_pop(void){
 }
 
 void mcu_call(uint16_t address, uint8_t length){
-  uint16_t pcPlusLength = PC_WORD + length;
-  SET_PC_WORD(pcPlusLength);
-  mcu_push(PCL);
-  mcu_push(PCH);
-  SET_PC_WORD(address);
+  *pcToLoad = PC + length;
+
+  mcu_push( *pcToLoad &0xFF );
+  mcu_push((*pcToLoad &0xFF00)>>8 );
+  *pcToLoad = address;
 }
 
 void mcu_callf(uint32_t address, uint8_t length){
-  uint32_t pc_ext = PC + length;
-  SET_PC(pc_ext);
-  mcu_push(PCL);
-  mcu_push(PCH);
-  mcu_push(PCE);
-  SET_PC(address);
+  *pcToLoad = PC + length;
+
+  mcu_push( *pcToLoad &0xFF );
+  mcu_push((*pcToLoad &0xFF00)>>8 );
+  mcu_push((*pcToLoad &0xFF0000)>>16 );
+  *pcToLoad = address;
 }
 
 void mcu_add(uint8_t value){
