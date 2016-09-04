@@ -38,6 +38,7 @@ void memoryInit(void){
   gpioInit  (GPIO_START_ADDR  , GPIO_SIZE  ); //0x5000----> 0x57FF
   eepromInit(EEPROM_START_ADDR, EEPROM_SIZE); //0x4000----> 0x427F
   flashInit (OPTION_BYTE_START_ADDR, GPIO_START_ADDR - 1- OPTION_BYTE_START_ADDR); //0x4800 --> 0x4FFF
+  cpuInit   (CPU_START_ADDR, CPU_SIZE);  //0x7F00 - 0x7FFF
 }
 
 
@@ -76,7 +77,7 @@ void flashInit(uint32_t address, uint32_t size){
 void cpuInit(uint32_t address, uint32_t size){
   cpuBlock = createMemoryBlock(address, size);
   setMemoryTable( cpuMemory , address , size );
-  
+  instantiateCPU();
   cpu = (CPU_t*) cpuBlock->data;
 }
 
