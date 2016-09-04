@@ -33,8 +33,7 @@ void tearDown(void)
 
 void test_memoryInit_should_set_the_memory_function_accordingly_to_the_address(void){
   
-  assignNoMemoryToWholeMemoryTable(); //Assign noMemory to each row of memoryTable
-  
+
   memoryInit();
   
   TEST_ASSERT_EQUAL_PTR(ramMemory, memoryTable[0x0]); 
@@ -43,9 +42,16 @@ void test_memoryInit_should_set_the_memory_function_accordingly_to_the_address(v
   TEST_ASSERT_EQUAL_PTR(ramMemory, memoryTable[0x3]); 
   TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x4]);  // test is the corner memory space is noMemory
   
-
+  TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x47]);  // test is the corner memory space is noMemory
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x48]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x49]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4A]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4B]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4C]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4D]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4E]); 
+  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4F]); 
   
-  TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x4F]);  // test is the corner memory space is noMemory
   TEST_ASSERT_EQUAL_PTR(gpioMemory, memoryTable[0x50]); 
   TEST_ASSERT_EQUAL_PTR(gpioMemory, memoryTable[0x51]); 
   TEST_ASSERT_EQUAL_PTR(gpioMemory, memoryTable[0x52]); 
@@ -66,17 +72,6 @@ void test_memoryInit_should_set_the_memory_function_accordingly_to_the_address(v
   TEST_ASSERT_EQUAL_PTR(cpuMemory, memoryTable[0x7F]); 
   TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x80]);  // test is the corner memory space is noMemory
    
-  TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x47]);  // test is the corner memory space is noMemory
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x48]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x49]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4A]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4B]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4C]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4D]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4E]); 
-  TEST_ASSERT_EQUAL_PTR(flashMemory, memoryTable[0x4F]); 
-  TEST_ASSERT_EQUAL_PTR(noMemory, memoryTable[0x50]);  // test is the corner memory space is noMemory
-  
   free(cpu);
   free(cpuBlock);
   free(ramBlock);

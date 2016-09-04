@@ -40,14 +40,13 @@ void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t 
 }
 
 void memoryInit(void){
-                              // 0x00          0x027FFF
-  setMemoryTable(noMemory, STM8_START_ADDR, STM8_END_ADDR );
+                 
+  assignNoMemoryToWholeMemoryTable();
   ramInit   (RAM_START_ADDR   , RAM_SIZE   ); //0x0 ---> 0x03FF
   gpioInit  (GPIO_START_ADDR  , GPIO_SIZE  ); //0x5000----> 0x57FF
   eepromInit(EEPROM_START_ADDR, EEPROM_SIZE); //0x4000----> 0x427F
   cpuInit   (CPU_START_ADDR, CPU_SIZE);  //0x7F00 - 0x7FFF
   flashInit (OPTION_BYTE_START_ADDR, GPIO_START_ADDR - 1- OPTION_BYTE_START_ADDR); //0x4800 --> 0x4FFF
-  
 }
 
 
@@ -60,7 +59,6 @@ void memoryFree(void){
 
 void instantiateCPU(void){
   cpu = malloc( sizeof(CPU_t) );
-  //cpu->a = 0x7F00;
 }
 
 void ramInit(uint32_t address, uint32_t size){
