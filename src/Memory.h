@@ -37,8 +37,11 @@
 #define FLASH_START_ADDR        0X8080
 #define RES6_START_ADDR         0XA000
 
-#define RAM_ARR(addr) ( ramBlock->data[addr-RAM_START_ADDR]  )
-#define GPIO_ARR(addr) ( gpioBlock->data[addr-RAM_START_ADDR]  )
+#define RAM_ARR(addr)     ( ramBlock->data[addr-RAM_START_ADDR]  )
+#define GPIO_ARR(addr)    ( gpioBlock->data[addr-RAM_START_ADDR]  )
+#define CPU_ARR(addr)     ( cpuBlock->data[addr-RAM_START_ADDR]  )
+#define EEPROM_ARR(addr)  ( eepromBlock->data[addr-RAM_START_ADDR]  )
+#define FLASH_ARR(addr)   ( flashBlock->data[addr-RAM_START_ADDR]  )
 
 typedef enum{
   MEM_READ,
@@ -58,7 +61,7 @@ MemoryMap   memoryTable[0x280] ;
 
 extern MemoryBlock *ramBlock, *gpioBlock, *eepromBlock, *flashBlock, *cpuBlock;
 
-
+void assignNoMemoryToWholeMemoryTable();
 void setMemoryTable(uint32_t (*memoryFunc)(Mode mode, uint32_t address, uint8_t size, uint32_t data), uint32_t startAddr, uint32_t memSize);
 
 void clearConditionCodeRegister(Flag *ccR);

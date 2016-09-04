@@ -11,8 +11,6 @@
 
 void setUp(void)
 {                          
-                            // 0x00          0x027FFF
-  setMemoryTable(noMemory, STM8_START_ADDR, STM8_END_ADDR );
 }
 
 void tearDown(void)
