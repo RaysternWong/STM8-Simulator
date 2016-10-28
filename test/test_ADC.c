@@ -7,7 +7,6 @@
 #include "Memory.h"
 #include <malloc.h>
 #include "ErrorObject.h"
-
 uint8_t offSet1, offSet2;
 
 void setUp(void)
@@ -35,8 +34,6 @@ void tearDown(void)
   free(cpu);
   free(ramBlock);
 }
-
-
 
 //Assembly : #byte | adc A,#$55
 void test_adc_a_byte(void)

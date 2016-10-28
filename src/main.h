@@ -2,7 +2,7 @@
 #define main_H
 #include <stdint.h>
 
-// int main(void);
+int stm8_Simulator(void);
 
 void executeOneInstructon(uint8_t *opcode);
 
